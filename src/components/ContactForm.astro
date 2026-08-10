@@ -1,0 +1,76 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  title = "Start vandaag uw digitale groei",
+  subtitle = "Vul het formulier in voor een vrijblijvend adviesgesprek of scherpe offerte binnen 24 uur."
+} = Astro.props;
+---
+
+<div class="contact-form card" style="padding: 36px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
+  <h3 style="margin-bottom: 8px;">{title}</h3>
+  <p class="lead" style="margin-bottom: 28px; font-size: 0.95rem;">{subtitle}</p>
+
+  <form id="bitblox-contact-form" action="/api/contact" method="POST" style="display: flex; flex-direction: column; gap: 20px;">
+    <!-- Honeypot anti-spam field -->
+    <div style="display: none !important; opacity: 0; position: absolute; left: -9999px;" aria-hidden="true">
+      <label for="website_url_hp">Laat dit veld leeg</label>
+      <input type="text" id="website_url_hp" name="website_url_hp" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <label for="naam" style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; color: var(--text);">Naam *</label>
+        <input type="text" id="naam" name="naam" required placeholder="Uw naam" style="width: 100%; padding: 12px 16px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+      </div>
+      <div>
+        <label for="bedrijfsnaam" style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; color: var(--text);">Bedrijfsnaam</label>
+        <input type="text" id="bedrijfsnaam" name="bedrijfsnaam" placeholder="Bedrijfsnaam (optioneel)" style="width: 100%; padding: 12px 16px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+      </div>
+    </div>
+
+    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <label for="email" style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; color: var(--text);">E-mailadres *</label>
+        <input type="email" id="email" name="email" required placeholder="naam@voorbeeld.nl" style="width: 100%; padding: 12px 16px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+      </div>
+      <div>
+        <label for="telefoon" style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; color: var(--text);">Telefoonnummer *</label>
+        <input type="tel" id="telefoon" name="telefoon" required placeholder="06 12345678" style="width: 100%; padding: 12px 16px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="dienst" style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; color: var(--text);">Waarmee kunnen we helpen?</label>
+      <select id="dienst" name="dienst" style="width: 100%; padding: 12px 16px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);">
+        <option value="Webdesign">Webdesign (Nieuwe website / ZZP website)</option>
+        <option value="Hosting">Hosting &amp; Domeinnaam</option>
+        <option value="SEO">SEO &amp; Lokale vindbaarheid</option>
+        <option value="AI-Vindbaarheid">AI-Vindbaarheid (GEO / ChatGPT)</option>
+        <option value="Logo Design">Logo &amp; Huisstijl Design</option>
+        <option value="Beveiliging">Beveiliging &amp; Onderhoud</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="bericht" style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; color: var(--text);">Uw bericht *</label>
+      <textarea id="bericht" name="bericht" rows="4" required placeholder="Vertel kort wat u zoekt of waar u vragen over heeft..." style="width: 100%; padding: 12px 16px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); resize: vertical;"></textarea>
+    </div>
+
+    <!-- Cloudflare Turnstile Placeholder -->
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAAxXXXXXXXXXXXX" style="margin-top: 4px;"></div>
+
+    <button type="submit" class="btn btn--gold" style="width: 100%; justify-content: center; margin-top: 10px;">
+      Verstuur Aanvraag
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </form>
+
+  <div class="form-success" style="display: none; padding: 20px; background: rgba(222, 193, 72, 0.15); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); color: var(--gold); margin-top: 20px; text-align: center;">
+    <strong>Bedankt voor uw bericht!</strong>
+    <p style="margin-top: 4px; font-size: 0.9rem; color: var(--text);">We hebben uw aanvraag in goede orde ontvangen en nemen binnen 24 uur contact met u op.</p>
+  </div>
+</div>

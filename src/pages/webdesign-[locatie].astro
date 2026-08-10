@@ -1,0 +1,332 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+import locationsData from '../data/locations.json';
+import { pricing } from '../data/pricing';
+
+export async function getStaticPaths() {
+  return Object.values(locationsData).map((locRaw: any) => {
+    // Automatische slimme fallbacks (Optie 2)
+    const plaats = locRaw.plaats;
+    const slug = locRaw.slug || plaats.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const provincie = locRaw.provincie || "Drenthe";
+    const afstand = locRaw.afstand || `Slechts korte reistijd vanaf onze vestiging in Assen`;
+    const intro = locRaw.intro || `Zoekt u een professionele & betaalbare website laten maken in ${plaats}? BitbloX levert maatwerk webdesign, supersnelle hosting en lokale SEO voor ZZP & MKB in ${plaats}.`;
+    const wijken = (locRaw.wijken && locRaw.wijken.length > 0) 
+      ? locRaw.wijken 
+      : [`${plaats}-Centrum`, `Bedrijventerrein ${plaats}`, "Omliggende dorpen"];
+    const klanten = locRaw.klanten || [];
+
+    const loc = { plaats, slug, provincie, afstand, intro, wijken, klanten };
+
+    return {
+      params: { locatie: slug },
+      props: { loc },
+    };
+  });
+}
+
+const { loc } = Astro.props;
+
+const pageTitle = `Website Laten Maken ${loc.plaats} | Betaalbaar Webdesign & Hosting ${loc.plaats}`;
+const pageDesc = `Professionele & goedkope website laten maken in ${loc.plaats}? BitbloX levert maatwerk webdesign (Brons €100, Zilver €250, Goud €450), supersnelle hosting en lokale SEO voor ZZP & MKB in ${loc.plaats}.`;
+
+// 1. Schema: LocalBusiness / Service per plaats
+const locationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Webdesign",
+  "name": `Webdesign ${loc.plaats}`,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "BitbloX",
+    "telephone": "+31630523907",
+    "email": "info@bitblox.nl"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": loc.plaats,
+    "containedInPlace": {
+      "@type": "AdministrativeArea",
+      "name": loc.provincie
+    }
+  }
+};
+
+// 2. Schema: Official Google & AI FAQPage
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": `Wat kost een website laten maken in ${loc.plaats}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `Bij BitbloX begint een Brons landingpage al vanaf €${pricing.webdesign[0].amount}. Een Zilver pakket kost €${pricing.webdesign[1].amount}, het meest gekozen Goud pakket kost €${pricing.webdesign[2].amount}, en Platina webshops vanaf €${pricing.webdesign[3].amount}.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `Hoe snel kan mijn nieuwe website in ${loc.plaats} live staan?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `Na het aanleveren van uw wensen en teksten staat de eerste opzet vaak al binnen 3 tot 5 werkdagen klaar in de testomgeving.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `Zorgt BitbloX ook dat mijn bedrijf gevonden wordt in ChatGPT en Google AI?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `Ja! Wij rusten alle websites uit met AI-vindbaarheid (GEO / Generative Engine Optimization) en structured data, zodat AI-zoekmachines uw bedrijf in ${loc.plaats} aanbevelen als antwoord.`
+      }
+    }
+  ]
+};
+
+const combinedSchema = [locationSchema, faqSchema];
+const allLocations = Object.values(locationsData).filter((l: any) => l.slug !== loc.slug);
+---
+
+<Layout title={pageTitle} description={pageDesc} schema={combinedSchema}>
+  <!-- ============ Page Hero ============ -->
+  <section class="page-hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container page-hero-inner">
+      <nav class="breadcrumb" aria-label="Kruimelpad">
+        <a href="/">Home</a> <span>/</span>
+        <span>Webdesign {loc.plaats}</span>
+      </nav>
+      <span class="kicker">Webdesign {loc.plaats}</span>
+      <h1>Website laten maken in <span class="text-gradient">{loc.plaats}</span></h1>
+      <p class="lead">{loc.intro}</p>
+      
+      <p class="answer-capsule">
+        BitbloX ontwerpt en host websites voor ondernemers in <strong>{loc.plaats}</strong> ({loc.provincie}). Complete websites vanaf <strong>€100 eenmalig</strong>, hosting met SSL en updates vanaf <strong>€72 per jaar</strong>. Wij komen graag langs — {loc.afstand.toLowerCase()}.
+      </p>
+
+      <div style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;">
+        <a href="#contact" class="btn btn--gold">
+          Plan een gratis consult in {loc.plaats}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#prijzen" class="btn btn--ghost">Bekijk de Pakketten</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Diensten voor deze plaats ============ -->
+  <section class="section--tight">
+    <div class="container">
+      <div class="service-row reveal">
+        <div>
+          <span class="service-tag">{loc.afstand}</span>
+          <h2>Persoonlijk en dichtbij — <span class="gold">ook in {loc.plaats}</span></h2>
+          <p class="lead">Wij werken voor ondernemers in {loc.plaats} en omgeving aan websites die niet alleen mooi zijn, maar ook gevonden worden. Uw site wordt geoptimaliseerd voor lokale zoekvragen zoals '<em>{loc.plaats.toLowerCase()} + uw vakgebied</em>', zodat klanten uit de buurt u direct vinden.</p>
+          <ul class="feature-list">
+            <li>
+              <span class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+              <div><strong>Webdesign op maat</strong><span>Een unieke website die past bij uw bedrijf in {loc.plaats} — geen standaard template.</span></div>
+            </li>
+            <li>
+              <span class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+              <div><strong>Lokale SEO &amp; AI-Vindbaarheid</strong><span>Optimalisatie voor zoekopdrachten in {loc.plaats} en {loc.provincie} én ChatGPT aanbevelingen.</span></div>
+            </li>
+            <li>
+              <span class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <div><strong>Hosting &amp; beveiliging inbegrepen</strong><span>Snelle hosting op Cloudflare, gratis SSL en dagelijkse back-ups — volledig ontzorgd.</span></div>
+            </li>
+          </ul>
+        </div>
+        <div class="service-media" aria-hidden="true">
+          <div class="halo"></div>
+          <div class="big-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Actief in de regio ============ -->
+  {loc.wijken && loc.wijken.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Ons bereik in {loc.plaats}</span>
+          <h2>Actief in heel <span class="gold">{loc.plaats}</span> en omgeving</h2>
+          <p class="lead">Van het centrum tot de buurtdorpen — wij komen graag langs voor een persoonlijk gesprek.</p>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; max-width: 800px; margin: 0 auto;">
+          {loc.wijken.map((wijk: string) => (
+            <span style="padding: 10px 20px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: 999px; color: var(--gold); font-size: 0.92rem; font-weight: 600;">
+              📍 {wijk}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ============ Klanten in deze regio (indien beschikbaar) ============ -->
+  {loc.klanten && loc.klanten.length > 0 && (
+    <section class="section--tight">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Bewezen resultaat</span>
+          <h2>Ondernemers in <span class="gold">regio {loc.plaats}</span> die u voor gingen</h2>
+          <p class="lead">Trots op onze klanten in {loc.plaats} en omstreken:</p>
+        </div>
+        <div class="portfolio-grid reveal" style="max-width: 820px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+          {loc.klanten.map((domein: string) => (
+            <a class="portfolio-item" href={`https://${domein}`} target="_blank" rel="noopener" style="padding: 14px 24px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); color: var(--gold); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+              {domein}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M7 17 17 7M7 7h10v10"/></svg>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ============ Prijzen overzicht ============ -->
+  <section class="section" id="prijzen">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Transparante Tarieven</span>
+        <h2>Webdesign pakketten voor <span class="gold">ZZP &amp; MKB</span> in {loc.plaats}</h2>
+        <p class="lead">Kies het pakket dat past bij uw wensen in {loc.plaats}. Eerlijke prijzen zonder verborgen kosten.</p>
+      </div>
+
+      <div class="grid grid--4">
+        {pricing.webdesign.map((item, index) => (
+          <article class={`price-card reveal ${item.featured ? 'featured' : ''} ${index > 0 ? 'reveal-delay-' + index : ''}`}>
+            {item.featured && (
+              <span class="price-badge">Meest gekozen</span>
+            )}
+            <div class="price-name">{item.name}</div>
+            <div class="price-for">{item.subtitle}</div>
+            <div class="price-amount">
+              <span class="currency">€</span>
+              <span class="amount">{item.amount}</span>
+            </div>
+            <ul class="price-features">
+              {item.features.slice(0, 4).map((feat) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  {feat}
+                </li>
+              ))}
+            </ul>
+            <a href="#contact" class={`btn ${item.featured ? 'btn--gold' : 'btn--ghost'} btn--block`}>Contact</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Werkwijze ============ -->
+  <section class="section section--alt" id="werkwijze">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Onze werkwijze</span>
+        <h2>In 4 stappen naar een website <span class="gold">die werkt in {loc.plaats}</span></h2>
+        <p class="lead">Een helder en efficiënt proces — van eerste analyse tot doorlopende groei.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <h3>Strategie &amp; Ontwerp</h3>
+          <p>We analyseren uw doelen, doelgroep in {loc.plaats} en concurrentie. Vervolgens maken we een wireframe en visueel ontwerp dat past bij uw merk.</p>
+        </div>
+        <div class="step reveal reveal-delay-1">
+          <div class="step-num">2</div>
+          <h3>Ontwikkeling &amp; SEO</h3>
+          <p>We bouwen de website met moderne technologieën op Cloudflare Pages, en optimaliseren voor snelheid en lokale zoekresultaten in {loc.plaats}.</p>
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step-num">3</div>
+          <h3>Testen &amp; Lancering</h3>
+          <p>U krijgt een testomgeving om feedback te geven. Na goedkeuring lanceren we de website op onze beveiligde hosting.</p>
+        </div>
+        <div class="step reveal reveal-delay-3">
+          <div class="step-num">4</div>
+          <h3>Groei &amp; Onderhoud</h3>
+          <p>Na lancering monitoren we de prestaties, voeren we updates uit en bieden we doorlopend beheer. Uw website blijft veilig en snel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Google Reviews ============ -->
+  <GoogleReviews />
+
+  <!-- ============ FAQ met HTML Microdata & GEO AI Structuur ============ -->
+  <section class="section section--alt" itemscope itemtype="https://schema.org/FAQPage">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Veelgestelde Vragen</span>
+        <h2>Vragen over webdesign in <span class="gold">{loc.plaats}</span></h2>
+      </div>
+
+      <div style="max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
+        <div class="card reveal" style="padding: 24px;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <h3 style="font-size: 1.1rem; margin-bottom: 8px;" itemprop="name">Wat kost een website laten maken in {loc.plaats}?</h3>
+          <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p style="font-size: 0.95rem; color: var(--muted);" itemprop="text">
+              Bij BitbloX begint een Brons landingpage al vanaf €{pricing.webdesign[0].amount}. Een Zilver pakket kost €{pricing.webdesign[1].amount}, het meest gekozen Goud pakket kost €{pricing.webdesign[2].amount}, en Platina webshops vanaf €{pricing.webdesign[3].amount}.
+            </p>
+          </div>
+        </div>
+
+        <div class="card reveal" style="padding: 24px;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <h3 style="font-size: 1.1rem; margin-bottom: 8px;" itemprop="name">Hoe snel kan mijn nieuwe website in {loc.plaats} live staan?</h3>
+          <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p style="font-size: 0.95rem; color: var(--muted);" itemprop="text">
+              Na het aanleveren van uw wensen en teksten staat de eerste opzet vaak al binnen 3 tot 5 werkdagen klaar in de testomgeving.
+            </p>
+          </div>
+        </div>
+
+        <div class="card reveal" style="padding: 24px;" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <h3 style="font-size: 1.1rem; margin-bottom: 8px;" itemprop="name">Zorgt BitbloX ook dat mijn bedrijf gevonden wordt in ChatGPT en Google AI?</h3>
+          <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p style="font-size: 0.95rem; color: var(--muted);" itemprop="text">
+              Ja! Wij rusten alle websites uit met AI-vindbaarheid (GEO / Generative Engine Optimization) en structured data, zodat AI-zoekmachines uw bedrijf in {loc.plaats} aanbevelen als antwoord.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Interne Omliggende Plaatsen Links ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal" style="margin-bottom: 32px;">
+        <span class="kicker">Omliggende Regio's</span>
+        <h3>Webdesign in de buurt van {loc.plaats}</h3>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+        {allLocations.map((otherLoc: any) => (
+          <a href={`/webdesign-${otherLoc.slug || otherLoc.plaats.toLowerCase()}/`} style="padding: 8px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.88rem; color: var(--text); transition: border-color var(--transition);" class="hover-gold">
+            Webdesign {otherLoc.plaats} →
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Contact Section ============ -->
+  <section class="section section--alt" id="contact">
+    <div class="container" style="max-width: 760px;">
+      <ContactForm 
+        title={`Vraag een scherpe offerte aan voor ${loc.plaats}`} 
+        subtitle={`Wilt u een betaalbare en professionele website laten maken in ${loc.plaats}? Vul het formulier in voor vrijblijvend advies binnen 24 uur.`} 
+      />
+    </div>
+  </section>
+</Layout>

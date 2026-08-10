@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<Layout 
+  title="Contact — BitbloX Webdesign & Hosting Assen"
+  description="Neem vrijblijvend contact op met BitbloX voor een gratis consult of scherpe offerte voor webdesign, hosting en SEO."
+>
+  <section class="page-hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container page-hero-inner">
+      <nav class="breadcrumb" aria-label="Kruimelpad"><a href="/">Home</a> <span>/</span> <span>Contact</span></nav>
+      <span class="kicker">Neem contact op</span>
+      <h1>Laten we samen uw <span class="text-gradient">online doelen bereiken</span></h1>
+      <p class="lead">Heeft u vragen of wilt u direct een offerte aanvragen? Vul het onderstaande formulier in of neem telefonisch of per e-mail contact op.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: start;">
+        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
+          <h3 style="margin-bottom: 20px;">Contactgegevens</h3>
+          <ul style="display: flex; flex-direction: column; gap: 16px; font-size: 0.95rem;">
+            <li style="display: flex; gap: 12px; align-items: center;">
+              <span style="color: var(--gold); font-size: 1.2rem;">📞</span>
+              <div>
+                <strong>Telefoon:</strong><br />
+                <a href="tel:+31630523907" style="color: var(--gold);">06 30523907</a>
+              </div>
+            </li>
+            <li style="display: flex; gap: 12px; align-items: center;">
+              <span style="color: var(--gold); font-size: 1.2rem;">✉️</span>
+              <div>
+                <strong>E-mail:</strong><br />
+                <a href="mailto:info@bitblox.nl" style="color: var(--gold);">info@bitblox.nl</a>
+              </div>
+            </li>
+            <li style="display: flex; gap: 12px; align-items: center;">
+              <span style="color: var(--gold); font-size: 1.2rem;">📍</span>
+              <div>
+                <strong>Locatie:</strong><br />
+                <span>Assen, Drenthe</span>
+              </div>
+            </li>
+            <li style="display: flex; gap: 12px; align-items: center;">
+              <span style="color: var(--gold); font-size: 1.2rem;">🏛️</span>
+              <div>
+                <strong>KVK:</strong><br />
+                <span>74001922</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</Layout>

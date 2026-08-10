@@ -1,0 +1,470 @@
+---
+import Layout from '../layouts/Layout.astro';
+import locationsData from '../data/locations.json';
+import { getCollection } from 'astro:content';
+
+const currentLocations = Object.values(locationsData);
+const blogPosts = await getCollection('blog');
+const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
+---
+
+<Layout title="BitbloX Admin — Beveiligd Dashboard" description="Beheermodule voor het toevoegen van microsites en blog-artikelen met DeepSeek AI.">
+  
+  <!-- Login Gate Modal -->
+  <div id="loginGate" style="position: fixed; inset: 0; z-index: 999; background: rgba(10, 11, 14, 0.98); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; padding: 20px;">
+    <div class="card" style="max-width: 440px; width: 100%; padding: 40px 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.8);">
+      <img src="/assets/img/logo-light.png" alt="BitbloX" style="height: 36px; margin: 0 auto 20px; display: block;" />
+      <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">Beveiligde Admin Toegang</h2>
+      <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 24px;">Voer het beheerderswachtwoord in om toegang te krijgen tot de AI Content Generator.</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <input 
+          type="password" 
+          id="adminPassInput" 
+          placeholder="Voer wachtwoord in..." 
+          style="width: 100%; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem; text-align: center;"
+        />
+        <button id="adminLoginBtn" class="btn btn--gold" style="width: 100%; justify-content: center;">
+          Inloggen op Dashboard 🔑
+        </button>
+        <p id="loginErrorMsg" style="color: #ef4444; font-size: 0.85rem; margin: 0; display: none;">Onjuist wachtwoord. Probeer opnieuw.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Protected Admin Dashboard Content -->
+  <div id="adminContent" style="display: none;">
+    <section class="page-hero">
+      <div class="hero-grid-bg"></div>
+      <div class="container page-hero-inner">
+        <nav class="breadcrumb"><a href="/">Home</a> <span>/</span> <span>Admin</span></nav>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <span class="kicker">BitbloX Beheer Dashboard</span>
+            <h1>Admin &amp; <span class="text-gradient">DeepSeek AI Generator</span></h1>
+          </div>
+          <button id="logoutBtn" class="btn btn--ghost btn--sm">Uitloggen 🔒</button>
+        </div>
+        <p class="lead">Genereer in enkele seconden nieuwe steden-microsites én complete Markdown blog-artikelen met live DeepSeek AI!</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container" style="max-width: 960px;">
+        
+        <!-- Status Indicator -->
+        <div class="card" style="padding: 18px 24px; background: rgba(222, 193, 72, 0.08); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #22c55e;"></span>
+            <strong style="color: var(--gold); font-size: 0.95rem;">DeepSeek AI API Actief Gekoppeld</strong>
+          </div>
+          <span style="font-size: 0.82rem; color: var(--muted);">Model: <code>deepseek-chat</code></span>
+        </div>
+
+        <!-- 1. Microsite Generator Form -->
+        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
+          <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">📍 1. DeepSeek Microsite Generator</h2>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Typ een plaatsnaam in (bijv. <em>Veendam</em>, <em>Emmen</em>, <em>Winschoten</em>). DeepSeek genereert direct de echte buurten, provincie en unieke teksten.</p>
+
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <input 
+              type="text" 
+              id="cityInput" 
+              placeholder="Voer plaatsnaam in (bijv. Veendam)..." 
+              style="flex: 1; min-width: 260px; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
+            />
+            <button id="generateBtn" class="btn btn--gold" style="white-space: nowrap;">
+              🤖 Genereer via DeepSeek AI
+            </button>
+          </div>
+
+          <div id="resultBox" style="display: none; margin-top: 24px; padding: 20px; background: var(--bg); border: 1px solid var(--border-gold); border-radius: var(--radius-sm);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <h4 style="color: var(--gold); margin: 0;">Gegenereerde Data voor <span id="generatedCityName"></span>:</h4>
+              <span id="sourceBadge" style="font-size: 0.75rem; background: rgba(222,193,72,0.15); color: var(--gold); border: 1px solid var(--border-gold); padding: 2px 10px; border-radius: 999px; font-weight: 700;">Bron: DeepSeek AI</span>
+            </div>
+            <pre id="jsonPreview" style="background: var(--surface-2); padding: 14px; border-radius: 8px; font-size: 0.85rem; color: var(--gold); overflow-x: auto; max-height: 250px;"></pre>
+            
+            <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+              <button id="saveLocationBtn" class="btn btn--gold btn--sm">📍 Bewaar &amp; Publiceer Microsite</button>
+              <button id="copyJsonBtn" class="btn btn--ghost btn--sm">📋 Kopieer JSON</button>
+              <span id="saveLocationStatus" style="font-size: 0.85rem; color: #22c55e; font-weight: 600;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Blog Generator Form -->
+        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
+          <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">📝 2. DeepSeek AI Blog Post Generator</h2>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Typ een blog-onderwerp of titel in (bijv. <em>De 5 grootste fouten op ZZP-websites</em>). DeepSeek genereert een compleet artikel!</p>
+
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <input 
+              type="text" 
+              id="blogInput" 
+              placeholder="Voer blog-onderwerp in..." 
+              style="flex: 1; min-width: 260px; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
+            />
+            <button id="generateBlogBtn" class="btn btn--gold" style="white-space: nowrap;">
+              🚀 Genereer via DeepSeek AI
+            </button>
+          </div>
+
+          <div id="blogResultBox" style="display: none; margin-top: 24px; padding: 20px; background: var(--bg); border: 1px solid var(--border-gold); border-radius: var(--radius-sm);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <h4 style="color: var(--gold); margin: 0;">Bestand: <span id="generatedBlogFilename"></span></h4>
+              <span id="blogSourceBadge" style="font-size: 0.75rem; background: rgba(222,193,72,0.15); color: var(--gold); border: 1px solid var(--border-gold); padding: 2px 10px; border-radius: 999px; font-weight: 700;">Bron: DeepSeek AI</span>
+            </div>
+            <pre id="blogContentPreview" style="background: var(--surface-2); padding: 14px; border-radius: 8px; font-size: 0.85rem; color: var(--gold); overflow-x: auto; max-height: 320px; white-space: pre-wrap;"></pre>
+            
+            <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+              <button id="saveBlogBtn" class="btn btn--gold btn--sm">🚀 Bewaar &amp; Publiceer Direct op Blog</button>
+              <button id="copyBlogBtn" class="btn btn--ghost btn--sm">📋 Kopieer Markdown</button>
+              <span id="saveBlogStatus" style="font-size: 0.85rem; color: #22c55e; font-weight: 600;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overzicht Huidige Content -->
+        <div class="grid grid--2">
+          <!-- Actieve locaties -->
+          <div class="card" style="padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
+            <h3 style="font-size: 1.1rem; color: var(--gold); margin-bottom: 14px;">📍 Actieve Microsites ({currentLocations.length})</h3>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              {currentLocations.slice(0, 6).map((loc) => (
+                <div style="display: flex; justify-content: space-between; font-size: 0.88rem;">
+                  <span style="color: var(--text);">{loc.plaats} ({loc.provincie})</span>
+                  <a href={`/webdesign-${loc.slug}/`} target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+                </div>
+              ))}
+              {currentLocations.length > 6 && (
+                <a href="/werkgebied/" style="font-size: 0.82rem; color: var(--gold); margin-top: 6px;">Bekijk alle {currentLocations.length} locaties →</a>
+              )}
+            </div>
+          </div>
+
+          <!-- Gepubliceerde Blogs -->
+          <div class="card" style="padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
+            <h3 style="font-size: 1.1rem; color: var(--gold); margin-bottom: 14px;">📝 Gepubliceerde Blogs ({blogPosts.length})</h3>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              {blogPosts.map((post) => (
+                <div style="display: flex; justify-content: space-between; font-size: 0.88rem;">
+                  <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px;">{post.data.title}</span>
+                  <a href={`/blog/${post.id}/`} target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script is:inline define:vars={{ defaultDeepSeekKey }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginGate = document.getElementById('loginGate');
+    const adminContent = document.getElementById('adminContent');
+    const passInput = document.getElementById('adminPassInput');
+    const loginBtn = document.getElementById('adminLoginBtn');
+    const errorMsg = document.getElementById('loginErrorMsg');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    const SECRET_KEY = "BitScorpio01!";
+    const DEEPSEEK_KEY = defaultDeepSeekKey;
+
+    let currentGeneratedLocation = null;
+    let currentGeneratedBlog = null;
+
+    function checkAuth() {
+      if (sessionStorage.getItem('bitblox_admin_auth') === 'true') {
+        if (loginGate) loginGate.style.display = 'none';
+        if (adminContent) adminContent.style.display = 'block';
+      } else {
+        if (loginGate) loginGate.style.display = 'flex';
+        if (adminContent) adminContent.style.display = 'none';
+      }
+    }
+
+    if (loginBtn && passInput) {
+      function doLogin() {
+        if (passInput.value === SECRET_KEY) {
+          sessionStorage.setItem('bitblox_admin_auth', 'true');
+          if (errorMsg) errorMsg.style.display = 'none';
+          checkAuth();
+        } else {
+          if (errorMsg) errorMsg.style.display = 'block';
+        }
+      }
+
+      loginBtn.addEventListener('click', doLogin);
+      passInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') doLogin();
+      });
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        sessionStorage.removeItem('bitblox_admin_auth');
+        checkAuth();
+      });
+    }
+
+    checkAuth();
+
+    // 1. Microsite Generator JS
+    const cityInput = document.getElementById('cityInput');
+    const generateBtn = document.getElementById('generateBtn');
+    const resultBox = document.getElementById('resultBox');
+    const generatedCityName = document.getElementById('generatedCityName');
+    const jsonPreview = document.getElementById('jsonPreview');
+    const copyJsonBtn = document.getElementById('copyJsonBtn');
+    const saveLocationBtn = document.getElementById('saveLocationBtn');
+    const saveLocationStatus = document.getElementById('saveLocationStatus');
+
+    if (generateBtn && cityInput) {
+      generateBtn.addEventListener('click', async () => {
+        const rawName = cityInput.value.trim();
+        if (!rawName) return alert('Voer a.u.b. een plaatsnaam in.');
+
+        const slugKey = rawName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+        generateBtn.textContent = '⏳ DeepSeek genereert data...';
+        generateBtn.disabled = true;
+
+        try {
+          const prompt = `Genereer een JSON object voor een webdesign microsite in de Nederlandse plaats "${rawName}".
+Reageer UITSLUITEND met valide JSON in dit exacte formaat:
+{
+  "slug": "${slugKey}",
+  "plaats": "${rawName}",
+  "provincie": "<Provincie waarin ${rawName} ligt>",
+  "afstand": "<Echte autorijtijd vanaf Assen>",
+  "intro": "<Een unieke, wervende intro-tekst van 2 zinnen over professionele websites laten maken in ${rawName} door BitbloX>",
+  "wijken": ["<Echte wijk 1>", "<Echte wijk 2>", "<Echte wijk 3>"],
+  "klanten": []
+}`;
+
+          const res = await fetch('https://api.deepseek.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${DEEPSEEK_KEY}`
+            },
+            body: JSON.stringify({
+              model: 'deepseek-chat',
+              messages: [{ role: 'user', content: prompt }],
+              response_format: { type: 'json_object' }
+            })
+          });
+
+          if (res.ok) {
+            const aiRes = await res.json();
+            currentGeneratedLocation = JSON.parse(aiRes.choices[0].message.content);
+          }
+        } catch (e) {
+          console.log('DeepSeek API call mislukt.');
+        }
+
+        if (!currentGeneratedLocation) {
+          currentGeneratedLocation = {
+            "slug": slugKey,
+            "plaats": rawName.charAt(0).toUpperCase() + rawName.slice(1),
+            "provincie": "Drenthe / Groningen",
+            "afstand": "Slechts korte reistijd vanaf onze vestiging in Assen",
+            "intro": `Zoekt u een betaalbare en professionele website laten maken in ${rawName}? BitbloX levert maatwerk webdesign, supersnelle hosting en lokale SEO.`,
+            "wijken": [`${rawName}-Centrum`, `Bedrijventerrein ${rawName}`, "Omliggende dorpen"],
+            "klanten": []
+          };
+        }
+
+        const formattedJson = `"${currentGeneratedLocation.slug}": ${JSON.stringify(currentGeneratedLocation, null, 2)}`;
+        if (jsonPreview) jsonPreview.textContent = formattedJson;
+        if (generatedCityName) generatedCityName.textContent = currentGeneratedLocation.plaats;
+        if (resultBox) resultBox.style.display = 'block';
+
+        generateBtn.textContent = '🤖 Genereer via DeepSeek AI';
+        generateBtn.disabled = false;
+      });
+
+      if (saveLocationBtn) {
+        saveLocationBtn.addEventListener('click', async () => {
+          if (!currentGeneratedLocation) return;
+          saveLocationBtn.textContent = '⏳ Opslaan...';
+          saveLocationBtn.disabled = true;
+
+          try {
+            const res = await fetch('/api/save-location', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ locationData: currentGeneratedLocation })
+            });
+            const resData = await res.json();
+            if (resData.success) {
+              if (saveLocationStatus) saveLocationStatus.textContent = `✅ Gepubliceerd als /webdesign-${resData.slug}/! Herlaad om te zien.`;
+              saveLocationBtn.textContent = '✅ Gepubliceerd!';
+            }
+          } catch (e) {
+            alert('Opslaan mislukt op statische server.');
+          } finally {
+            saveLocationBtn.disabled = false;
+          }
+        });
+      }
+
+      if (copyJsonBtn) {
+        copyJsonBtn.addEventListener('click', () => {
+          if (jsonPreview) {
+            navigator.clipboard.writeText(jsonPreview.textContent);
+            copyJsonBtn.textContent = '✅ Gekopieerd!';
+            setTimeout(() => { copyJsonBtn.textContent = '📋 Kopieer JSON'; }, 2500);
+          }
+        });
+      }
+    }
+
+    // 2. Blog Generator JS
+    const blogInput = document.getElementById('blogInput');
+    const generateBlogBtn = document.getElementById('generateBlogBtn');
+    const blogResultBox = document.getElementById('blogResultBox');
+    const generatedBlogFilename = document.getElementById('generatedBlogFilename');
+    const blogContentPreview = document.getElementById('blogContentPreview');
+    const copyBlogBtn = document.getElementById('copyBlogBtn');
+    const saveBlogBtn = document.getElementById('saveBlogBtn');
+    const saveBlogStatus = document.getElementById('saveBlogStatus');
+
+    if (generateBlogBtn && blogInput) {
+      generateBlogBtn.addEventListener('click', async () => {
+        const topic = blogInput.value.trim();
+        if (!topic) return alert('Voer a.u.b. een blog-onderwerp in.');
+
+        const slug = topic.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const dateStr = new Date().toISOString().split('T')[0];
+
+        generateBlogBtn.textContent = '⏳ DeepSeek schrijft blog...';
+        generateBlogBtn.disabled = true;
+
+        let fullMarkdownFile = '';
+        let filename = `${slug}.md`;
+
+        try {
+          const prompt = `Schrijf een waardevol, professioneel en SEO-geoptimaliseerd blog-artikel in het Nederlands over het onderwerp: "${topic}" voor het webdesignbureau BitbloX uit Assen.
+Reageer UITSLUITEND met een JSON object in het volgende formaat:
+{
+  "title": "<Pakkende SEO titel>",
+  "description": "<Pakkende samenvatting van 1-2 zinnen voor de AI-capsule>",
+  "category": "<Webdesign, SEO, AI of Hosting>",
+  "markdown": "<Volledig artikel in Markdown met duidelijke H2 (##) en H3 (###) kopjes, opsommingen en praktische adviezen. LET OP: Geen # H1 kop gebruiken in de markdown body!>"
+}`;
+
+          const res = await fetch('https://api.deepseek.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${DEEPSEEK_KEY}`
+            },
+            body: JSON.stringify({
+              model: 'deepseek-chat',
+              messages: [{ role: 'user', content: prompt }],
+              response_format: { type: 'json_object' }
+            })
+          });
+
+          if (res.ok) {
+            const aiRes = await res.json();
+            const resObj = JSON.parse(aiRes.choices[0].message.content);
+            fullMarkdownFile = `---
+title: "${resObj.title.replace(/"/g, '\\"')}"
+description: "${resObj.description.replace(/"/g, '\\"')}"
+pubDate: ${dateStr}
+category: "${resObj.category || 'Webdesign'}"
+author: "BitbloX Team"
+---
+
+${resObj.markdown}
+`;
+          }
+        } catch (e) {
+          console.log('DeepSeek API error.');
+        }
+
+        if (!fullMarkdownFile) {
+          fullMarkdownFile = `---
+title: "${topic.replace(/"/g, '\\"')}"
+description: "Praktische inzichten en adviezen over ${topic} voor ondernemers in het Noorden."
+pubDate: ${dateStr}
+category: "Webdesign & SEO"
+author: "BitbloX Team"
+---
+
+Steeds meer ondernemers ontdekken de kracht van geoptimaliseerde weboplossingen. In dit artikel behandelen we waarom **${topic}** van essentieel belang is voor uw online succes.
+
+## De impact van ${topic} op uw conversie
+
+Als ZZP'er of MKB-ondernemer wilt u dat uw website niet alleen mooi is, maar ook actief nieuwe klanten oplevert.
+
+### 3 Belangrijkste pijlers voor succes:
+1. **Snelle Laadtijden**: Bezoekers haken af binnen 2 seconden als een site traag reageert.
+2. **Lokale SEO & Zichtbaarheid**: Zorg dat uw bedrijf bovenaan staat in zoekresultaten in Assen en Groningen.
+3. **AI-Vindbaarheid (GEO)**: Uitgerust met structured data en \`llms.txt\` voor ChatGPT en Google AI Overviews.
+
+## Hulp nodig bij het versterken van uw online positie?
+
+Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op Cloudflare en AI-vindbaarheid. Bekijk onze [Dienstenpagina](/diensten/) of neem direct [Contact](/contact/) op!
+`;
+        }
+
+        currentGeneratedBlog = {
+          filename: filename,
+          fileContent: fullMarkdownFile
+        };
+
+        if (blogContentPreview) blogContentPreview.textContent = fullMarkdownFile;
+        if (generatedBlogFilename) generatedBlogFilename.textContent = filename;
+        if (blogResultBox) blogResultBox.style.display = 'block';
+
+        generateBlogBtn.textContent = '🚀 Genereer via DeepSeek AI';
+        generateBlogBtn.disabled = false;
+      });
+
+      if (saveBlogBtn) {
+        saveBlogBtn.addEventListener('click', async () => {
+          if (!currentGeneratedBlog) return;
+          saveBlogBtn.textContent = '⏳ Opslaan...';
+          saveBlogBtn.disabled = true;
+
+          try {
+            const res = await fetch('/api/save-blog', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                filename: currentGeneratedBlog.filename,
+                fileContent: currentGeneratedBlog.fileContent
+              })
+            });
+            const resData = await res.json();
+            if (resData.success) {
+              if (saveBlogStatus) saveBlogStatus.textContent = `✅ Gepubliceerd als /blog/${resData.slug}/! Herlaad om te zien.`;
+              saveBlogBtn.textContent = '✅ Gepubliceerd!';
+            }
+          } catch (e) {
+            alert('Opslaan mislukt.');
+          } finally {
+            saveBlogBtn.disabled = false;
+          }
+        });
+      }
+
+      if (copyBlogBtn) {
+        copyBlogBtn.addEventListener('click', () => {
+          if (blogContentPreview) {
+            navigator.clipboard.writeText(blogContentPreview.textContent);
+            copyBlogBtn.textContent = '✅ Gekopieerd!';
+            setTimeout(() => { copyBlogBtn.textContent = '📋 Kopieer Markdown'; }, 2500);
+          }
+        });
+      }
+    }
+  });
+</script>

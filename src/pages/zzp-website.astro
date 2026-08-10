@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+---
+
+<Layout 
+  title="Goedkope & Professionele ZZP Website Laten Maken | BitbloX Assen & Groningen"
+  description="Betaalbare website laten maken voor zzp'ers? BitbloX levert al een complete ZZP website vanaf €100. Supersnel op mobiel, gratis SSL en SEO-basis."
+>
+  <section class="page-hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container page-hero-inner">
+      <nav class="breadcrumb" aria-label="Kruimelpad"><a href="/">Home</a> <span>/</span> <span>ZZP Website</span></nav>
+      <span class="kicker">Voordelig &amp; Professioneel</span>
+      <h1>Goedkope ZZP website <span class="text-gradient">laten maken</span></h1>
+      <p class="lead">Als zelfstandige wilt u geen duizenden euro’s uitgeven aan een website. Bij BitbloX krijgt u een strakke, professionele en goedkope ZZP website waarmee u direct vertrouwen uitstraalt én nieuwe klanten aantrekt.</p>
+
+      <div style="margin-top: 24px;">
+        <a href="#contact" class="btn btn--gold">Direct Offerte Aanvragen →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Alles wat u als ZZP'er nodig heeft</span>
+        <h2>Geen ingewikkeld gedoe, <span class="gold">gewoon een site die werkt</span></h2>
+      </div>
+
+      <div class="grid grid--3">
+        <div class="card reveal">
+          <h3>Binnen 1 week live</h3>
+          <p>U levert uw logo en wensen aan, en wij zorgen dat uw professionele ZZP website binnen enkele dagen online staat.</p>
+        </div>
+        <div class="card reveal reveal-delay-1">
+          <h3>Supersnel &amp; Mobiel</h3>
+          <p>Meer dan 80% van uw klanten zoekt via de smartphone. Onze websites laden in een fractie van een seconde.</p>
+        </div>
+        <div class="card reveal reveal-delay-2">
+          <h3>Scherpe Vaste Prijs</h3>
+          <p>Al een complete website vanaf €100 eenmalig. Hosting en onderhoud vanaf €72 per jaar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <GoogleReviews />
+
+  <section class="section section--alt" id="contact">
+    <div class="container" style="max-width: 760px;">
+      <ContactForm title="Vraag een scherpe offerte aan voor uw ZZP website" />
+    </div>
+  </section>
+</Layout>

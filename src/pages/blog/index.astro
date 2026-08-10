@@ -1,0 +1,57 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout 
+  title="Blog & Kennisbank — Webdesign, SEO & AI Tips | BitbloX"
+  description="Lees de nieuwste artikelen en praktische tips over webdesign, laadsnelheid, SEO en AI-vindbaarheid voor ondernemers."
+>
+  <section class="page-hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container page-hero-inner">
+      <nav class="breadcrumb" aria-label="Kruimelpad"><a href="/">Home</a> <span>/</span> <span>Blog</span></nav>
+      <span class="kicker">Kennis &amp; Inzicht</span>
+      <h1>BitbloX <span class="text-gradient">Blog &amp; Kennisbank</span></h1>
+      <p class="lead">Praktische artikelen, handige tips en de nieuwste inzichten over webdesign, laadsnelheid, SEO en AI-vindbaarheid.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2">
+        {posts.map((post) => (
+          <article class="card reveal" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                {post.data.tags.map((tag) => (
+                  <span style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--gold); background: rgba(222,193,72,0.12); padding: 4px 10px; border-radius: 999px;">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h2 style="font-size: 1.4rem; margin-bottom: 12px;">
+                <a href={`/blog/${post.id}/`} style="color: var(--text);">{post.data.title}</a>
+              </h2>
+              <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6;">
+                {post.data.description}
+              </p>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 16px;">
+              <span style="font-size: 0.85rem; color: var(--muted);">
+                {post.data.pubDate.toLocaleDateString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </span>
+              <a href={`/blog/${post.id}/`} class="card-link" style="font-weight: 600;">
+                Lees artikel →
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

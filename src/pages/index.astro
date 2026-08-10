@@ -1,0 +1,245 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+import FAQ from '../components/FAQ.astro';
+
+const clients = [
+  "yogaplanet.nl", "studiobm.nl", "massagestudioeelde.nl", "shemotion.nl", 
+  "naturewise.nu", "samenpositiefgezond.nl", "stoftastisch.nl", "timmerbedrijflouwes.nl",
+  "voetreflextherapeutgroningen.nl", "wodansfoodtruck.nl", "fdrb.nl", "tuinstaalnoord.nl", "meulemanbeton.nl"
+];
+
+const homeSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "BitbloX",
+  "url": "https://bitblox.nl",
+  "logo": "https://bitblox.nl/assets/img/logo.png",
+  "image": "https://bitblox.nl/assets/img/logo.png",
+  "description": "Full-service webdesign- en hostingbureau in Assen en Groningen. Supersnelle, betrouwbare websites, logo design, SEO en AI-vindbaarheid voor ZZP & MKB.",
+  "telephone": "+31630523907",
+  "email": "info@bitblox.nl",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Assen",
+    "addressRegion": "Drenthe",
+    "addressCountry": "NL"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 52.9925,
+    "longitude": 6.5642
+  },
+  "areaServed": ["Assen", "Groningen", "Haren", "Beilen", "Eelde", "Norg", "Drenthe"],
+  "priceRange": "€€"
+};
+---
+
+<Layout 
+  title="BitbloX — Webdesign, Hosting, SEO, Logo Design & Beveiliging Assen & Groningen" 
+  description="BitbloX maakt moderne websites met design op maat voor ZZP'ers en MKB in Assen, Groningen en Drenthe. Webdesign, supersnelle hosting, SEO en AI-vindbaarheid."
+  schema={homeSchema}
+>
+  <!-- ============ Hero ============ -->
+  <section class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container hero-inner">
+      <div>
+        <span class="hero-badge"><span class="dot"></span> Webdesign &amp; Hosting — gevestigd in Assen</span>
+        <h1>Het <span class="text-gradient">visitekaartje</span> van uw bedrijf, perfect ontworpen.</h1>
+        <p class="lead">BitbloX maakt moderne websites met design op maat — precies zoals ú het wilt. Met de nieuwste technieken, gemakkelijk te onderhouden en volledig ontzorgd: van webdesign en hosting tot SEO, logo en beveiliging.</p>
+
+        <p class="answer-capsule">
+          <strong>BitbloX</strong> is een webdesignbureau uit <strong>Assen</strong> dat websites ontwerpt, host en beveiligt voor zzp'ers en het mkb in Noord-Nederland. Complete websites vanaf <strong>€100 eenmalig</strong>, hosting met SSL en updates vanaf <strong>€72 per jaar</strong>.
+        </p>
+
+        <div class="hero-actions">
+          <a href="/contact/" class="btn btn--gold">
+            Plan een gratis consult
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="/diensten/" class="btn btn--ghost">Bekijk onze diensten</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-num" data-count="30" data-suffix="+">30+</div>
+            <div class="stat-label">Projecten afgerond</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" data-count="5">5</div>
+            <div class="stat-label">Diensten onder één dak</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" data-count="4">4</div>
+            <div class="stat-label">Regio's in het Noorden</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">24/7</div>
+            <div class="stat-label">Monitoring &amp; support</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-glow"></div>
+        <div class="hero-orbit"></div>
+        <div class="cube-scene">
+          <div class="cube">
+            <div class="cube-face"></div>
+            <div class="cube-face"></div>
+            <div class="cube-face"></div>
+            <div class="cube-face"></div>
+            <div class="cube-face"></div>
+            <div class="cube-face"></div>
+          </div>
+        </div>
+        <div class="float-chip float-chip--1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Supersnelle hosting
+        </div>
+        <div class="float-chip float-chip--2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Gratis SSL-certificaat
+        </div>
+        <div class="float-chip float-chip--3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          SEO-geoptimaliseerd
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Klanten marquee ============ -->
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-track">
+      {[...clients, ...clients].map((domain) => (
+        <span>{domain}</span>
+      ))}
+    </div>
+  </div>
+
+  <!-- ============ Diensten overzicht ============ -->
+  <section class="section" id="diensten">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Onze diensten</span>
+        <h2>Alles voor uw online succes, <span class="gold">onder één dak</span></h2>
+        <p class="lead">Van het eerste ontwerp tot hosting, vindbaarheid en beveiliging — één aanspreekpunt voor uw complete online aanwezigheid.</p>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="card reveal">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h3>Webdesign</h3>
+          <p>Webdesign dat indruk maakt en resultaten levert. Een nieuwe website of een fris design — modern, op maat en met de nieuwste technieken.</p>
+          <a href="/diensten/#webdesign" class="card-link">Meer over webdesign <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </article>
+
+        <article class="card reveal reveal-delay-1">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
+          </div>
+          <h3>Hosting</h3>
+          <p>Betrouwbare hosting die uw dromen ondersteunt en met u meegroeit. Snelle schijven, goede cache en pakketten die we gewoon aanpassen als het anders uitpakt.</p>
+          <a href="/diensten/#hosting" class="card-link">Meer over hosting <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </article>
+
+        <article class="card reveal reveal-delay-2">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+          </div>
+          <h3>Logo Design</h3>
+          <p>Creatieve logo's die uw merkidentiteit versterken en onvergetelijk maken. Ontwerp volgens afspraak, met oog voor uw branche.</p>
+          <a href="/diensten/#logo-design" class="card-link">Meer over logo design <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          </div>
+          <h3>SEO</h3>
+          <p>Effectieve SEO die uw zichtbaarheid vergroot en uw bedrijf laat groeien. Van zoekwoordenonderzoek tot techniek, content en autoriteit.</p>
+          <a href="/diensten/#seo" class="card-link">Meer over SEO <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </article>
+
+        <article class="card reveal reveal-delay-1">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h3>Beveiliging</h3>
+          <p>Veilig online, zorgeloos ondernemen. Firewall, DDoS-bescherming en malware-scans houden uw website, gegevens en klanten veilig.</p>
+          <a href="/diensten/#beveiliging" class="card-link">Meer over beveiliging <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </article>
+
+        <article class="card reveal reveal-delay-2">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 2.4-1.2 3.9-2.3 5.1-.9 1-1.7 1.7-1.7 2.9v1H9v-1c0-1.2-.8-1.9-1.7-2.9C6.2 12.9 5 11.4 5 9a7 7 0 0 1 7-7z"/><path d="M9 21h6"/></svg>
+          </div>
+          <h3>AI-vindbaarheid</h3>
+          <p>Gevonden worden door ChatGPT, Google AI en Perplexity. Wij optimaliseren uw website zodat AI-zoekmachines u citeren als antwoord — vanaf €250 eenmalig.</p>
+          <a href="/ai-vindbaarheid/" class="card-link">Meer over AI-vindbaarheid <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Google Reviews Component ============ -->
+  <GoogleReviews />
+
+  <!-- ============ Werkwijze ============ -->
+  <section class="section" id="werkwijze">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Onze werkwijze</span>
+        <h2>In vier stappen naar een website <span class="gold">die werkt</span></h2>
+        <p class="lead">Een helder en efficiënt proces — van eerste analyse tot doorlopende groei en onderhoud.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <h3>Strategie &amp; Ontwerp</h3>
+          <p>We analyseren uw doelen, doelgroep en concurrentie. Vervolgens maken we een wireframe en een visueel ontwerp dat past bij uw merk.</p>
+        </div>
+        <div class="step reveal reveal-delay-1">
+          <div class="step-num">2</div>
+          <h3>Ontwikkeling &amp; SEO</h3>
+          <p>We bouwen de website met moderne technologieën, optimaliseren voor snelheid en implementeren SEO-best practices, inclusief lokale zoekoptimalisatie.</p>
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step-num">3</div>
+          <h3>Testen &amp; Lancering</h3>
+          <p>U krijgt een testomgeving om feedback te geven. Na goedkeuring lanceren we de website op onze beveiligde hosting.</p>
+        </div>
+        <div class="step reveal reveal-delay-3">
+          <div class="step-num">4</div>
+          <h3>Groei &amp; Onderhoud</h3>
+          <p>Na lancering monitoren we de prestaties, voeren we SEO-updates uit en bieden we doorlopend onderhoud. Uw website blijft veilig, snel en up-to-date.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ Section ============ -->
+  <FAQ title="Veelgestelde vragen over BitbloX Webdesign" />
+
+  <!-- ============ CTA Band ============ -->
+  <section class="section--tight">
+    <div class="container">
+      <div class="cta-band reveal">
+        <span class="kicker">Gratis consult</span>
+        <h2>Maak indruk met een uniek en <span class="text-gradient">professioneel webdesign</span></h2>
+        <p>Neem vandaag nog contact met ons op voor een gratis consult en ontdek hoe wij u kunnen helpen uw online doelen te bereiken. Uw succes begint met een klik!</p>
+        <div class="btn-row">
+          <a href="/contact/" class="btn btn--gold">Neem contact op
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="/prijzen/" class="btn btn--ghost">Bekijk de prijzen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

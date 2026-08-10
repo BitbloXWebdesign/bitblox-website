@@ -1,0 +1,175 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import FAQ from '../components/FAQ.astro';
+import { pricing } from '../data/pricing';
+---
+
+<Layout 
+  title="Duidelijke prijzen, geen verrassingen — Webdesign & Hosting | BitbloX"
+  description="Transparante tarieven voor webdesign (Brons €100, Zilver €250, Goud €450, Platina €650+), hosting (€72/jr) en AI-vindbaarheid (€250) bij BitbloX."
+>
+  <!-- ============ Page hero ============ -->
+  <section class="page-hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container page-hero-inner">
+      <nav class="breadcrumb" aria-label="Kruimelpad"><a href="/">Home</a> <span>/</span> <span>Prijzen</span></nav>
+      <span class="kicker">Transparante tarieven</span>
+      <h1>Duidelijke prijzen, <span class="text-gradient">geen verrassingen</span></h1>
+      <p class="lead">Van een compacte landingpage tot een complete webshop — kies het pakket dat past bij uw ambities. Verkeerd ingeschat? Ook geen probleem, we passen het gewoon aan.</p>
+    </div>
+  </section>
+
+  <!-- ============ Webdesign pakketten ============ -->
+  <section class="section--tight" id="webdesign-prijzen">
+    <div class="container">
+      <div class="section-head reveal" style="margin-bottom:56px;">
+        <span class="kicker">Webdesign</span>
+        <h2>Webdesign <span class="gold">pakketten</span></h2>
+        <p class="lead">Eenmalige kosten voor het ontwerp en de bouw van uw website.</p>
+      </div>
+
+      <div class="grid grid--4">
+        {pricing.webdesign.map((item, index) => (
+          <article class={`price-card reveal ${item.featured ? 'featured' : ''} ${index > 0 ? 'reveal-delay-' + index : ''}`}>
+            {item.featured && (
+              <span class="price-badge">Meest gekozen</span>
+            )}
+            <div class="price-name">{item.name}</div>
+            <div class="price-for">{item.subtitle}</div>
+            <div class="price-amount">
+              <span class="currency">€</span>
+              <span class="amount">{item.amount}</span>
+            </div>
+            <ul class="price-features">
+              {item.features.map((feat) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  {feat}
+                </li>
+              ))}
+            </ul>
+            {item.roi && <p class="price-roi">{item.roi}</p>}
+            <a href="#contact" class={`btn ${item.featured ? 'btn--gold' : 'btn--ghost'} btn--block`}>Contact</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AI-vindbaarheid (GEO) ============ -->
+  <section class="section section--alt" id="geo-prijzen">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Nieuw — AI-vindbaarheid (GEO)</span>
+        <h2>Gevonden worden door <span class="gold">ChatGPT &amp; Google AI</span></h2>
+        <p class="lead">Wij optimaliseren uw website zodat AI-zoekmachines uw bedrijf noemen en citeren. Gratis bij elke nieuwe website van BitbloX: GEO-basis inbegrepen.</p>
+      </div>
+
+      <div class="grid grid--2" style="max-width:820px; margin:0 auto;">
+        {pricing.geo.map((item, index) => (
+          <article class={`price-card reveal ${item.featured ? 'featured' : ''} ${index > 0 ? 'reveal-delay-' + index : ''}`}>
+            {item.featured && (
+              <span class="price-badge">Aanrader</span>
+            )}
+            <div class="price-name">{item.name}</div>
+            <div class="price-for">{item.subtitle}</div>
+            <div class="price-amount">
+              <span class="currency">€</span>
+              <span class="amount">{item.amount}</span>
+              <span class="per">{item.unit}</span>
+            </div>
+            <ul class="price-features">
+              {item.features.map((feat) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  {feat}
+                </li>
+              ))}
+            </ul>
+            {item.roi && <p class="price-roi">{item.roi}</p>}
+            <a href="/ai-vindbaarheid/" class={`btn ${item.featured ? 'btn--gold' : 'btn--ghost'} btn--block`}>Meer info</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Hosting pakketten ============ -->
+  <section class="section" id="hosting-prijzen">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Hosting</span>
+        <h2>Hosting <span class="gold">pakketten</span></h2>
+        <p class="lead">Snelle schijven, goede cache en altijd een gratis SSL-certificaat.</p>
+      </div>
+
+      <div class="grid grid--2" style="max-width:820px; margin:0 auto;">
+        {pricing.hosting.map((item, index) => (
+          <article class={`price-card reveal ${index > 0 ? 'reveal-delay-1' : ''}`}>
+            <div class="price-name">{item.name}</div>
+            <div class="price-for">{item.subtitle}</div>
+            <div class="price-amount">
+              <span class="currency">€</span>
+              <span class="amount">{item.amount}</span>
+              <span class="per">{item.unit}</span>
+            </div>
+            <ul class="price-features">
+              {item.features.map((feat) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  {feat}
+                </li>
+              ))}
+            </ul>
+            <a href="#contact" class="btn btn--ghost btn--block">Contact</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Extra pakketten (v1.5) ============ -->
+  <section class="section section--alt" id="extra-prijzen">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Aanvullend</span>
+        <h2>Extra <span class="gold">pakketten &amp; diensten</span></h2>
+        <p class="lead">Breid uw website uit met onderhoud, beveiliging, logo design of een complete SEO-aanpak.</p>
+      </div>
+
+      <div class="grid grid--4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
+        {pricing.extra.map((item, index) => (
+          <article class={`price-card reveal ${index > 0 ? 'reveal-delay-' + (index % 3) : ''}`}>
+            <div class="price-name">{item.name}</div>
+            <div class="price-for">{item.subtitle}</div>
+            <div class="price-amount">
+              <span class="currency">€</span>
+              <span class="amount">{item.amount}</span>
+              <span class="per">{item.unit}</span>
+            </div>
+            <ul class="price-features">
+              {item.features.map((feat) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  {feat}
+                </li>
+              ))}
+            </ul>
+            <a href="#contact" class="btn btn--ghost btn--block">Contact</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ Section ============ -->
+  <FAQ title="Veelgestelde vragen over tarieven &amp; werkwijze" />
+
+  <!-- ============ Contact Section ============ -->
+  <section class="section" id="contact">
+    <div class="container" style="max-width: 760px;">
+      <ContactForm />
+    </div>
+  </section>
+</Layout>

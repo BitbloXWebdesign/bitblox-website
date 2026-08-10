@@ -1,0 +1,83 @@
+{
+  "assen": {
+    "slug": "assen",
+    "plaats": "Assen",
+    "provincie": "Drenthe",
+    "afstand": "Onze thuisbasis",
+    "intro": "Vanuit onze studio in Assen bouwen we supersnelle, betaalbare websites voor ondernemers door de hele regio. Uiteraard kennen we de Assense markt als geen ander — van het centrum tot de bedrijventerreinen. Een persoonlijk gesprek is altijd dichtbij.",
+    "wijken": ["Assen-Centrum", "Kloosterveen", "Baggelhuizen", "De Lariks", "Marsdijk", "Peelo", "Pittelo"],
+    "klanten": ["bitblox.nl"]
+  },
+  "groningen": {
+    "slug": "groningen",
+    "plaats": "Groningen",
+    "provincie": "Groningen",
+    "afstand": "± 20 min rijden vanuit Assen",
+    "intro": "In de stad Groningen is de online concurrentie groot — daarom is een snelle, scherp geprijsde en goed vindbare website geen luxe maar noodzaak. Wij helpen Groningse ondernemers en ZZP'ers met webdesign, hosting en SEO die écht werkt.",
+    "wijken": ["Binnenstad", "Helpman", "Korrewegwijk", "Beijum", "Hoogkerk", "Europapark", "Paddepoel"],
+    "klanten": ["voetreflextherapeutgroningen.nl", "wodansfoodtruck.nl", "fdrb.nl", "tuinstaalnoord.nl", "meulemanbeton.nl"]
+  },
+  "haren": {
+    "slug": "haren",
+    "plaats": "Haren",
+    "provincie": "Groningen",
+    "afstand": "± 10 min rijden vanuit Assen",
+    "intro": "Van de gezellige wijk Oosterhaar tot de Brink en de statige Rijksstraatweg: in Haren kennen we de lokale markt als geen ander. Of u nu een praktijk aan huis runt of een bedrijf op een van de bedrijventerreinen heeft — wij zorgen dat klanten u makkelijk vinden.",
+    "wijken": ["Oosterhaar", "De Brink", "Rijksstraatweg", "Haren-Centrum", "Glimmen", "Onnen", "Noordlaren"],
+    "klanten": ["yogaplanet.nl"]
+  },
+  "eelde": {
+    "slug": "eelde",
+    "plaats": "Eelde",
+    "provincie": "Drenthe",
+    "afstand": "± 15 min rijden vanuit Assen",
+    "intro": "In Eelde en omgeving — van de Brink tot Paterswolde en de bedrijven rond het vliegveld — helpen we ondernemers aan een professionele en betaalbare website. Persoonlijk contact en korte lijnen, dat is hoe wij werken.",
+    "wijken": ["Eelde-Centrum", "De Brink", "Paterswolde", "Eelde-Paterswolde"],
+    "klanten": ["massagestudioeelde.nl", "shemotion.nl", "naturewise.nu"]
+  },
+  "norg": {
+    "slug": "norg",
+    "plaats": "Norg",
+    "provincie": "Drenthe",
+    "afstand": "± 15 min rijden vanuit Assen",
+    "intro": "In Norg, Peize en de rest van het Noordenveld werken veel ambitieuze ondernemers — van praktijken aan huis tot bouw- en klusbedrijven. Wij helpen ze met een website die lokaal gevonden wordt en vertrouwen uitstraalt.",
+    "wijken": ["Norg-Centrum", "Peize", "Langelo", "Een", "Zeijen", "Veenhuizen"],
+    "klanten": ["studiobm.nl", "samenpositiefgezond.nl", "stoftastisch.nl", "timmerbedrijflouwes.nl"]
+  },
+  "beilen": {
+    "slug": "beilen",
+    "plaats": "Beilen",
+    "provincie": "Drenthe",
+    "afstand": "Midden-Drenthe",
+    "intro": "Ook ondernemers in Beilen en omgeving helpen we aan een sterke online aanwezigheid. Van winkels rond het centrum tot zzp'ers in de dorpen eromheen — wij ontzorgen u volledig met een website die gevonden wordt.",
+    "wijken": ["Beilen-Centrum", "Wijster", "Spier", "Hijken", "Orvelte"],
+    "klanten": []
+  },
+  "hoogeveen": {
+    "slug": "hoogeveen",
+    "plaats": "Hoogeveen",
+    "provincie": "Drenthe",
+    "afstand": "± 25 min rijden vanuit Assen",
+    "intro": "Ondernemers in Hoogeveen zoeken vaak een betrouwbare lokale webdesigner met scherpe tarieven en korte communicatielijnen. BitbloX verzorgt uw complete webdesign, hosting en lokale vindbaarheid.",
+    "wijken": ["Hoogeveen-Centrum", "Kattendijk", "Erflanden", "Noordscheschut", "Hollandscheveld"],
+    "klanten": []
+  },
+  "meppel": {
+    "slug": "meppel",
+    "plaats": "Meppel",
+    "provincie": "Drenthe",
+    "afstand": "± 35 min rijden vanuit Assen",
+    "intro": "Voor ZZP'ers en MKB'ers in Meppel bouwen wij moderne websites die converteren. Van de historische binnenstad tot bedrijventerreinen zoals Blankenstein en Oevers.",
+    "wijken": ["Meppel-Centrum", "Blankenstein", "Oevers", "Oosterboer", "Berggierslanden"],
+    "klanten": []
+  },
+  "rolde": {
+    "slug": "rolde",
+    "plaats": "Rolde",
+    "provincie": "Drenthe",
+    "afstand": "± 10 minuten vanuit Assen",
+    "intro": "Laat uw bedrijf in Rolde opvallen met een professionele en betaalbare website van BitbloX. Wij combineren maatwerk webdesign met lokale vindbaarheid.",
+    "wijken": ["Rolde-Centrum", "Rolde-Noord", "Rolde-Zuid", "Balloo", "Nijlande"],
+    "klanten": []
+  }
+}

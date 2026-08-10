@@ -1,0 +1,186 @@
+---
+import reviewsData from '../data/reviews.json';
+
+const googleMapsUrl = "https://www.google.com/maps/place/BitbloX/@53.3530384,1.4664348,6z/data=!4m8!3m7!1s0x47c82594e0d10389:0x37ab4f8928e27729!8m2!3d53.4627724!4d6.7394122!9m1!1b1!16s%2Fg%2F11ll43b4s2";
+---
+
+<section class="section section--alt" id="reviews">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Google Beoordelingen</span>
+      <h2>Ervaringen van <span class="text-gradient">onze klanten</span></h2>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px;">
+        <span style="color: var(--gold); font-size: 1.3rem;">★★★★★</span>
+        <span style="font-weight: 700; font-size: 1.1rem; color: var(--text);" id="googleRatingText">5.0 score op Google</span>
+      </div>
+    </div>
+
+    <!-- Dynamic Auto-Sync Roterende Carousel -->
+    <div class="reviews-carousel-wrapper" style="position: relative; max-width: 1040px; margin: 0 auto; overflow: hidden;">
+      <div class="reviews-track" id="reviewsTrack" style="display: flex; transition: transform 0.6s ease-in-out; gap: 24px;">
+        {reviewsData.map((r) => (
+          <div class="review-slide" style="flex: 0 0 calc(33.333% - 16px); min-width: 280px;">
+            <div class="card" style="padding: 28px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                  <div style="display: flex; align-items: center; gap: 4px; color: var(--gold);">
+                    {[...Array(r.rating)].map(() => (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    ))}
+                  </div>
+                  <span style="font-size: 0.8rem; color: var(--muted);">{r.date}</span>
+                </div>
+                <p style="font-size: 0.95rem; color: var(--text); line-height: 1.6; margin-bottom: 20px; font-style: italic;">
+                  "{r.text}"
+                </p>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border); padding-top: 16px; margin-top: auto;">
+                <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--border-gold); color: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; flex-shrink: 0;">
+                  {r.initials}
+                </div>
+                <div>
+                  <strong style="display: block; font-size: 0.95rem; color: var(--text);">{r.name}</strong>
+                  {r.location && <span style="font-size: 0.82rem; color: var(--muted);">{r.location}</span>}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Controls (Zichtbaar als er 3+ reviews zijn) -->
+      <div id="carouselControls" style="display: flex; items-center; justify-content: center; gap: 16px; margin-top: 28px;">
+        <button id="prevReviewBtn" aria-label="Vorige review" style="width: 42px; height: 42px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border-gold); color: var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div id="reviewDots" style="display: flex; align-items: center; gap: 8px;"></div>
+        <button id="nextReviewBtn" aria-label="Volgende review" style="width: 42px; height: 42px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border-gold); color: var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div style="margin-top: 36px; text-align: center;">
+      <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--sm" style="display: inline-flex; align-items: center; gap: 8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Bekijk ons Google Bedrijfsprofiel &amp; Live Reviews op Google Maps →
+      </a>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const track = document.getElementById('reviewsTrack');
+    const controls = document.getElementById('carouselControls');
+    const ratingText = document.getElementById('googleRatingText');
+    if (!track) return;
+
+    // Probeeer automatisch de nieuwste live reviews op te halen via onze API
+    try {
+      const res = await fetch('/api/reviews');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.reviews && data.reviews.length > 0) {
+          renderReviews(data.reviews);
+          if (ratingText && data.rating) {
+            ratingText.textContent = `${data.rating.toFixed(1)} score op Google (${data.total || data.reviews.length} beoordelingen)`;
+          }
+        }
+      }
+    } catch (e) {
+      console.log('Gebruikt statische reviews cache.');
+    }
+
+    function renderReviews(reviews) {
+      track.innerHTML = '';
+      reviews.forEach(r => {
+        const slide = document.createElement('div');
+        slide.className = 'review-slide';
+        slide.style.cssText = 'flex: 0 0 calc(33.333% - 16px); min-width: 280px;';
+        
+        let starsHtml = '';
+        for (let i = 0; i < (r.rating || 5); i++) {
+          starsHtml += '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+        }
+
+        slide.innerHTML = `
+          <div class="card" style="padding: 28px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <div style="display: flex; align-items: center; gap: 4px; color: var(--gold);">${starsHtml}</div>
+                <span style="font-size: 0.8rem; color: var(--muted);">${r.date || 'Google Review'}</span>
+              </div>
+              <p style="font-size: 0.95rem; color: var(--text); line-height: 1.6; margin-bottom: 20px; font-style: italic;">
+                "${r.text}"
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border); padding-top: 16px; margin-top: auto;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--border-gold); color: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; flex-shrink: 0;">
+                ${r.initials || 'G'}
+              </div>
+              <div>
+                <strong style="display: block; font-size: 0.95rem; color: var(--text);">${r.name}</strong>
+                ${r.location ? `<span style="font-size: 0.82rem; color: var(--muted);">${r.location}</span>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+        track.appendChild(slide);
+      });
+
+      initCarousel();
+    }
+
+    function initCarousel() {
+      const slides = track.querySelectorAll('.review-slide');
+      const totalSlides = slides.length;
+      let currentIndex = 0;
+
+      if (controls) {
+        controls.style.display = totalSlides > 3 ? 'flex' : 'none';
+      }
+
+      function getVisibleCount() {
+        if (window.innerWidth < 640) return 1;
+        if (window.innerWidth < 960) return 2;
+        return 3;
+      }
+
+      function getMaxIndex() {
+        return Math.max(0, totalSlides - getVisibleCount());
+      }
+
+      function updateCarousel() {
+        const visibleCount = getVisibleCount();
+        const translateX = -(currentIndex * (100 / visibleCount));
+        track.style.transform = `translateX(${translateX}%)`;
+      }
+
+      const prevBtn = document.getElementById('prevReviewBtn');
+      const nextBtn = document.getElementById('nextReviewBtn');
+
+      if (nextBtn) {
+        nextBtn.onclick = () => {
+          currentIndex = currentIndex < getMaxIndex() ? currentIndex + 1 : 0;
+          updateCarousel();
+        };
+      }
+      if (prevBtn) {
+        prevBtn.onclick = () => {
+          currentIndex = currentIndex > 0 ? currentIndex - 1 : getMaxIndex();
+          updateCarousel();
+        };
+      }
+
+      if (totalSlides > 3) {
+        setInterval(() => {
+          currentIndex = currentIndex < getMaxIndex() ? currentIndex + 1 : 0;
+          updateCarousel();
+        }, 6000);
+      }
+    }
+
+    initCarousel();
+  });
+</script>

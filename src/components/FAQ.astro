@@ -1,0 +1,86 @@
+---
+interface FAQItem {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  items?: FAQItem[];
+}
+
+const defaultItems: FAQItem[] = [
+  {
+    q: "Wat kost een website laten maken bij BitbloX?",
+    a: "Onze prijzen zijn transparant en eenmalig: Brons (€100) voor een simpele landingpage, Zilver (€250) voor een compacte website van 3 pagina's, Goud (€450 - Meest Gekozen) voor 5 pagina's met maatwerk, en Platina vanaf €650 voor grotere sites en webshops."
+  },
+  {
+    q: "Hoe snel staat mijn nieuwe website live?",
+    a: "Na het aanleveren van uw wensen, teksten en eventueel logo staat de eerste versie vaak al binnen 3 tot 5 werkdagen klaar in een beveiligde testomgeving."
+  },
+  {
+    q: "Zit ik vast aan maandelijkse abonnementskosten?",
+    a: "Nee, de bouwkosten zijn 100% eenmalig. Als u er voor kiest om ook de hosting en updates door BitbloX te laten verzorgen, betaalt u slechts €72 per jaar (Basis) of €120 per jaar (Extra)."
+  },
+  {
+    q: "Wordt mijn website goed gevonden in Google én AI (ChatGPT)?",
+    a: "Ja! Alle websites worden standaard geleverd met sterke technische SEO (snelle laadtijd, mobiele responsiviteit, SSL). Daarnaast kunt u kiezen voor optionele uitbreidingen: zoals complete SEO-tekstoptimalisatie (inclusief alt-teksten voor afbeeldingen, zoekwoorden en geoptimaliseerde teksten) én onze AI-vindbaarheid (GEO) module voor ChatGPT."
+  },
+  {
+    q: "Kan ik later mijn website uitbreiden met meer pagina's of functionaliteiten?",
+    a: "Ja, al onze websites worden modulair gebouwd. U kunt op elk moment uitbreiden met extra pagina's, een blog, een webshop of extra talen."
+  }
+];
+
+const { 
+  title = "Veelgestelde vragen", 
+  subtitle = "Heeft u vragen over onze werkwijze, tarieven of oplevering? Hier vindt u direct antwoord.",
+  items = defaultItems 
+} = Astro.props;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": items.map((item) => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<section class="section section--alt" itemscope itemtype="https://schema.org/FAQPage">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">FAQ</span>
+      <h2>{title}</h2>
+      {subtitle && <p class="lead">{subtitle}</p>}
+    </div>
+
+    <div class="faq-list">
+      {items.map((item, index) => (
+        <div class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <button class="faq-q" aria-expanded="false">
+            <span itemprop="name">{item.q}</span>
+            <span class="faq-chevron">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <div class="faq-a-inner" itemprop="text">
+              {item.a}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

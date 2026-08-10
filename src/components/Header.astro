@@ -1,0 +1,41 @@
+---
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/diensten/', label: 'Diensten' },
+  { href: '/prijzen/', label: 'Prijzen' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/contact/', label: 'Contact' },
+];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="brand" aria-label="BitbloX — naar home">
+      <img src="/assets/img/logo-light.png" alt="BitbloX — Webdesign & Hosting" />
+    </a>
+    
+    <button class="nav-toggle" aria-label="Menu openen of sluiten" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="main-nav" aria-label="Hoofdnavigatie">
+      <ul class="nav-list">
+        {navItems.map((item) => {
+          const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+          return (
+            <li>
+              <a href={item.href} class={isActive ? 'active' : ''} aria-current={isActive ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+        <li>
+          <a href="/contact/" class="btn btn--gold btn--sm header-cta">Gratis consult</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

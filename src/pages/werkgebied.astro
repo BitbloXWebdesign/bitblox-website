@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import locationsData from '../data/locations.json';
+
+const locations = Object.values(locationsData);
+---
+
+<Layout 
+  title="Ons Werkgebied — Webdesign & Hosting in Noord-Nederland | BitbloX"
+  description="Overzicht van alle werkgebieden en steden waar BitbloX actief is in Drenthe, Groningen en omstreken."
+>
+  <section class="page-hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container page-hero-inner">
+      <nav class="breadcrumb" aria-label="Kruimelpad"><a href="/">Home</a> <span>/</span> <span>Werkgebied</span></nav>
+      <span class="kicker">Lokale Dekking</span>
+      <h1>Ons <span class="text-gradient">Werkgebied</span></h1>
+      <p class="lead">BitbloX verzorgt professioneel webdesign, supersnelle hosting en SEO voor ondernemers in heel Drenthe, Groningen en omliggende regio's.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">Alle Steden &amp; Dorpen</span>
+        <h2>Kies uw <span class="gold">locatie</span></h2>
+        <p class="lead">Klik op uw plaats voor specifieke informatie, lokale tarieven en mogelijkheden:</p>
+      </div>
+
+      <div class="grid grid--3" style="max-width: 960px; margin: 0 auto; gap: 20px;">
+        {locations.map((loc) => (
+          <a href={`/webdesign-${loc.slug}/`} class="card reveal hover-gold" style="padding: 24px; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.8rem; color: var(--gold); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 6px;">
+                {loc.provincie}
+              </div>
+              <h3 style="font-size: 1.3rem; margin-bottom: 8px; color: var(--text);">Webdesign {loc.plaats}</h3>
+              <p style="font-size: 0.88rem; color: var(--muted); margin: 0;">{loc.afstand}</p>
+            </div>
+            <div style="margin-top: 16px; font-size: 0.88rem; font-weight: 600; color: var(--gold); display: flex; align-items: center; gap: 6px;">
+              Bekijk pagina →
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

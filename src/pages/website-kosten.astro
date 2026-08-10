@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<Layout 
+  title="Wat kost een website laten maken? Transparant Kostenoverzicht 2026"
+  description="Eerlijk vergelijk van kosten voor het laten maken van een website. Brons €100, Zilver €250, Goud €450, Platina €650+ bij BitbloX."
+>
+  <section class="page-hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container page-hero-inner">
+      <nav class="breadcrumb" aria-label="Kruimelpad"><a href="/">Home</a> <span>/</span> <span>Website Kosten</span></nav>
+      <span class="kicker">Eerlijk &amp; Transparant</span>
+      <h1>Wat kost een website <span class="text-gradient">laten maken?</span></h1>
+      <p class="lead">De kosten voor het laten maken van een website lopen enorm uiteen: van €500 tot meer dan €5.000 bij traditionele bureaus. Bij BitbloX doen we dat anders.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width: 840px;">
+      <div class="card" style="padding: 36px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 32px;">
+        <h2 style="font-size: 1.6rem; margin-bottom: 20px;">Onze transparante pakketprijzen:</h2>
+        <ul style="display: flex; flex-direction: column; gap: 18px; font-size: 1.05rem;">
+          <li style="border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+            <strong style="color: var(--gold);">Brons (€100 eenmalig):</strong> 1-page landingpage, ideaal als digitaal visitekaartje.
+          </li>
+          <li style="border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+            <strong style="color: var(--gold);">Zilver (€250 eenmalig):</strong> Compacte 3-pagina website inclusief routemap en licht maatwerk.
+          </li>
+          <li style="border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+            <strong style="color: var(--gold);">Goud (€450 eenmalig - Meest gekozen):</strong> Complete 5-pagina website met contactformulier, prijslijst en maatwerk.
+          </li>
+          <li style="border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+            <strong style="color: var(--gold);">Platina (€650+ eenmalig):</strong> Uitgebreide site (7+ pagina's), webshop of complexe functies.
+          </li>
+          <li>
+            <strong style="color: var(--gold);">Cloud Hosting &amp; SSL (€72/jaar):</strong> Supersnelle hosting, 3 mailaccounts en dagelijks onderhoud.
+          </li>
+        </ul>
+
+        <div style="margin-top: 24px; text-align: center;">
+          <a href="/prijzen/" class="btn btn--gold">Bekijk de volledige prijsvergelijking →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="contact">
+    <div class="container" style="max-width: 760px;">
+      <ContactForm title="Bereken direct uw prijsopgave" />
+    </div>
+  </section>
+</Layout>
