@@ -9,7 +9,7 @@ export const GET: APIRoute = async () => {
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
-    const { name, location, text, rating, date } = body;
+    const { name, company, city, text, rating, date } = body;
 
     if (!name || !text) {
       return new Response(JSON.stringify({ error: "Naam en tekst zijn verplicht." }), { status: 400 });
@@ -31,10 +31,19 @@ export const POST: APIRoute = async ({ request }) => {
       .substring(0, 2)
       .toUpperCase();
 
+    let displayLocation = "Google Review";
+    if (company && city) {
+      displayLocation = `${company} — ${city}`;
+    } else if (company) {
+      displayLocation = company;
+    } else if (city) {
+      displayLocation = city;
+    }
+
     const newReview = {
       id: reviewsList.length + 1,
       name: name,
-      location: location || "Google Review",
+      location: displayLocation,
       rating: Number(rating) || 5,
       text: text,
       initials: initials || "G",

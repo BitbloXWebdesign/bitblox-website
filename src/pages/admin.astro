@@ -131,14 +131,18 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">⭐ 3. Google Review Toevoegen</h2>
           <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Voer hier handmatig een echte Google review van je klant in. Zodra je op opslaan klikt, staat de review direct op de site in de carrousel!</p>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px;">
             <div>
               <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Naam Klant</label>
-              <input type="text" id="reviewName" placeholder="Bijv. Jan Mulder" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+              <input type="text" id="reviewName" placeholder="Bijv. Alianne Zuidhof" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
             </div>
             <div>
-              <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Plaats / Bedrijf</label>
-              <input type="text" id="reviewLoc" placeholder="Bijv. Groningen" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+              <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Bedrijfsnaam / Branche</label>
+              <input type="text" id="reviewCompany" placeholder="Bijv. Massage Studio Eelde" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Plaats / Regio</label>
+              <input type="text" id="reviewCity" placeholder="Bijv. Eelde" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
             </div>
             <div>
               <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Aantal Sterren</label>
@@ -514,7 +518,8 @@ Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op
 
     // 3. Review Invoeren JS
     const reviewName = document.getElementById('reviewName');
-    const reviewLoc = document.getElementById('reviewLoc');
+    const reviewCompany = document.getElementById('reviewCompany');
+    const reviewCity = document.getElementById('reviewCity');
     const reviewRating = document.getElementById('reviewRating');
     const reviewText = document.getElementById('reviewText');
     const saveReviewBtn = document.getElementById('saveReviewBtn');
@@ -524,7 +529,8 @@ Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op
       saveReviewBtn.addEventListener('click', async () => {
         const nameVal = reviewName.value.trim();
         const textVal = reviewText.value.trim();
-        const locVal = reviewLoc.value.trim();
+        const compVal = reviewCompany ? reviewCompany.value.trim() : '';
+        const cityVal = reviewCity ? reviewCity.value.trim() : '';
         const ratingVal = reviewRating.value;
 
         if (!nameVal || !textVal) return alert('Voer a.u.b. minimaal een naam en review tekst in.');
@@ -538,7 +544,8 @@ Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               name: nameVal,
-              location: locVal || 'Google Review',
+              company: compVal,
+              city: cityVal,
               rating: ratingVal,
               text: textVal,
               date: 'Google Beoordeling'
@@ -549,7 +556,8 @@ Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op
             if (saveReviewStatus) saveReviewStatus.textContent = `✅ Review van ${nameVal} toegevoegd! (Totaal: ${resData.total})`;
             saveReviewBtn.textContent = '✅ Gepubliceerd!';
             reviewName.value = '';
-            reviewLoc.value = '';
+            if (reviewCompany) reviewCompany.value = '';
+            if (reviewCity) reviewCity.value = '';
             reviewText.value = '';
           }
         } catch (e) {
