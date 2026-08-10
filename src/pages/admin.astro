@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import locationsData from '../data/locations.json';
+import reviewsData from '../data/reviews.json';
 import { getCollection } from 'astro:content';
 
 const currentLocations = Object.values(locationsData);
@@ -8,14 +9,14 @@ const blogPosts = await getCollection('blog');
 const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 ---
 
-<Layout title="BitbloX Admin — Beveiligd Dashboard" description="Beheermodule voor het toevoegen van microsites en blog-artikelen met DeepSeek AI.">
+<Layout title="BitbloX Admin — Beveiligd Dashboard" description="Beheermodule voor het toevoegen van microsites, blog-artikelen en reviews.">
   
   <!-- Login Gate Modal -->
   <div id="loginGate" style="position: fixed; inset: 0; z-index: 999; background: rgba(10, 11, 14, 0.98); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; padding: 20px;">
     <div class="card" style="max-width: 440px; width: 100%; padding: 40px 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.8);">
       <img src="/assets/img/logo-light.png" alt="BitbloX" style="height: 36px; margin: 0 auto 20px; display: block;" />
       <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">Beveiligde Admin Toegang</h2>
-      <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 24px;">Voer het beheerderswachtwoord in om toegang te krijgen tot de AI Content Generator.</p>
+      <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 24px;">Voer het beheerderswachtwoord in om toegang te krijgen tot het BitbloX Beheerdashboard.</p>
       
       <div style="display: flex; flex-direction: column; gap: 14px;">
         <input 
@@ -41,11 +42,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
           <div>
             <span class="kicker">BitbloX Beheer Dashboard</span>
-            <h1>Admin &amp; <span class="text-gradient">DeepSeek AI Generator</span></h1>
+            <h1>Admin &amp; <span class="text-gradient">Content Beheer</span></h1>
           </div>
           <button id="logoutBtn" class="btn btn--ghost btn--sm">Uitloggen 🔒</button>
         </div>
-        <p class="lead">Genereer in enkele seconden nieuwe steden-microsites én complete Markdown blog-artikelen met live DeepSeek AI!</p>
+        <p class="lead">Beheer in enkele seconden je steden-microsites, blog-artikelen én echte Google reviews!</p>
       </div>
     </section>
 
@@ -56,7 +57,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         <div class="card" style="padding: 18px 24px; background: rgba(222, 193, 72, 0.08); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
           <div style="display: flex; align-items: center; gap: 10px;">
             <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #22c55e;"></span>
-            <strong style="color: var(--gold); font-size: 0.95rem;">DeepSeek AI API Actief Gekoppeld</strong>
+            <strong style="color: var(--gold); font-size: 0.95rem;">DeepSeek AI API &amp; Review Beheer Actief</strong>
           </div>
           <span style="font-size: 0.82rem; color: var(--muted);">Model: <code>deepseek-chat</code></span>
         </div>
@@ -125,32 +126,76 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           </div>
         </div>
 
+        <!-- 3. Google Review Invoeren Form -->
+        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
+          <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">⭐ 3. Google Review Toevoegen</h2>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Voer hier handmatig een echte Google review van je klant in. Zodra je op opslaan klikt, staat de review direct op de site in de carrousel!</p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px;">
+            <div>
+              <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Naam Klant</label>
+              <input type="text" id="reviewName" placeholder="Bijv. Jan Mulder" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Plaats / Bedrijf</label>
+              <input type="text" id="reviewLoc" placeholder="Bijv. Groningen" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Aantal Sterren</label>
+              <select id="reviewRating" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);">
+                <option value="5">★★★★★ (5 Sterren)</option>
+                <option value="4">★★★★☆ (4 Sterren)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Review Tekst</label>
+            <textarea id="reviewText" rows="3" placeholder="Typ of plak hier de review tekst van Google Maps..." style="width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: inherit; font-size: 0.95rem;"></textarea>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <button id="saveReviewBtn" class="btn btn--gold">⭐ Bewaar &amp; Publiceer Review</button>
+            <span id="saveReviewStatus" style="font-size: 0.85rem; color: #22c55e; font-weight: 600;"></span>
+          </div>
+        </div>
+
         <!-- Overzicht Huidige Content -->
-        <div class="grid grid--2">
+        <div class="grid grid--3">
           <!-- Actieve locaties -->
-          <div class="card" style="padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
-            <h3 style="font-size: 1.1rem; color: var(--gold); margin-bottom: 14px;">📍 Actieve Microsites ({currentLocations.length})</h3>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-              {currentLocations.slice(0, 6).map((loc) => (
-                <div style="display: flex; justify-content: space-between; font-size: 0.88rem;">
-                  <span style="color: var(--text);">{loc.plaats} ({loc.provincie})</span>
+          <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
+            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📍 Microsites ({currentLocations.length})</h3>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
+              {currentLocations.slice(0, 5).map((loc) => (
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text);">{loc.plaats}</span>
                   <a href={`/webdesign-${loc.slug}/`} target="_blank" style="color: var(--gold);">Bekijk ↗</a>
                 </div>
               ))}
-              {currentLocations.length > 6 && (
-                <a href="/werkgebied/" style="font-size: 0.82rem; color: var(--gold); margin-top: 6px;">Bekijk alle {currentLocations.length} locaties →</a>
-              )}
             </div>
           </div>
 
           <!-- Gepubliceerde Blogs -->
-          <div class="card" style="padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
-            <h3 style="font-size: 1.1rem; color: var(--gold); margin-bottom: 14px;">📝 Gepubliceerde Blogs ({blogPosts.length})</h3>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
+            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📝 Blogs ({blogPosts.length})</h3>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
               {blogPosts.map((post) => (
-                <div style="display: flex; justify-content: space-between; font-size: 0.88rem;">
-                  <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px;">{post.data.title}</span>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px;">{post.data.title}</span>
                   <a href={`/blog/${post.id}/`} target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Reviews -->
+          <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
+            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">⭐️ Reviews ({reviewsData.length})</h3>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
+              {reviewsData.map((r) => (
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text);">{r.name}</span>
+                  <span style="color: var(--gold);">★★★★★</span>
                 </div>
               ))}
             </div>
@@ -302,11 +347,11 @@ Reageer UITSLUITEND met valide JSON in dit exacte formaat:
             });
             const resData = await res.json();
             if (resData.success) {
-              if (saveLocationStatus) saveLocationStatus.textContent = `✅ Gepubliceerd als /webdesign-${resData.slug}/! Herlaad om te zien.`;
+              if (saveLocationStatus) saveLocationStatus.textContent = `✅ Gepubliceerd als /webdesign-${resData.slug}/!`;
               saveLocationBtn.textContent = '✅ Gepubliceerd!';
             }
           } catch (e) {
-            alert('Opslaan mislukt op statische server.');
+            alert('Opslaan mislukt.');
           } finally {
             saveLocationBtn.disabled = false;
           }
@@ -445,7 +490,7 @@ Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op
             });
             const resData = await res.json();
             if (resData.success) {
-              if (saveBlogStatus) saveBlogStatus.textContent = `✅ Gepubliceerd als /blog/${resData.slug}/! Herlaad om te zien.`;
+              if (saveBlogStatus) saveBlogStatus.textContent = `✅ Gepubliceerd als /blog/${resData.slug}/!`;
               saveBlogBtn.textContent = '✅ Gepubliceerd!';
             }
           } catch (e) {
@@ -465,6 +510,54 @@ Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op
           }
         });
       }
+    }
+
+    // 3. Review Invoeren JS
+    const reviewName = document.getElementById('reviewName');
+    const reviewLoc = document.getElementById('reviewLoc');
+    const reviewRating = document.getElementById('reviewRating');
+    const reviewText = document.getElementById('reviewText');
+    const saveReviewBtn = document.getElementById('saveReviewBtn');
+    const saveReviewStatus = document.getElementById('saveReviewStatus');
+
+    if (saveReviewBtn && reviewName && reviewText) {
+      saveReviewBtn.addEventListener('click', async () => {
+        const nameVal = reviewName.value.trim();
+        const textVal = reviewText.value.trim();
+        const locVal = reviewLoc.value.trim();
+        const ratingVal = reviewRating.value;
+
+        if (!nameVal || !textVal) return alert('Voer a.u.b. minimaal een naam en review tekst in.');
+
+        saveReviewBtn.textContent = '⏳ Review opslaan...';
+        saveReviewBtn.disabled = true;
+
+        try {
+          const res = await fetch('/api/save-review', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: nameVal,
+              location: locVal || 'Google Review',
+              rating: ratingVal,
+              text: textVal,
+              date: 'Google Beoordeling'
+            })
+          });
+          const resData = await res.json();
+          if (resData.success) {
+            if (saveReviewStatus) saveReviewStatus.textContent = `✅ Review van ${nameVal} toegevoegd! (Totaal: ${resData.total})`;
+            saveReviewBtn.textContent = '✅ Gepubliceerd!';
+            reviewName.value = '';
+            reviewLoc.value = '';
+            reviewText.value = '';
+          }
+        } catch (e) {
+          alert('Review opslaan mislukt.');
+        } finally {
+          saveReviewBtn.disabled = false;
+        }
+      });
     }
   });
 </script>
