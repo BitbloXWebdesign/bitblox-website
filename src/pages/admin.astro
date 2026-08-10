@@ -87,7 +87,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <pre id="jsonPreview" style="background: var(--surface-2); padding: 14px; border-radius: 8px; font-size: 0.85rem; color: var(--gold); overflow-x: auto; max-height: 250px;"></pre>
             
             <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-              <button id="saveLocationBtn" class="btn btn--gold btn--sm">📍 Bewaar &amp; Publiceer Microsite</button>
+              <button id="saveLocationBtn" class="btn btn--gold btn--sm">📍 Bewaar Microsite</button>
               <button id="copyJsonBtn" class="btn btn--ghost btn--sm">📋 Kopieer JSON</button>
               <span id="saveLocationStatus" style="font-size: 0.85rem; color: #22c55e; font-weight: 600;"></span>
             </div>
@@ -119,7 +119,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <pre id="blogContentPreview" style="background: var(--surface-2); padding: 14px; border-radius: 8px; font-size: 0.85rem; color: var(--gold); overflow-x: auto; max-height: 320px; white-space: pre-wrap;"></pre>
             
             <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-              <button id="saveBlogBtn" class="btn btn--gold btn--sm">🚀 Bewaar &amp; Publiceer Direct op Blog</button>
+              <button id="saveBlogBtn" class="btn btn--gold btn--sm">🚀 Bewaar Blog Artikel</button>
               <button id="copyBlogBtn" class="btn btn--ghost btn--sm">📋 Kopieer Markdown</button>
               <span id="saveBlogStatus" style="font-size: 0.85rem; color: #22c55e; font-weight: 600;"></span>
             </div>
@@ -129,7 +129,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         <!-- 3. Google Review Invoeren Form -->
         <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
           <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">⭐ 3. Google Review Toevoegen</h2>
-          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Voer hier handmatig een echte Google review van je klant in. Zodra je op opslaan klikt, staat de review direct op de site in de carrousel!</p>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Voer hier handmatig een echte Google review van je klant in.</p>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px;">
             <div>
@@ -159,7 +159,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           </div>
 
           <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-            <button id="saveReviewBtn" class="btn btn--gold">⭐ Bewaar &amp; Publiceer Review</button>
+            <button id="saveReviewBtn" class="btn btn--gold">⭐ Bewaar &amp; Kopieer Review JSON</button>
             <span id="saveReviewStatus" style="font-size: 0.85rem; color: #22c55e; font-weight: 600;"></span>
           </div>
         </div>
@@ -351,11 +351,15 @@ Reageer UITSLUITEND met valide JSON in dit exacte formaat:
             });
             const resData = await res.json();
             if (resData.success) {
-              if (saveLocationStatus) saveLocationStatus.textContent = `✅ Gepubliceerd als /webdesign-${resData.slug}/!`;
+              if (saveLocationStatus) saveLocationStatus.textContent = `✅ Gepubliceerd!`;
               saveLocationBtn.textContent = '✅ Gepubliceerd!';
+            } else {
+              throw new Error();
             }
           } catch (e) {
-            alert('Opslaan mislukt.');
+            if (jsonPreview) navigator.clipboard.writeText(jsonPreview.textContent);
+            if (saveLocationStatus) saveLocationStatus.textContent = `📋 Gekopieerd naar klembord!`;
+            saveLocationBtn.textContent = '📋 Gekopieerd!';
           } finally {
             saveLocationBtn.disabled = false;
           }
@@ -494,11 +498,15 @@ Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op
             });
             const resData = await res.json();
             if (resData.success) {
-              if (saveBlogStatus) saveBlogStatus.textContent = `✅ Gepubliceerd als /blog/${resData.slug}/!`;
+              if (saveBlogStatus) saveBlogStatus.textContent = `✅ Gepubliceerd!`;
               saveBlogBtn.textContent = '✅ Gepubliceerd!';
+            } else {
+              throw new Error();
             }
           } catch (e) {
-            alert('Opslaan mislukt.');
+            if (blogContentPreview) navigator.clipboard.writeText(blogContentPreview.textContent);
+            if (saveBlogStatus) saveBlogStatus.textContent = `📋 Gekopieerd naar klembord!`;
+            saveBlogBtn.textContent = '📋 Gekopieerd!';
           } finally {
             saveBlogBtn.disabled = false;
           }
@@ -535,7 +543,25 @@ Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op
 
         if (!nameVal || !textVal) return alert('Voer a.u.b. minimaal een naam en review tekst in.');
 
-        saveReviewBtn.textContent = '⏳ Review opslaan...';
+        let displayLoc = 'Google Review';
+        if (compVal && cityVal) displayLoc = `${compVal} — ${cityVal}`;
+        else if (compVal) displayLoc = compVal;
+        else if (cityVal) displayLoc = cityVal;
+
+        const initials = nameVal.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+        const jsonObj = {
+          name: nameVal,
+          location: displayLoc,
+          rating: Number(ratingVal),
+          text: textVal,
+          initials: initials || 'G',
+          date: 'Google Beoordeling'
+        };
+
+        const reviewJsonString = JSON.stringify(jsonObj, null, 2);
+
+        saveReviewBtn.textContent = '⏳ Opslaan...';
         saveReviewBtn.disabled = true;
 
         try {
@@ -553,15 +579,15 @@ Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op
           });
           const resData = await res.json();
           if (resData.success) {
-            if (saveReviewStatus) saveReviewStatus.textContent = `✅ Review van ${nameVal} toegevoegd! (Totaal: ${resData.total})`;
+            if (saveReviewStatus) saveReviewStatus.textContent = `✅ Review toegevoegd! (Totaal: ${resData.total})`;
             saveReviewBtn.textContent = '✅ Gepubliceerd!';
-            reviewName.value = '';
-            if (reviewCompany) reviewCompany.value = '';
-            if (reviewCity) reviewCity.value = '';
-            reviewText.value = '';
+          } else {
+            throw new Error();
           }
         } catch (e) {
-          alert('Review opslaan mislukt.');
+          navigator.clipboard.writeText(reviewJsonString);
+          if (saveReviewStatus) saveReviewStatus.textContent = `📋 Review JSON gekopieerd naar klembord!`;
+          saveReviewBtn.textContent = '📋 Review JSON Gekopieerd!';
         } finally {
           saveReviewBtn.disabled = false;
         }
