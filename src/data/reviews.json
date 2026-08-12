@@ -2,10 +2,28 @@
   {
     "id": 1,
     "name": "Jeroen Renkema",
-    "location": "Jeroen Renkema Boomverzorging, Noordbroek",
+    "location": "Jeroen Renkema Boomverzorging — Noordbroek",
     "rating": 5,
     "text": "Echt een topbedrijf! Heeft inmiddels 2 hele mooie websites voor ons gebouwd — sterkinbomenwerk.nl en boombehoud.nu. Snelle communicatie en super resultaat. Aanrader!!",
     "initials": "JR",
+    "date": "Google Beoordeling"
+  },
+  {
+    "id": 2,
+    "name": "Alianne Zuidhof",
+    "location": "Massage Studio Eelde — Eelde",
+    "rating": 5,
+    "text": "Mijn website ziet er geweldig uit en als ik veranderingen wil is dat zo aangepast. Heldere communicatie en professioneel afgewerkt, erg trots !",
+    "initials": "AZ",
+    "date": "Google Beoordeling"
+  },
+  {
+    "id": 3,
+    "name": "MC Scholts",
+    "location": "SheMotion — Eelde",
+    "rating": 5,
+    "text": "Fijne communicatie, Harold is kundig, denkt mee en reageert snel bij vragen of verzoeken.",
+    "initials": "MS",
     "date": "Google Beoordeling"
   }
 ]
