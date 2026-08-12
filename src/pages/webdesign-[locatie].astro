@@ -308,7 +308,7 @@ const allLocations = Object.values(locationsData).filter((l: any) => l.slug !== 
     <div class="container">
       <div class="section-head reveal" style="margin-bottom: 32px;">
         <span class="kicker">Omliggende Regio's</span>
-        <h3>Webdesign in de buurt van {loc.plaats}</h3>
+        <h2>Webdesign in de buurt van <span class="gold">{loc.plaats}</span></h2>
       </div>
       <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
         {allLocations.map((otherLoc: any) => (

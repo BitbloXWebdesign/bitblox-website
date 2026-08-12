@@ -9,6 +9,7 @@ const clients = [
   "voetreflextherapeutgroningen.nl", "wodansfoodtruck.nl", "fdrb.nl", "tuinstaalnoord.nl", "meulemanbeton.nl"
 ];
 
+// 1. Geavanceerde LocalBusiness & ProfessionalService Schema met Wikipedia SameAs Entiteiten & KVK
 const homeSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -16,9 +17,16 @@ const homeSchema = {
   "url": "https://bitblox.nl",
   "logo": "https://bitblox.nl/assets/img/logo.png",
   "image": "https://bitblox.nl/assets/img/logo.png",
-  "description": "Full-service webdesign- en hostingbureau in Assen en Groningen. Supersnelle, betrouwbare websites, logo design, SEO en AI-vindbaarheid voor ZZP & MKB.",
+  "description": "Full-service webdesign- en hostingbureau in Assen en Groningen. Supersnelle, betrouwbare websites bouwen en laten maken, logo design, SEO en AI-vindbaarheid voor ZZP & MKB.",
   "telephone": "+31630523907",
   "email": "info@bitblox.nl",
+  "vatID": "74001922",
+  "identifier": "KVK 74001922",
+  "sameAs": [
+    "https://nl.wikipedia.org/wiki/Assen",
+    "https://nl.wikipedia.org/wiki/Groningen_(stad)",
+    "https://www.google.com/maps/place/BitbloX/@53.3530384,1.4664348,6z/data=!4m8!3m7!1s0x47c82594e0d10389:0x37ab4f8928e27729!8m2!3d53.4627724!4d6.7394122!9m1!1b1!16s%2Fg%2F11ll43b4s2"
+  ],
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Assen",
@@ -30,14 +38,14 @@ const homeSchema = {
     "latitude": 52.9925,
     "longitude": 6.5642
   },
-  "areaServed": ["Assen", "Groningen", "Haren", "Beilen", "Eelde", "Norg", "Drenthe"],
+  "areaServed": ["Assen", "Groningen", "Haren", "Beilen", "Eelde", "Norg", "Hoogeveen", "Meppel", "Drenthe"],
   "priceRange": "€€"
 };
 ---
 
 <Layout 
-  title="BitbloX — Webdesign, Hosting, SEO, Logo Design & Beveiliging Assen & Groningen" 
-  description="BitbloX maakt moderne websites met design op maat voor ZZP'ers en MKB in Assen, Groningen en Drenthe. Webdesign, supersnelle hosting, SEO en AI-vindbaarheid."
+  title="Website Laten Maken & Bouwen Assen | BitbloX Webdesign, Hosting & SEO" 
+  description="Professionele & betaalbare website laten maken of bouwen in Assen, Groningen en Drenthe? BitbloX levert maatwerk webdesign (Brons €100, Zilver €250, Goud €450), supersnelle hosting en lokale SEO voor ZZP & MKB."
   schema={homeSchema}
 >
   <!-- ============ Hero ============ -->
@@ -46,16 +54,16 @@ const homeSchema = {
     <div class="container hero-inner">
       <div>
         <span class="hero-badge"><span class="dot"></span> Webdesign &amp; Hosting — gevestigd in Assen</span>
-        <h1>Het <span class="text-gradient">visitekaartje</span> van uw bedrijf, perfect ontworpen.</h1>
-        <p class="lead">BitbloX maakt moderne websites met design op maat — precies zoals ú het wilt. Met de nieuwste technieken, gemakkelijk te onderhouden en volledig ontzorgd: van webdesign en hosting tot SEO, logo en beveiliging.</p>
+        <h1>Website laten maken &amp; bouwen in <span class="text-gradient">Assen, Groningen &amp; Drenthe</span></h1>
+        <p class="lead">BitbloX maakt moderne websites met design op maat voor ZZP &amp; MKB. Met de nieuwste technieken, gemakkelijk te onderhouden en volledig ontzorgd: van webdesign en hosting tot SEO, logo en beveiliging.</p>
 
         <p class="answer-capsule">
-          <strong>BitbloX</strong> is een webdesignbureau uit <strong>Assen</strong> dat websites ontwerpt, host en beveiligt voor zzp'ers en het mkb in Noord-Nederland. Complete websites vanaf <strong>€100 eenmalig</strong>, hosting met SSL en updates vanaf <strong>€72 per jaar</strong>.
+          <strong>BitbloX</strong> is een webdesignbureau uit <strong>Assen</strong> dat websites bouwt, ontwerpt en host voor zzp'ers en het mkb in Noord-Nederland. Complete websites vanaf <strong>€100 eenmalig</strong>, hosting met SSL en updates vanaf <strong>€72 per jaar</strong>.
         </p>
 
         <div class="hero-actions">
           <a href="/contact/" class="btn btn--gold">
-            Plan een gratis consult
+            Plan een gratis consult in Assen
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
           <a href="/diensten/" class="btn btn--ghost">Bekijk onze diensten</a>
@@ -96,7 +104,7 @@ const homeSchema = {
         </div>
         <div class="float-chip float-chip--1">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          Supersnelle hosting
+          Supersnelle hosting op Cloudflare
         </div>
         <div class="float-chip float-chip--2">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -104,14 +112,14 @@ const homeSchema = {
         </div>
         <div class="float-chip float-chip--3">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          SEO-geoptimaliseerd
+          SEO &amp; GEO (AI) geoptimaliseerd
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============ Klanten marquee ============ -->
-  <div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-strip" aria-label="Portfolio van BitbloX klanten in Drenthe en Groningen">
     <div class="marquee-track">
       {[...clients, ...clients].map((domain) => (
         <span>{domain}</span>
@@ -123,7 +131,7 @@ const homeSchema = {
   <section class="section" id="diensten">
     <div class="container">
       <div class="section-head reveal">
-        <span class="kicker">Onze diensten</span>
+        <span class="kicker">Onze diensten in Assen &amp; Drenthe</span>
         <h2>Alles voor uw online succes, <span class="gold">onder één dak</span></h2>
         <p class="lead">Van het eerste ontwerp tot hosting, vindbaarheid en beveiliging — één aanspreekpunt voor uw complete online aanwezigheid.</p>
       </div>
@@ -134,7 +142,7 @@ const homeSchema = {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
           </div>
           <h3>Webdesign</h3>
-          <p>Webdesign dat indruk maakt en resultaten levert. Een nieuwe website of een fris design — modern, op maat en met de nieuwste technieken.</p>
+          <p>Webdesign dat indruk maakt en resultaten levert. Een nieuwe website bouwen of laten maken — modern, op maat en met de nieuwste technieken.</p>
           <a href="/diensten/#webdesign" class="card-link">Meer over webdesign <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </article>
 
@@ -143,7 +151,7 @@ const homeSchema = {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
           </div>
           <h3>Hosting</h3>
-          <p>Betrouwbare hosting die uw dromen ondersteunt en met u meegroeit. Snelle schijven, goede cache en pakketten die we gewoon aanpassen als het anders uitpakt.</p>
+          <p>Betrouwbare hosting die uw dromen ondersteunt en met u meegroeit. Snelle schijven op Cloudflare, goede cache en flexibele pakketten.</p>
           <a href="/diensten/#hosting" class="card-link">Meer over hosting <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </article>
 
@@ -161,7 +169,7 @@ const homeSchema = {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
           </div>
           <h3>SEO</h3>
-          <p>Effectieve SEO die uw zichtbaarheid vergroot en uw bedrijf laat groeien. Van zoekwoordenonderzoek tot techniek, content en autoriteit.</p>
+          <p>Effectieve SEO die uw zichtbaarheid vergroot in Assen, Groningen en Drenthe. Van zoekwoordenonderzoek tot techniek, content en autoriteit.</p>
           <a href="/diensten/#seo" class="card-link">Meer over SEO <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </article>
 
@@ -170,7 +178,7 @@ const homeSchema = {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
           </div>
           <h3>Beveiliging</h3>
-          <p>Veilig online, zorgeloos ondernemen. Firewall, DDoS-bescherming en malware-scans houden uw website, gegevens en klanten veilig.</p>
+          <p>Veilig online, zorgeloos ondernemen. Firewall, DDoS-bescherming op Cloudflare en malware-scans houden uw website en gegevens veilig.</p>
           <a href="/diensten/#beveiliging" class="card-link">Meer over beveiliging <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </article>
 
@@ -224,7 +232,7 @@ const homeSchema = {
   </section>
 
   <!-- ============ FAQ Section ============ -->
-  <FAQ title="Veelgestelde vragen over BitbloX Webdesign" />
+  <FAQ title="Veelgestelde vragen over BitbloX Webdesign in Assen" />
 
   <!-- ============ CTA Band ============ -->
   <section class="section--tight">
@@ -232,7 +240,7 @@ const homeSchema = {
       <div class="cta-band reveal">
         <span class="kicker">Gratis consult</span>
         <h2>Maak indruk met een uniek en <span class="text-gradient">professioneel webdesign</span></h2>
-        <p>Neem vandaag nog contact met ons op voor een gratis consult en ontdek hoe wij u kunnen helpen uw online doelen te bereiken. Uw succes begint met een klik!</p>
+        <p>Neem vandaag nog contact met ons op voor een gratis consult in Assen en ontdek hoe wij u kunnen helpen uw online doelen te bereiken. Uw succes begint met een klik!</p>
         <div class="btn-row">
           <a href="/contact/" class="btn btn--gold">Neem contact op
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
