@@ -166,7 +166,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <input 
               type="text" 
               id="cityInput" 
-              placeholder="Voer plaatsnaam in (bijv. Assen, Emmen, Veendam)..." 
+              placeholder="Voer plaatsnaam of regio in..." 
+              autocomplete="off"
               style="flex: 1; min-width: 260px; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
             />
             <button id="generateBtn" class="btn btn--gold" style="white-space: nowrap;">
@@ -206,6 +207,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               type="text" 
               id="blogInput" 
               placeholder="Voer blog-onderwerp of titel in..." 
+              autocomplete="off"
+              value=""
               style="flex: 1; min-width: 260px; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
             />
             <button id="generateBlogBtn" class="btn btn--gold" style="white-space: nowrap;">
@@ -219,6 +222,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               type="text" 
               id="manualTitleInput" 
               placeholder="Titel van verhaal of onderwerp..." 
+              autocomplete="off"
               style="width: 100%; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
             />
             <textarea 
@@ -267,15 +271,15 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px;">
             <div>
               <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Naam Klant</label>
-              <input type="text" id="reviewName" placeholder="Naam van klant..." style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+              <input type="text" id="reviewName" placeholder="Naam van klant..." autocomplete="off" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
             </div>
             <div>
               <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Bedrijfsnaam / Branche</label>
-              <input type="text" id="reviewCompany" placeholder="Bedrijfsnaam / Branche..." style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+              <input type="text" id="reviewCompany" placeholder="Bedrijfsnaam / Branche..." autocomplete="off" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
             </div>
             <div>
               <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Plaats / Regio</label>
-              <input type="text" id="reviewCity" placeholder="Plaats / Regio..." style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+              <input type="text" id="reviewCity" placeholder="Plaats / Regio..." autocomplete="off" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
             </div>
             <div>
               <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Aantal Sterren</label>
@@ -442,6 +446,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const reviewCountDisplay = document.getElementById('reviewCountDisplay');
     const reviewListDisplay = document.getElementById('reviewListDisplay');
 
+    const blogInput = document.getElementById('blogInput');
+    if (blogInput) blogInput.value = '';
+
     let currentSelectedClient = 'bitblox';
 
     const clientConfigs = {
@@ -473,17 +480,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         domain: "deautokampeerder.nl",
         pagesUrl: "https://deautokampeerder.pages.dev",
         switches: { blog: true, geo: true, reviews: true, faq: true, form: true },
-        microsites: [
-          { name: "Campers Groningen", url: "https://deautokampeerder.pages.dev" },
-          { name: "Camper verhuur Assen", url: "https://deautokampeerder.pages.dev" }
-        ],
-        blogs: [
-          { title: "Onderhoudstips voor de camper", url: "https://deautokampeerder.pages.dev" },
-          { title: "Mooiste camperroutes in Drenthe", url: "https://deautokampeerder.pages.dev" }
-        ],
-        reviews: [
-          { name: "Klant De Autokampeerder", rating: "★★★★★" }
-        ]
+        microsites: [],
+        blogs: [],
+        reviews: []
       }
     };
 
@@ -515,6 +514,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         lbl.textContent = conf.name;
       });
 
+      if (blogInput) blogInput.value = '';
+
       if (toggleBlog) toggleBlog.checked = conf.switches.blog;
       if (toggleGeo) toggleGeo.checked = conf.switches.geo;
       if (toggleReviews) toggleReviews.checked = conf.switches.reviews;
@@ -524,32 +525,44 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       // Update bottom grid dynamically for the active client
       if (micrositeCountDisplay) micrositeCountDisplay.textContent = conf.microsites.length;
       if (micrositeListDisplay) {
-        micrositeListDisplay.innerHTML = conf.microsites.map(m => `
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: var(--text);">${m.name}</span>
-            <a href="${m.url}" target="_blank" style="color: var(--gold);">Bekijk ↗</a>
-          </div>
-        `).join('');
+        if (conf.microsites.length === 0) {
+          micrositeListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen microsites aangemaakt</span>`;
+        } else {
+          micrositeListDisplay.innerHTML = conf.microsites.map(m => `
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text);">${m.name}</span>
+              <a href="${m.url}" target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+            </div>
+          `).join('');
+        }
       }
 
       if (blogCountDisplay) blogCountDisplay.textContent = conf.blogs.length;
       if (blogListDisplay) {
-        blogListDisplay.innerHTML = conf.blogs.map(b => `
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px;">${b.title}</span>
-            <a href="${b.url}" target="_blank" style="color: var(--gold);">Bekijk ↗</a>
-          </div>
-        `).join('');
+        if (conf.blogs.length === 0) {
+          blogListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen blogs gepubliceerd</span>`;
+        } else {
+          blogListDisplay.innerHTML = conf.blogs.map(b => `
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px;">${b.title}</span>
+              <a href="${b.url}" target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+            </div>
+          `).join('');
+        }
       }
 
       if (reviewCountDisplay) reviewCountDisplay.textContent = conf.reviews.length;
       if (reviewListDisplay) {
-        reviewListDisplay.innerHTML = conf.reviews.map(r => `
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: var(--text);">${r.name}</span>
-            <span style="color: var(--gold);">${r.rating}</span>
-          </div>
-        `).join('');
+        if (conf.reviews.length === 0) {
+          reviewListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen reviews toegevoegd</span>`;
+        } else {
+          reviewListDisplay.innerHTML = conf.reviews.map(r => `
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text);">${r.name}</span>
+              <span style="color: var(--gold);">${r.rating}</span>
+            </div>
+          `).join('');
+        }
       }
 
       syncToolVisibility();
@@ -732,7 +745,6 @@ Reageer UITSLUITEND met valide JSON in dit exacte formaat:
       });
     }
 
-    const blogInput = document.getElementById('blogInput');
     const generateBlogBtn = document.getElementById('generateBlogBtn');
     const manualTitleInput = document.getElementById('manualTitleInput');
     const manualStoryText = document.getElementById('manualStoryText');
