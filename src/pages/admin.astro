@@ -228,12 +228,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <!-- Input AI Mode -->
           <div id="aiInputSection" style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
             <input 
-              type="text" 
+              type="search" 
               id="blogInput" 
-              name="blogTopicInputCustomField"
+              name="searchTopicFieldNoFill"
               placeholder="Voer blog-onderwerp of titel in (bijv. Onderwerp, Tips, Nieuws)..." 
-              autocomplete="off"
-              role="presentation"
+              autocomplete="new-password"
               style="flex: 1; min-width: 260px; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
             />
             <button id="generateBlogBtn" class="btn btn--gold" style="white-space: nowrap;">
