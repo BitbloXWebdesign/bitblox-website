@@ -777,6 +777,11 @@ html.js .reveal.visible { opacity: 1; transform: none; }
 }
 
 /* ---------- Responsive ---------- */
+.review-slide {
+  flex: 0 0 calc(33.333% - 16px);
+  min-width: 280px;
+}
+
 @media (max-width: 1080px) {
   .hero-inner { grid-template-columns: 1fr; gap: 48px; }
   .hero-visual { min-height: 340px; order: -1; display: none; }
@@ -789,7 +794,7 @@ html.js .reveal.visible { opacity: 1; transform: none; }
   .principle--wide { grid-column: span 2; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
-@media (max-width: 860px) {
+@media (max-width: 992px) {
   .section { padding: 76px 0; }
   .main-nav {
     position: fixed; inset: 0; z-index: 105;
@@ -815,6 +820,16 @@ html.js .reveal.visible { opacity: 1; transform: none; }
   .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 26px; }
   .cta-band { padding: 52px 28px; }
   .form-row { grid-template-columns: 1fr; }
+  .review-slide {
+    flex: 0 0 calc(50% - 12px) !important;
+    min-width: calc(50% - 12px) !important;
+  }
+}
+@media (max-width: 640px) {
+  .review-slide {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+  }
 }
 @media (max-width: 560px) {
   .grid--2, .grid--4, .grid--5 { grid-template-columns: 1fr; }
