@@ -142,11 +142,8 @@ const googleMapsUrl = "https://www.google.com/maps/place/BitbloX/@53.3530384,1.4
     function initCarousel() {
       const slides = track.querySelectorAll('.review-slide');
       const totalSlides = slides.length;
+      const dotsContainer = document.getElementById('reviewDots');
       let currentIndex = 0;
-
-      if (controls) {
-        controls.style.display = totalSlides > 3 ? 'flex' : 'none';
-      }
 
       function getVisibleCount() {
         if (window.innerWidth < 640) return 1;
@@ -158,10 +155,38 @@ const googleMapsUrl = "https://www.google.com/maps/place/BitbloX/@53.3530384,1.4
         return Math.max(0, totalSlides - getVisibleCount());
       }
 
+      function updateDots() {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        const maxIdx = getMaxIndex();
+        if (maxIdx <= 0) return;
+
+        for (let i = 0; i <= maxIdx; i++) {
+          const dot = document.createElement('button');
+          dot.ariaLabel = `Ga naar review ${i + 1}`;
+          dot.style.cssText = `width: ${i === currentIndex ? '24px' : '10px'}; height: 10px; border-radius: 5px; background: ${i === currentIndex ? 'var(--gold)' : 'var(--border-gold)'}; border: none; cursor: pointer; transition: all 0.3s;`;
+          dot.onclick = () => {
+            currentIndex = i;
+            updateCarousel();
+          };
+          dotsContainer.appendChild(dot);
+        }
+      }
+
       function updateCarousel() {
         const visibleCount = getVisibleCount();
-        const translateX = -(currentIndex * (100 / visibleCount));
-        track.style.transform = `translateX(${translateX}%)`;
+        const maxIdx = getMaxIndex();
+        if (currentIndex > maxIdx) currentIndex = maxIdx;
+
+        if (controls) {
+          controls.style.display = totalSlides > visibleCount ? 'flex' : 'none';
+        }
+
+        const gapOffset = 24 * currentIndex;
+        const slidePercent = 100 / visibleCount;
+        track.style.transform = `translateX(calc(-${currentIndex * slidePercent}% - ${gapOffset}px))`;
+
+        updateDots();
       }
 
       const prevBtn = document.getElementById('prevReviewBtn');
@@ -180,12 +205,41 @@ const googleMapsUrl = "https://www.google.com/maps/place/BitbloX/@53.3530384,1.4
         };
       }
 
-      if (totalSlides > 3) {
-        setInterval(() => {
-          currentIndex = currentIndex < getMaxIndex() ? currentIndex + 1 : 0;
+      // Touch Swipe Support voor Mobiel
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 40) {
+          if (diff > 0) {
+            // Swipe links -> Volgende
+            currentIndex = currentIndex < getMaxIndex() ? currentIndex + 1 : 0;
+          } else {
+            // Swipe rechts -> Vorige
+            currentIndex = currentIndex > 0 ? currentIndex - 1 : getMaxIndex();
+          }
           updateCarousel();
-        }, 6000);
-      }
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', updateCarousel);
+
+      // Auto-slide elke 5 seconden als er meer reviews zijn dan zichtbaar
+      let autoSlideInterval = setInterval(() => {
+        const maxIdx = getMaxIndex();
+        if (maxIdx > 0) {
+          currentIndex = currentIndex < maxIdx ? currentIndex + 1 : 0;
+          updateCarousel();
+        }
+      }, 5000);
+
+      updateCarousel();
     }
 
     initCarousel();
