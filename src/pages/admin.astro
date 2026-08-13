@@ -42,11 +42,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
           <div>
             <span class="kicker">BitbloX Beheer Dashboard</span>
-            <h1>Admin &amp; <span class="text-gradient">Content Beheer</span></h1>
+            <h1>Admin &amp; <span class="text-gradient">Content Studio</span></h1>
           </div>
           <button id="logoutBtn" class="btn btn--ghost btn--sm">Uitloggen 🔒</button>
         </div>
-        <p class="lead">Beheer in enkele seconden je steden-microsites, blog-artikelen én echte Google reviews!</p>
+        <p class="lead">Beheer in enkele seconden je steden-microsites, zelfgeschreven én AI-gegenereerde blog-artikelen én echte Google reviews!</p>
       </div>
     </section>
 
@@ -57,7 +57,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         <div class="card" style="padding: 18px 24px; background: rgba(222, 193, 72, 0.08); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
           <div style="display: flex; align-items: center; gap: 10px;">
             <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #22c55e;"></span>
-            <strong style="color: var(--gold); font-size: 0.95rem;">DeepSeek AI API &amp; Review Beheer Actief</strong>
+            <strong style="color: var(--gold); font-size: 0.95rem;">DeepSeek AI &amp; Live Blog Editor Actief</strong>
           </div>
           <span style="font-size: 0.82rem; color: var(--muted);">Model: <code>deepseek-chat</code></span>
         </div>
@@ -94,16 +94,23 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           </div>
         </div>
 
-        <!-- 2. Blog Generator Form -->
+        <!-- 2. Interactive Blog Studio & Editor -->
         <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
-          <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">📝 2. DeepSeek AI Blog Post Generator</h2>
-          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Typ een blog-onderwerp of titel in (bijv. <em>De 5 grootste fouten op ZZP-websites</em>). DeepSeek genereert een compleet artikel!</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
+            <h2 style="font-size: 1.4rem; color: var(--gold); margin: 0;">📝 2. Blog Studio — AI Generation &amp; Eigen Tekst Bewerken</h2>
+            <div style="display: flex; gap: 8px;">
+              <button id="modeAiBtn" class="btn btn--gold btn--sm" style="padding: 6px 14px; font-size: 0.82rem;">🤖 Genereer via AI</button>
+              <button id="modeManualBtn" class="btn btn--ghost btn--sm" style="padding: 6px 14px; font-size: 0.82rem;">✍️ Eigen Verhaal Opmaken</button>
+            </div>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Laat DeepSeek een nieuw artikel schrijven OF voer je eigen ruwe verhaal in. Vervolgens kun je het artikel in de interactieve editor bewerken en aanpassen voordat je publiceert!</p>
 
-          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <!-- Input AI Mode -->
+          <div id="aiInputSection" style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
             <input 
               type="text" 
               id="blogInput" 
-              placeholder="Voer blog-onderwerp in..." 
+              placeholder="Voer blog-onderwerp of titel in..." 
               style="flex: 1; min-width: 260px; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
             />
             <button id="generateBlogBtn" class="btn btn--gold" style="white-space: nowrap;">
@@ -111,16 +118,49 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             </button>
           </div>
 
+          <!-- Input Manual Story Mode -->
+          <div id="manualInputSection" style="display: none; flex-direction: column; gap: 14px; margin-bottom: 16px;">
+            <input 
+              type="text" 
+              id="manualTitleInput" 
+              placeholder="Titel van je eigen verhaal (bijv. Mijn ervaringen met SEO in Drenthe)..." 
+              style="width: 100%; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
+            />
+            <textarea 
+              id="manualStoryText" 
+              rows="5" 
+              placeholder="Typ of plak hier je eigen ruwe verhaal of gedachten... DeepSeek giet het automatisch in een strakke SEO-blog met juiste koppen en indeling!"
+              style="width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: inherit; font-size: 0.95rem;"
+            ></textarea>
+            <button id="transformStoryBtn" class="btn btn--gold">
+              ✨ Transformeer naar SEO Blog Formaat
+            </button>
+          </div>
+
+          <!-- Interactive Editor Area -->
           <div id="blogResultBox" style="display: none; margin-top: 24px; padding: 20px; background: var(--bg); border: 1px solid var(--border-gold); border-radius: var(--radius-sm);">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-              <h4 style="color: var(--gold); margin: 0;">Bestand: <span id="generatedBlogFilename"></span></h4>
-              <span id="blogSourceBadge" style="font-size: 0.75rem; background: rgba(222,193,72,0.15); color: var(--gold); border: 1px solid var(--border-gold); padding: 2px 10px; border-radius: 999px; font-weight: 700;">Bron: DeepSeek AI</span>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+              <h4 style="color: var(--gold); margin: 0;">Bestandsnaam: <span id="generatedBlogFilename"></span></h4>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <span id="blogSourceBadge" style="font-size: 0.75rem; background: rgba(222,193,72,0.15); color: var(--gold); border: 1px solid var(--border-gold); padding: 2px 10px; border-radius: 999px; font-weight: 700;">Interactieve Markdown Editor</span>
+              </div>
             </div>
-            <pre id="blogContentPreview" style="background: var(--surface-2); padding: 14px; border-radius: 8px; font-size: 0.85rem; color: var(--gold); overflow-x: auto; max-height: 320px; white-space: pre-wrap;"></pre>
+
+            <!-- Editable Textarea -->
+            <div style="margin-bottom: 14px;">
+              <label style="display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 6px;">Bewerken &amp; Aanpassen (Markdown Editor):</label>
+              <textarea 
+                id="blogMarkdownEditor" 
+                rows="14" 
+                style="width: 100%; padding: 16px; background: var(--surface-2); border: 1px solid var(--border-gold); border-radius: 8px; font-family: monospace; font-size: 0.9rem; color: var(--gold); line-height: 1.5; resize: vertical;"
+              ></textarea>
+            </div>
             
-            <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-              <button id="saveBlogBtn" class="btn btn--gold btn--sm">🚀 Bewaar Blog Artikel</button>
-              <button id="copyBlogBtn" class="btn btn--ghost btn--sm">📋 Kopieer Markdown</button>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+              <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                <button id="saveBlogBtn" class="btn btn--gold btn--sm">🚀 Bewaar Artikel</button>
+                <button id="copyBlogBtn" class="btn btn--ghost btn--sm">📋 Kopieer Bewerkt Artikel</button>
+              </div>
               <span id="saveBlogStatus" style="font-size: 0.85rem; color: #22c55e; font-weight: 600;"></span>
             </div>
           </div>
@@ -377,16 +417,42 @@ Reageer UITSLUITEND met valide JSON in dit exacte formaat:
       }
     }
 
-    // 2. Blog Generator JS
+    // 2. Interactive Blog Studio & Editor JS
+    const modeAiBtn = document.getElementById('modeAiBtn');
+    const modeManualBtn = document.getElementById('modeManualBtn');
+    const aiInputSection = document.getElementById('aiInputSection');
+    const manualInputSection = document.getElementById('manualInputSection');
+
+    if (modeAiBtn && modeManualBtn) {
+      modeAiBtn.addEventListener('click', () => {
+        modeAiBtn.className = 'btn btn--gold btn--sm';
+        modeManualBtn.className = 'btn btn--ghost btn--sm';
+        if (aiInputSection) aiInputSection.style.display = 'flex';
+        if (manualInputSection) manualInputSection.style.display = 'none';
+      });
+
+      modeManualBtn.addEventListener('click', () => {
+        modeManualBtn.className = 'btn btn--gold btn--sm';
+        modeAiBtn.className = 'btn btn--ghost btn--sm';
+        if (manualInputSection) manualInputSection.style.display = 'flex';
+        if (aiInputSection) aiInputSection.style.display = 'none';
+      });
+    }
+
     const blogInput = document.getElementById('blogInput');
     const generateBlogBtn = document.getElementById('generateBlogBtn');
+    const manualTitleInput = document.getElementById('manualTitleInput');
+    const manualStoryText = document.getElementById('manualStoryText');
+    const transformStoryBtn = document.getElementById('transformStoryBtn');
+
     const blogResultBox = document.getElementById('blogResultBox');
     const generatedBlogFilename = document.getElementById('generatedBlogFilename');
-    const blogContentPreview = document.getElementById('blogContentPreview');
+    const blogMarkdownEditor = document.getElementById('blogMarkdownEditor');
     const copyBlogBtn = document.getElementById('copyBlogBtn');
     const saveBlogBtn = document.getElementById('saveBlogBtn');
     const saveBlogStatus = document.getElementById('saveBlogStatus');
 
+    // A. DeepSeek AI Generation
     if (generateBlogBtn && blogInput) {
       generateBlogBtn.addEventListener('click', async () => {
         const topic = blogInput.value.trim();
@@ -395,14 +461,14 @@ Reageer UITSLUITEND met valide JSON in dit exacte formaat:
         const slug = topic.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
         const dateStr = new Date().toISOString().split('T')[0];
 
-        generateBlogBtn.textContent = '⏳ DeepSeek schrijft blog...';
+        generateBlogBtn.textContent = '⏳ DeepSeek schrijft artikel...';
         generateBlogBtn.disabled = true;
 
         let fullMarkdownFile = '';
         let filename = `${slug}.md`;
 
         try {
-          const prompt = `Schrijf een waardevol, professioneel en SEO-geoptimaliseerd blog-artikel in het Nederlands over het onderwerp: "${topic}" voor het webdesignbureau BitbloX uit Assen.
+          const prompt = `Schrijf een waardevol, professioneel en SEO-geoptimaliseerd blog-artikel in het Nederlands over het onderwerp: "${topic}" voor een webdesignbureau.
 Reageer UITSLUITEND met een JSON object in het volgende formaat:
 {
   "title": "<Pakkende SEO titel>",
@@ -445,26 +511,22 @@ ${resObj.markdown}
         if (!fullMarkdownFile) {
           fullMarkdownFile = `---
 title: "${topic.replace(/"/g, '\\"')}"
-description: "Praktische inzichten en adviezen over ${topic} voor ondernemers in het Noorden."
+description: "Praktische inzichten en adviezen over ${topic}."
 pubDate: ${dateStr}
 category: "Webdesign & SEO"
 author: "BitbloX Team"
 ---
 
-Steeds meer ondernemers ontdekken de kracht van geoptimaliseerde weboplossingen. In dit artikel behandelen we waarom **${topic}** van essentieel belang is voor uw online succes.
+Steeds meer ondernemers ontdekken de kracht van geoptimaliseerde weboplossingen. In dit artikel behandelen we waarom **${topic}** van essentieel belang is.
 
 ## De impact van ${topic} op uw conversie
 
-Als ZZP'er of MKB-ondernemer wilt u dat uw website niet alleen mooi is, maar ook actief nieuwe klanten oplevert.
+Als ondernemer wilt u dat uw website niet alleen mooi is, maar ook actief nieuwe klanten oplevert.
 
 ### 3 Belangrijkste pijlers voor succes:
-1. **Snelle Laadtijden**: Bezoekers haken af binnen 2 seconden als een site traag reageert.
-2. **Lokale SEO & Zichtbaarheid**: Zorg dat uw bedrijf bovenaan staat in zoekresultaten in Assen en Groningen.
-3. **AI-Vindbaarheid (GEO)**: Uitgerust met structured data en \`llms.txt\` voor ChatGPT en Google AI Overviews.
-
-## Hulp nodig bij het versterken van uw online positie?
-
-Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op Cloudflare en AI-vindbaarheid. Bekijk onze [Dienstenpagina](/diensten/) of neem direct [Contact](/contact/) op!
+1. **Snelle Laadtijden**: Bezoekers haken af als een site traag reageert.
+2. **Lokale SEO & Zichtbaarheid**: Zorg dat uw bedrijf bovenaan staat in zoekresultaten.
+3. **AI-Vindbaarheid (GEO)**: Uitgerust met structured data en llms.txt voor ChatGPT en Google AI.
 `;
         }
 
@@ -473,55 +535,147 @@ Bij BitbloX helpen we ondernemers met maatwerk webdesign, supersnelle hosting op
           fileContent: fullMarkdownFile
         };
 
-        if (blogContentPreview) blogContentPreview.textContent = fullMarkdownFile;
+        if (blogMarkdownEditor) blogMarkdownEditor.value = fullMarkdownFile;
         if (generatedBlogFilename) generatedBlogFilename.textContent = filename;
         if (blogResultBox) blogResultBox.style.display = 'block';
 
         generateBlogBtn.textContent = '🚀 Genereer via DeepSeek AI';
         generateBlogBtn.disabled = false;
       });
+    }
 
-      if (saveBlogBtn) {
-        saveBlogBtn.addEventListener('click', async () => {
-          if (!currentGeneratedBlog) return;
-          saveBlogBtn.textContent = '⏳ Opslaan...';
-          saveBlogBtn.disabled = true;
+    // B. Transform Manual Story to SEO Blog
+    if (transformStoryBtn && manualTitleInput && manualStoryText) {
+      transformStoryBtn.addEventListener('click', async () => {
+        const titleVal = manualTitleInput.value.trim();
+        const storyVal = manualStoryText.value.trim();
+        if (!titleVal || !storyVal) return alert('Voer a.u.b. zowel een titel als je eigen verhaal in.');
 
-          try {
-            const res = await fetch('/api/save-blog', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ 
-                filename: currentGeneratedBlog.filename,
-                fileContent: currentGeneratedBlog.fileContent
-              })
-            });
-            const resData = await res.json();
-            if (resData.success) {
-              if (saveBlogStatus) saveBlogStatus.textContent = `✅ Gepubliceerd!`;
-              saveBlogBtn.textContent = '✅ Gepubliceerd!';
-            } else {
-              throw new Error();
-            }
-          } catch (e) {
-            if (blogContentPreview) navigator.clipboard.writeText(blogContentPreview.textContent);
-            if (saveBlogStatus) saveBlogStatus.textContent = `📋 Gekopieerd naar klembord!`;
-            saveBlogBtn.textContent = '📋 Gekopieerd!';
-          } finally {
-            saveBlogBtn.disabled = false;
+        const slug = titleVal.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const dateStr = new Date().toISOString().split('T')[0];
+
+        transformStoryBtn.textContent = '✨ DeepSeek transformeert je verhaal...';
+        transformStoryBtn.disabled = true;
+
+        let fullMarkdownFile = '';
+        let filename = `${slug}.md`;
+
+        try {
+          const prompt = `Je bent een ervaren SEO copywriter. Transformeer de volgende ruwe tekst en titel van een ondernemer in een professioneel, goed gestructureerd blog-artikel in Markdown met duidelijke H2 (##) en H3 (###) tussenkoppen, alinea's en opsommingen.
+Titel van ondernemer: "${titleVal}"
+Ruwe tekst van ondernemer: "${storyVal}"
+
+Reageer UITSLUITEND met een JSON object in dit formaat:
+{
+  "title": "<Verfijnde pakkende SEO titel>",
+  "description": "<Beknopte samenvatting van 1-2 zinnen>",
+  "category": "<Webdesign, SEO, AI of Praktijkverhaal>",
+  "markdown": "<Gekuisde, aantrekkelijke Markdown tekst gebaseerd op het verhaal van de ondernemer. LET OP: Geen # H1 kop gebruiken in de markdown body!>"
+}`;
+
+          const res = await fetch('https://api.deepseek.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${DEEPSEEK_KEY}`
+            },
+            body: JSON.stringify({
+              model: 'deepseek-chat',
+              messages: [{ role: 'user', content: prompt }],
+              response_format: { type: 'json_object' }
+            })
+          });
+
+          if (res.ok) {
+            const aiRes = await res.json();
+            const resObj = JSON.parse(aiRes.choices[0].message.content);
+            fullMarkdownFile = `---
+title: "${resObj.title.replace(/"/g, '\\"')}"
+description: "${resObj.description.replace(/"/g, '\\"')}"
+pubDate: ${dateStr}
+category: "${resObj.category || 'Praktijkverhaal'}"
+author: "BitbloX Team"
+---
+
+${resObj.markdown}
+`;
           }
-        });
-      }
+        } catch (e) {
+          console.log('DeepSeek API error.');
+        }
 
-      if (copyBlogBtn) {
-        copyBlogBtn.addEventListener('click', () => {
-          if (blogContentPreview) {
-            navigator.clipboard.writeText(blogContentPreview.textContent);
-            copyBlogBtn.textContent = '✅ Gekopieerd!';
-            setTimeout(() => { copyBlogBtn.textContent = '📋 Kopieer Markdown'; }, 2500);
+        if (!fullMarkdownFile) {
+          fullMarkdownFile = `---
+title: "${titleVal.replace(/"/g, '\\"')}"
+description: "Praktijkervaring en advies over ${titleVal}."
+pubDate: ${dateStr}
+category: "Praktijkverhaal"
+author: "BitbloX Team"
+---
+
+${storyVal}
+`;
+        }
+
+        currentGeneratedBlog = {
+          filename: filename,
+          fileContent: fullMarkdownFile
+        };
+
+        if (blogMarkdownEditor) blogMarkdownEditor.value = fullMarkdownFile;
+        if (generatedBlogFilename) generatedBlogFilename.textContent = filename;
+        if (blogResultBox) blogResultBox.style.display = 'block';
+
+        transformStoryBtn.textContent = '✨ Transformeer naar SEO Blog Formaat';
+        transformStoryBtn.disabled = false;
+      });
+    }
+
+    // C. Save & Copy handlers for Blog Editor
+    if (saveBlogBtn) {
+      saveBlogBtn.addEventListener('click', async () => {
+        const editedContent = blogMarkdownEditor ? blogMarkdownEditor.value : '';
+        const activeFilename = generatedBlogFilename ? generatedBlogFilename.textContent : 'blog-post.md';
+
+        if (!editedContent) return;
+
+        saveBlogBtn.textContent = '⏳ Opslaan...';
+        saveBlogBtn.disabled = true;
+
+        try {
+          const res = await fetch('/api/save-blog', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              filename: activeFilename,
+              fileContent: editedContent
+            })
+          });
+          const resData = await res.json();
+          if (resData.success) {
+            if (saveBlogStatus) saveBlogStatus.textContent = `✅ Gepubliceerd!`;
+            saveBlogBtn.textContent = '✅ Gepubliceerd!';
+          } else {
+            throw new Error();
           }
-        });
-      }
+        } catch (e) {
+          if (blogMarkdownEditor) navigator.clipboard.writeText(blogMarkdownEditor.value);
+          if (saveBlogStatus) saveBlogStatus.textContent = `📋 Bewerkt artikel gekopieerd naar klembord!`;
+          saveBlogBtn.textContent = '📋 Gekopieerd!';
+        } finally {
+          saveBlogBtn.disabled = false;
+        }
+      });
+    }
+
+    if (copyBlogBtn) {
+      copyBlogBtn.addEventListener('click', () => {
+        if (blogMarkdownEditor) {
+          navigator.clipboard.writeText(blogMarkdownEditor.value);
+          copyBlogBtn.textContent = '✅ Gekopieerd!';
+          setTimeout(() => { copyBlogBtn.textContent = '📋 Kopieer Bewerkt Artikel'; }, 2500);
+        }
+      });
     }
 
     // 3. Review Invoeren JS
