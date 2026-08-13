@@ -110,11 +110,23 @@ h3 { font-size: 1.3rem; }
   border-bottom: 1px solid transparent;
 }
 .site-header.scrolled {
-  background: rgba(10, 11, 14, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(10, 11, 14, 0.85);
   border-color: var(--border);
   box-shadow: 0 12px 40px -20px rgba(0, 0, 0, 0.8);
+}
+.site-header.scrolled::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(10, 11, 14, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.site-header.menu-open,
+.site-header.menu-open::before {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 .header-inner { display: flex; align-items: center; justify-content: space-between; height: 84px; }
 .brand { display: flex; align-items: center; gap: 12px; }
@@ -797,10 +809,13 @@ html.js .reveal.visible { opacity: 1; transform: none; }
 @media (max-width: 992px) {
   .section { padding: 76px 0; }
   .main-nav {
-    position: fixed; inset: 0; z-index: 105;
-    flex-direction: column; justify-content: center; gap: 10px;
-    background: rgba(10, 11, 14, 0.97);
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw; height: 100vh; height: 100dvh;
+    z-index: 105;
+    flex-direction: column; justify-content: center; align-items: center; gap: 14px;
+    background: rgba(10, 11, 14, 0.98);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     opacity: 0; visibility: hidden;
     transition: opacity var(--transition), visibility var(--transition);
   }
