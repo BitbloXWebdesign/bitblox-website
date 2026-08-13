@@ -90,7 +90,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <!-- Schuifje 1: Blog Module -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">📝 Blog Module &amp; Kennisbank Studio</strong>
+                <strong style="display: block; color: var(--text); font-size: 0.95rem;">📝 Blog / Kennisbank Module</strong>
                 <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt de Kennisbank op de site én de Blog Studio hieronder.</span>
               </div>
               <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
@@ -103,7 +103,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">🤖 SEO &amp; AI-Vindbaarheid (GEO / ChatGPT)</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt llms.txt, AI-capsules &amp; de Microsite Generator hieronder.</span>
+                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt llms.txt &amp; AI-capsules op de site.</span>
               </div>
               <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
                 <input type="checkbox" id="toggleGeo" checked style="opacity: 0; width: 0; height: 0;">
@@ -111,7 +111,19 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 3: Google Reviews Carrousel -->
+            <!-- Schuifje 3: Steden Microsites Generator -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
+              <div>
+                <strong style="display: block; color: var(--text); font-size: 0.95rem;">📍 Steden-Microsites Generator</strong>
+                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt regio landingspagina's op de site én de Microsite Generator hieronder.</span>
+              </div>
+              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
+                <input type="checkbox" id="toggleMicrosites" checked style="opacity: 0; width: 0; height: 0;">
+                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
+              </label>
+            </div>
+
+            <!-- Schuifje 4: Google Reviews Carrousel -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">⭐ Google Reviews Carrousel &amp; Saver</strong>
@@ -123,7 +135,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 4: Veelgestelde Vragen (FAQ) -->
+            <!-- Schuifje 5: Veelgestelde Vragen (FAQ) -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">❓ Veelgestelde Vragen (FAQ)</strong>
@@ -135,11 +147,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 5: Contact & Offerte Formulier -->
+            <!-- Schuifje 6: Contact & Offerte Formulier -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">📩 Contact &amp; Offerte Formulier</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt het e-mailformulier met aflevering in of uit.</span>
+                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt het interactieve e-mailformulier op de contactpagina in of uit.</span>
               </div>
               <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
                 <input type="checkbox" id="toggleForm" checked style="opacity: 0; width: 0; height: 0;">
@@ -157,7 +169,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           </div>
         </div>
 
-        <!-- 📍 1. DeepSeek Microsite Generator (Afhankelijk van GEO Schuifje) -->
+        <!-- 📍 1. DeepSeek Microsite Generator (Afhankelijk van Microsites Schuifje) -->
         <div id="micrositeToolSection" class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
           <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">📍 1. DeepSeek Microsite Generator voor <span class="clientTargetName">BitbloX Webdesign</span></h2>
           <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Typ een plaatsnaam in (bijv. <em>Veendam</em>, <em>Emmen</em>, <em>Winschoten</em>). DeepSeek genereert direct de echte buurten, provincie en unieke teksten.</p>
@@ -428,6 +440,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
     const toggleBlog = document.getElementById('toggleBlog');
     const toggleGeo = document.getElementById('toggleGeo');
+    const toggleMicrosites = document.getElementById('toggleMicrosites');
     const toggleReviews = document.getElementById('toggleReviews');
     const toggleFaq = document.getElementById('toggleFaq');
     const toggleForm = document.getElementById('toggleForm');
@@ -456,7 +469,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "BitbloX Webdesign & Hosting",
         domain: "bitblox.nl",
         pagesUrl: "https://bitblox.nl",
-        switches: { blog: true, geo: true, reviews: true, faq: true, form: true },
+        switches: { blog: true, geo: true, microsites: true, reviews: true, faq: true, form: true },
         microsites: [
           { name: "Assen", url: "/webdesign-assen/" },
           { name: "Groningen", url: "/webdesign-groningen/" },
@@ -479,7 +492,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "De Autokampeerder",
         domain: "deautokampeerder.nl",
         pagesUrl: "https://deautokampeerder.pages.dev",
-        switches: { blog: true, geo: true, reviews: true, faq: true, form: true },
+        switches: { blog: true, geo: true, microsites: false, reviews: false, faq: true, form: false },
         microsites: [],
         blogs: [
           { title: "Daktent op kleine auto: Kan dat op Polo/Fiat 500?", url: "https://deautokampeerder.pages.dev/kennisbank/daktent-op-kleine-auto-mogelijk-en-tips" },
@@ -497,7 +510,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       }
       // Microsite GEO tool tonen/verbergen
       if (micrositeToolSection) {
-        micrositeToolSection.style.display = toggleGeo.checked ? 'block' : 'none';
+        micrositeToolSection.style.display = toggleMicrosites.checked ? 'block' : 'none';
       }
       // Reviews tool tonen/verbergen
       if (reviewsToolSection) {
@@ -522,6 +535,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
       if (toggleBlog) toggleBlog.checked = conf.switches.blog;
       if (toggleGeo) toggleGeo.checked = conf.switches.geo;
+      if (toggleMicrosites) toggleMicrosites.checked = conf.switches.microsites;
       if (toggleReviews) toggleReviews.checked = conf.switches.reviews;
       if (toggleFaq) toggleFaq.checked = conf.switches.faq;
       if (toggleForm) toggleForm.checked = conf.switches.form;
@@ -581,7 +595,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     }
 
     // Luister naar live schuifjes veranderingen om direct tools te tonen/verbergen
-    [toggleBlog, toggleGeo, toggleReviews].forEach(t => {
+    [toggleBlog, toggleGeo, toggleMicrosites, toggleReviews].forEach(t => {
       if (t) t.addEventListener('change', syncToolVisibility);
     });
 
@@ -590,6 +604,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         const conf = clientConfigs[currentSelectedClient];
         conf.switches.blog = toggleBlog ? toggleBlog.checked : true;
         conf.switches.geo = toggleGeo ? toggleGeo.checked : true;
+        conf.switches.microsites = toggleMicrosites ? toggleMicrosites.checked : true;
         conf.switches.reviews = toggleReviews ? toggleReviews.checked : true;
         conf.switches.faq = toggleFaq ? toggleFaq.checked : true;
         conf.switches.form = toggleForm ? toggleForm.checked : true;
