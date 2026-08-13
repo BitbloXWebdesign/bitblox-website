@@ -166,7 +166,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <input 
               type="text" 
               id="cityInput" 
-              placeholder="Voer plaatsnaam in (bijv. Veendam)..." 
+              placeholder="Voer plaatsnaam in (bijv. Assen, Emmen, Veendam)..." 
               style="flex: 1; min-width: 260px; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
             />
             <button id="generateBtn" class="btn btn--gold" style="white-space: nowrap;">
@@ -218,13 +218,13 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <input 
               type="text" 
               id="manualTitleInput" 
-              placeholder="Titel van je eigen verhaal..." 
+              placeholder="Titel van verhaal of onderwerp..." 
               style="width: 100%; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
             />
             <textarea 
               id="manualStoryText" 
               rows="5" 
-              placeholder="Typ of plak hier je eigen ruwe verhaal of gedachten... DeepSeek giet het automatisch in een strakke SEO-blog met juiste koppen en indeling!"
+              placeholder="Typ of plak hier de ruwe tekst of gedachten... DeepSeek giet het automatisch in een strakke SEO-blog met juiste koppen en indeling!"
               style="width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: inherit; font-size: 0.95rem;"
             ></textarea>
             <button id="transformStoryBtn" class="btn btn--gold">
@@ -267,15 +267,15 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px;">
             <div>
               <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Naam Klant</label>
-              <input type="text" id="reviewName" placeholder="Bijv. Alianne Zuidhof" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+              <input type="text" id="reviewName" placeholder="Naam van klant..." style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
             </div>
             <div>
               <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Bedrijfsnaam / Branche</label>
-              <input type="text" id="reviewCompany" placeholder="Bijv. Massage Studio Eelde" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+              <input type="text" id="reviewCompany" placeholder="Bedrijfsnaam / Branche..." style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
             </div>
             <div>
               <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Plaats / Regio</label>
-              <input type="text" id="reviewCity" placeholder="Bijv. Eelde" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
+              <input type="text" id="reviewCity" placeholder="Plaats / Regio..." style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
             </div>
             <div>
               <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Aantal Sterren</label>
@@ -288,7 +288,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
           <div style="margin-bottom: 20px;">
             <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Review Tekst</label>
-            <textarea id="reviewText" rows="3" placeholder="Typ of plak hier de review tekst van Google Maps..." style="width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: inherit; font-size: 0.95rem;"></textarea>
+            <textarea id="reviewText" rows="3" placeholder="Typ of plak hier de review tekst..." style="width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: inherit; font-size: 0.95rem;"></textarea>
           </div>
 
           <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
@@ -298,11 +298,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         </div>
 
         <!-- Overzicht Huidige Content van Gekozen Klant -->
-        <div class="grid grid--3">
+        <div id="clientContentGrid" class="grid grid--3">
           <!-- Actieve locaties -->
           <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
-            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📍 Microsites ({currentLocations.length})</h3>
-            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
+            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📍 Microsites (<span id="micrositeCountDisplay">{currentLocations.length}</span>)</h3>
+            <div id="micrositeListDisplay" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
               {currentLocations.slice(0, 5).map((loc) => (
                 <div style="display: flex; justify-content: space-between;">
                   <span style="color: var(--text);">{loc.plaats}</span>
@@ -314,8 +314,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
           <!-- Gepubliceerde Blogs -->
           <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
-            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📝 Blogs ({blogPosts.length})</h3>
-            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
+            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📝 Blogs (<span id="blogCountDisplay">{blogPosts.length}</span>)</h3>
+            <div id="blogListDisplay" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
               {blogPosts.map((post) => (
                 <div style="display: flex; justify-content: space-between;">
                   <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px;">{post.data.title}</span>
@@ -327,8 +327,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
           <!-- Reviews -->
           <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
-            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">⭐️ Reviews ({reviewsData.length})</h3>
-            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
+            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">⭐️ Reviews (<span id="reviewCountDisplay">{reviewsData.length}</span>)</h3>
+            <div id="reviewListDisplay" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
               {reviewsData.map((r) => (
                 <div style="display: flex; justify-content: space-between;">
                   <span style="color: var(--text);">{r.name}</span>
@@ -435,6 +435,13 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const reviewsToolSection = document.getElementById('reviewsToolSection');
     const clientTargetNameLabels = document.querySelectorAll('.clientTargetName');
 
+    const micrositeCountDisplay = document.getElementById('micrositeCountDisplay');
+    const micrositeListDisplay = document.getElementById('micrositeListDisplay');
+    const blogCountDisplay = document.getElementById('blogCountDisplay');
+    const blogListDisplay = document.getElementById('blogListDisplay');
+    const reviewCountDisplay = document.getElementById('reviewCountDisplay');
+    const reviewListDisplay = document.getElementById('reviewListDisplay');
+
     let currentSelectedClient = 'bitblox';
 
     const clientConfigs = {
@@ -442,19 +449,45 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "BitbloX Webdesign & Hosting",
         domain: "bitblox.nl",
         pagesUrl: "https://bitblox.nl",
-        switches: { blog: true, geo: true, reviews: true, faq: true, form: true }
+        switches: { blog: true, geo: true, reviews: true, faq: true, form: true },
+        microsites: [
+          { name: "Assen", url: "/webdesign-assen/" },
+          { name: "Groningen", url: "/webdesign-groningen/" },
+          { name: "Haren", url: "/webdesign-haren/" },
+          { name: "Eelde", url: "/webdesign-eelde/" },
+          { name: "Norg", url: "/webdesign-norg/" }
+        ],
+        blogs: [
+          { title: "AI-Vindbaarheid (GEO) gids", url: "/blog/ai-vindbaarheid-chatgpt-zzp/" },
+          { title: "5 grootste fouten op zzp sites", url: "/blog/de-5-grootste-fouten-op-zzp-websites/" },
+          { title: "De kracht van microsites", url: "/blog/de-kracht-van-microsites/" }
+        ],
+        reviews: [
+          { name: "Alianne Zuidhof", rating: "★★★★★" },
+          { name: "MC Scholts", rating: "★★★★★" },
+          { name: "Jeroen Renkema", rating: "★★★★★" }
+        ]
       },
       autokampeerder: {
         name: "De Autokampeerder",
         domain: "deautokampeerder.nl",
         pagesUrl: "https://deautokampeerder.pages.dev",
-        switches: { blog: true, geo: true, reviews: true, faq: true, form: true }
+        switches: { blog: true, geo: true, reviews: true, faq: true, form: true },
+        microsites: [
+          { name: "Campers Groningen", url: "https://deautokampeerder.pages.dev" },
+          { name: "Camper verhuur Assen", url: "https://deautokampeerder.pages.dev" }
+        ],
+        blogs: [
+          { title: "Onderhoudstips voor de camper", url: "https://deautokampeerder.pages.dev" },
+          { title: "Mooiste camperroutes in Drenthe", url: "https://deautokampeerder.pages.dev" }
+        ],
+        reviews: [
+          { name: "Klant De Autokampeerder", rating: "★★★★★" }
+        ]
       }
     };
 
     function syncToolVisibility() {
-      const conf = clientConfigs[currentSelectedClient];
-      
       // Blog tool tonen/verbergen
       if (blogToolSection) {
         blogToolSection.style.display = toggleBlog.checked ? 'block' : 'none';
@@ -487,6 +520,37 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (toggleReviews) toggleReviews.checked = conf.switches.reviews;
       if (toggleFaq) toggleFaq.checked = conf.switches.faq;
       if (toggleForm) toggleForm.checked = conf.switches.form;
+
+      // Update bottom grid dynamically for the active client
+      if (micrositeCountDisplay) micrositeCountDisplay.textContent = conf.microsites.length;
+      if (micrositeListDisplay) {
+        micrositeListDisplay.innerHTML = conf.microsites.map(m => `
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text);">${m.name}</span>
+            <a href="${m.url}" target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+          </div>
+        `).join('');
+      }
+
+      if (blogCountDisplay) blogCountDisplay.textContent = conf.blogs.length;
+      if (blogListDisplay) {
+        blogListDisplay.innerHTML = conf.blogs.map(b => `
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px;">${b.title}</span>
+            <a href="${b.url}" target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+          </div>
+        `).join('');
+      }
+
+      if (reviewCountDisplay) reviewCountDisplay.textContent = conf.reviews.length;
+      if (reviewListDisplay) {
+        reviewListDisplay.innerHTML = conf.reviews.map(r => `
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text);">${r.name}</span>
+            <span style="color: var(--gold);">${r.rating}</span>
+          </div>
+        `).join('');
+      }
 
       syncToolVisibility();
 
