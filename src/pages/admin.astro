@@ -230,9 +230,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <input 
               type="text" 
               id="blogInput" 
-              placeholder="Voer blog-onderwerp of titel in..." 
+              name="blogTopicInputCustomField"
+              placeholder="Voer blog-onderwerp of titel in (bijv. Onderwerp, Tips, Nieuws)..." 
               autocomplete="off"
-              value=""
+              role="presentation"
               style="flex: 1; min-width: 260px; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
             />
             <button id="generateBlogBtn" class="btn btn--gold" style="white-space: nowrap;">
@@ -375,6 +376,14 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 <style>
   #adminContent .card:hover {
     transform: none !important;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill {
+    -webkit-text-fill-color: var(--text) !important;
+    -webkit-box-shadow: 0 0 0px 1000px var(--bg) inset !important;
+    transition: background-color 5000s ease-in-out 0s !important;
   }
   .switch input:checked + .slider {
     background-color: var(--gold) !important;
