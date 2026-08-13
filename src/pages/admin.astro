@@ -9,7 +9,7 @@ const blogPosts = await getCollection('blog');
 const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 ---
 
-<Layout title="BitbloX Admin — Schuifjes Dashboard & Content Studio" description="Beheermodule voor het beheren van klantsites, microsites, blog-artikelen en reviews.">
+<Layout title="BitbloX Admin — Command Center" description="Beheermodule voor het beheren van klantsites, microsites, blog-artikelen en reviews.">
   
   <!-- Login Gate Modal -->
   <div id="loginGate" style="position: fixed; inset: 0; z-index: 999; background: rgba(10, 11, 14, 0.98); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; padding: 20px;">
@@ -42,65 +42,56 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
           <div>
             <span class="kicker">BitbloX Command Center</span>
-            <h1>Klantsites &amp; <span class="text-gradient">Schuifjes Dashboard</span></h1>
+            <h1>Klantsite Beheer: <span id="headerClientTitle" class="text-gradient">BitbloX Webdesign</span></h1>
           </div>
           <button id="logoutBtn" class="btn btn--ghost btn--sm">Uitloggen 🔒</button>
         </div>
-        <p class="lead">Beheer klantsites met eenvoudige schuifjes, genereer microsites, schrijf blogs en beheer echte Google reviews!</p>
+        <p class="lead">Selecteer hieronder een klantsite uit het dropdownmenu. De hele pagina past zich direct aan!</p>
       </div>
     </section>
 
     <section class="section">
       <div class="container" style="max-width: 960px;">
         
-        <!-- Status Indicator -->
-        <div class="card" style="padding: 18px 24px; background: rgba(222, 193, 72, 0.08); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #22c55e;"></span>
-            <strong style="color: var(--gold); font-size: 0.95rem;">BitbloX Master Hub &amp; Live Server Verbonden</strong>
+        <!-- 🎛️ KLANT SELECTOR DROPDOWN & BAR -->
+        <div class="card" style="padding: 24px 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+          <div style="flex: 1; min-width: 280px;">
+            <label for="clientSelectDropdown" style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">
+              Selecteer Klantsite uit Dropdown:
+            </label>
+            <select id="clientSelectDropdown" style="width: 100%; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); color: var(--gold); font-size: 1.05rem; font-weight: 700; cursor: pointer;">
+              <option value="bitblox" selected>🌐 BitbloX Webdesign (bitblox.nl)</option>
+              <option value="autokampeerder">🚐 De Autokampeerder (deautokampeerder.nl)</option>
+            </select>
           </div>
-          <span style="font-size: 0.82rem; color: var(--muted);">Actieve Klantsites: <code>2</code></span>
-        </div>
 
-        <!-- 🎛️ 0. STAAK KLANTSITES SCHUIFJES DASHBOARD -->
-        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
-            <div>
-              <span class="kicker" style="font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; text-transform: uppercase;">Klantsite Module Beheer</span>
-              <h2 style="font-size: 1.4rem; color: var(--text); margin: 4px 0 0 0;">🎛️ Klant Kiesen &amp; Schuifjes Beheren</h2>
-            </div>
-            <a id="clientLiveLink" href="https://bitblox.nl" target="_blank" rel="noopener" class="btn btn--gold btn--sm" style="display: inline-flex; align-items: center; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+            <a id="clientLiveLink" href="https://bitblox.nl" target="_blank" rel="noopener" class="btn btn--gold btn--sm" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px;">
               🔗 Bekijk Live Site <span id="clientLiveDomainText">bitblox.nl</span> ↗
             </a>
           </div>
+        </div>
 
-          <!-- Klant Selectie Knoppen (Tabs) -->
-          <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
-            <button id="selectClientBitblox" class="btn btn--gold btn--sm" style="padding: 10px 20px; font-weight: 700;">
-              🌐 BitbloX Webdesign (bitblox.nl)
-            </button>
-            <button id="selectClientAutokampeerder" class="btn btn--ghost btn--sm" style="padding: 10px 20px; font-weight: 600;">
-              🚐 De Autokampeerder (deautokampeerder.nl)
-            </button>
-          </div>
-
-          <!-- Gekozen Klant Info Card -->
-          <div style="padding: 16px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <!-- 🎛️ SCHUIFJES OVERZICHT PER GEKOZEN KLANT -->
+        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
             <div>
-              <h4 style="margin: 0; color: var(--gold); font-size: 1rem;" id="activeClientTitle">BitbloX Webdesign &amp; Hosting</h4>
-              <p style="margin: 2px 0 0 0; font-size: 0.85rem; color: var(--muted);" id="activeClientSub">Domein: <code style="color: var(--text);">bitblox.nl</code> | Cloudflare Pages: <code style="color: var(--text);">bitblox-website.pages.dev</code></p>
+              <span class="kicker" style="font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; text-transform: uppercase;">Actieve Modules &amp; Schuifjes</span>
+              <h3 style="font-size: 1.25rem; color: var(--text); margin: 4px 0 0 0;">Module Instellingen voor <span id="switchesClientName" style="color: var(--gold);">BitbloX Webdesign</span></h3>
             </div>
-            <span style="font-size: 0.78rem; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid #22c55e; padding: 4px 12px; border-radius: 999px; font-weight: 700;">🟢 Live &amp; Beveiligd</span>
+            <span id="activeClientBadge" style="font-size: 0.78rem; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid #22c55e; padding: 4px 12px; border-radius: 999px; font-weight: 700;">🟢 Live &amp; Beveiligd</span>
           </div>
 
-          <!-- Schuifjes Overzicht -->
-          <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;">
+          <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 20px;">Schakel hieronder modules aan of uit naar gelang waar de klant voor betaalt. Als een module UIT staat, verdwijnt de bijbehorende beheertool hieronder automatisch van het scherm!</p>
+
+          <!-- Schuifjes Grid -->
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
             
             <!-- Schuifje 1: Blog Module -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">📝 Blog Module &amp; Artikelen</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt het blog-overzicht en losse artikelen in of uit.</span>
+                <strong style="display: block; color: var(--text); font-size: 0.95rem;">📝 Blog Module &amp; Artikelen Studio</strong>
+                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt het blog op de site én de Blog Studio hieronder.</span>
               </div>
               <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
                 <input type="checkbox" id="toggleBlog" checked style="opacity: 0; width: 0; height: 0;">
@@ -112,7 +103,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">🤖 SEO &amp; AI-Vindbaarheid (GEO / ChatGPT)</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt llms.txt, AI-capsules, Wikipedia sameAs &amp; Schema.org in of uit.</span>
+                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt llms.txt, AI-capsules &amp; de Microsite Generator hieronder.</span>
               </div>
               <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
                 <input type="checkbox" id="toggleGeo" checked style="opacity: 0; width: 0; height: 0;">
@@ -123,8 +114,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <!-- Schuifje 3: Google Reviews Carrousel -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">⭐ Google Reviews Carrousel</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Toont of verbergt de geanimeerde klantbeoordelingen op de homepage.</span>
+                <strong style="display: block; color: var(--text); font-size: 0.95rem;">⭐ Google Reviews Carrousel &amp; Saver</strong>
+                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt de reviews carrousel op de site én het review-formulier hieronder.</span>
               </div>
               <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
                 <input type="checkbox" id="toggleReviews" checked style="opacity: 0; width: 0; height: 0;">
@@ -148,7 +139,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">📩 Contact &amp; Offerte Formulier</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt het e-mailformulier met Web3Forms aflevering in of uit.</span>
+                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt het e-mailformulier met aflevering in of uit.</span>
               </div>
               <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
                 <input type="checkbox" id="toggleForm" checked style="opacity: 0; width: 0; height: 0;">
@@ -166,9 +157,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           </div>
         </div>
 
-        <!-- 1. Microsite Generator Form -->
-        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
-          <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">📍 1. DeepSeek Microsite Generator</h2>
+        <!-- 📍 1. DeepSeek Microsite Generator (Afhankelijk van GEO Schuifje) -->
+        <div id="micrositeToolSection" class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
+          <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">📍 1. DeepSeek Microsite Generator voor <span class="clientTargetName">BitbloX Webdesign</span></h2>
           <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Typ een plaatsnaam in (bijv. <em>Veendam</em>, <em>Emmen</em>, <em>Winschoten</em>). DeepSeek genereert direct de echte buurten, provincie en unieke teksten.</p>
 
           <div style="display: flex; gap: 16px; flex-wrap: wrap;">
@@ -198,16 +189,16 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           </div>
         </div>
 
-        <!-- 2. Interactive Blog Studio & Editor -->
-        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
+        <!-- 📝 2. Interactive Blog Studio (Afhankelijk van Blog Schuifje) -->
+        <div id="blogToolSection" class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
-            <h2 style="font-size: 1.4rem; color: var(--gold); margin: 0;">📝 2. Blog Studio — AI Generation &amp; Eigen Tekst Bewerken</h2>
+            <h2 style="font-size: 1.4rem; color: var(--gold); margin: 0;">📝 2. Blog Studio voor <span class="clientTargetName">BitbloX Webdesign</span></h2>
             <div style="display: flex; gap: 8px;">
               <button id="modeAiBtn" class="btn btn--gold btn--sm" style="padding: 6px 14px; font-size: 0.82rem;">🤖 Genereer via AI</button>
               <button id="modeManualBtn" class="btn btn--ghost btn--sm" style="padding: 6px 14px; font-size: 0.82rem;">✍️ Eigen Verhaal Opmaken</button>
             </div>
           </div>
-          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Laat DeepSeek een nieuw artikel schrijven OF voer je eigen ruwe verhaal in. Vervolgens kun je het artikel in de interactieve editor bewerken en aanpassen voordat je publiceert!</p>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Laat DeepSeek een nieuw artikel schrijven OF voer je eigen ruwe verhaal in. Vervolgens kun je het artikel in de interactieve editor bewerken en publiceren!</p>
 
           <!-- Input AI Mode -->
           <div id="aiInputSection" style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
@@ -227,7 +218,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <input 
               type="text" 
               id="manualTitleInput" 
-              placeholder="Titel van je eigen verhaal (bijv. Mijn ervaringen met SEO in Drenthe)..." 
+              placeholder="Titel van je eigen verhaal..." 
               style="width: 100%; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
             />
             <textarea 
@@ -245,9 +236,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div id="blogResultBox" style="display: none; margin-top: 24px; padding: 20px; background: var(--bg); border: 1px solid var(--border-gold); border-radius: var(--radius-sm);">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
               <h4 style="color: var(--gold); margin: 0;">Bestandsnaam: <span id="generatedBlogFilename"></span></h4>
-              <div style="display: flex; gap: 10px; align-items: center;">
-                <span id="blogSourceBadge" style="font-size: 0.75rem; background: rgba(222,193,72,0.15); color: var(--gold); border: 1px solid var(--border-gold); padding: 2px 10px; border-radius: 999px; font-weight: 700;">Interactieve Markdown Editor</span>
-              </div>
+              <span id="blogSourceBadge" style="font-size: 0.75rem; background: rgba(222,193,72,0.15); color: var(--gold); border: 1px solid var(--border-gold); padding: 2px 10px; border-radius: 999px; font-weight: 700;">Interactieve Markdown Editor</span>
             </div>
 
             <!-- Editable Textarea -->
@@ -270,9 +259,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           </div>
         </div>
 
-        <!-- 3. Google Review Invoeren Form -->
-        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
-          <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">⭐ 3. Google Review Toevoegen</h2>
+        <!-- ⭐ 3. Google Review Invoeren Form (Afhankelijk van Review Schuifje) -->
+        <div id="reviewsToolSection" class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
+          <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">⭐ 3. Google Review Toevoegen voor <span class="clientTargetName">BitbloX Webdesign</span></h2>
           <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Voer hier handmatig een echte Google review van je klant in.</p>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px;">
@@ -308,7 +297,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           </div>
         </div>
 
-        <!-- Overzicht Huidige Content -->
+        <!-- Overzicht Huidige Content van Gekozen Klant -->
         <div class="grid grid--3">
           <!-- Actieve locaties -->
           <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
@@ -426,13 +415,12 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
     checkAuth();
 
-    // 🎛️ 0. Schuifjes Dashboard JS
-    const selectClientBitblox = document.getElementById('selectClientBitblox');
-    const selectClientAutokampeerder = document.getElementById('selectClientAutokampeerder');
+    // 🎛️ 0. Schuifjes Dashboard & Klant Selector JS
+    const clientSelectDropdown = document.getElementById('clientSelectDropdown');
     const clientLiveLink = document.getElementById('clientLiveLink');
     const clientLiveDomainText = document.getElementById('clientLiveDomainText');
-    const activeClientTitle = document.getElementById('activeClientTitle');
-    const activeClientSub = document.getElementById('activeClientSub');
+    const headerClientTitle = document.getElementById('headerClientTitle');
+    const switchesClientName = document.getElementById('switchesClientName');
 
     const toggleBlog = document.getElementById('toggleBlog');
     const toggleGeo = document.getElementById('toggleGeo');
@@ -442,6 +430,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const saveSwitchesBtn = document.getElementById('saveSwitchesBtn');
     const saveSwitchesStatus = document.getElementById('saveSwitchesStatus');
 
+    const micrositeToolSection = document.getElementById('micrositeToolSection');
+    const blogToolSection = document.getElementById('blogToolSection');
+    const reviewsToolSection = document.getElementById('reviewsToolSection');
+    const clientTargetNameLabels = document.querySelectorAll('.clientTargetName');
+
     let currentSelectedClient = 'bitblox';
 
     const clientConfigs = {
@@ -449,34 +442,45 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "BitbloX Webdesign & Hosting",
         domain: "bitblox.nl",
         pagesUrl: "https://bitblox.nl",
-        sub: "Domein: bitblox.nl | Cloudflare Pages: bitblox-website.pages.dev",
         switches: { blog: true, geo: true, reviews: true, faq: true, form: true }
       },
       autokampeerder: {
         name: "De Autokampeerder",
         domain: "deautokampeerder.nl",
         pagesUrl: "https://deautokampeerder.pages.dev",
-        sub: "Domein: deautokampeerder.nl | Cloudflare Pages: deautokampeerder.pages.dev",
-        switches: { blog: false, geo: true, reviews: true, faq: true, form: true }
+        switches: { blog: true, geo: true, reviews: true, faq: true, form: true }
       }
     };
+
+    function syncToolVisibility() {
+      const conf = clientConfigs[currentSelectedClient];
+      
+      // Blog tool tonen/verbergen
+      if (blogToolSection) {
+        blogToolSection.style.display = toggleBlog.checked ? 'block' : 'none';
+      }
+      // Microsite GEO tool tonen/verbergen
+      if (micrositeToolSection) {
+        micrositeToolSection.style.display = toggleGeo.checked ? 'block' : 'none';
+      }
+      // Reviews tool tonen/verbergen
+      if (reviewsToolSection) {
+        reviewsToolSection.style.display = toggleReviews.checked ? 'block' : 'none';
+      }
+    }
 
     function updateClientUI(clientId) {
       currentSelectedClient = clientId;
       const conf = clientConfigs[clientId];
 
-      if (clientId === 'bitblox') {
-        selectClientBitblox.className = 'btn btn--gold btn--sm';
-        selectClientAutokampeerder.className = 'btn btn--ghost btn--sm';
-      } else {
-        selectClientAutokampeerder.className = 'btn btn--gold btn--sm';
-        selectClientBitblox.className = 'btn btn--ghost btn--sm';
-      }
-
+      if (headerClientTitle) headerClientTitle.textContent = conf.name;
+      if (switchesClientName) switchesClientName.textContent = conf.name;
       if (clientLiveLink) clientLiveLink.href = conf.pagesUrl;
       if (clientLiveDomainText) clientLiveDomainText.textContent = conf.domain;
-      if (activeClientTitle) activeClientTitle.textContent = conf.name;
-      if (activeClientSub) activeClientSub.innerHTML = conf.sub;
+
+      clientTargetNameLabels.forEach(lbl => {
+        lbl.textContent = conf.name;
+      });
 
       if (toggleBlog) toggleBlog.checked = conf.switches.blog;
       if (toggleGeo) toggleGeo.checked = conf.switches.geo;
@@ -484,11 +488,21 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (toggleFaq) toggleFaq.checked = conf.switches.faq;
       if (toggleForm) toggleForm.checked = conf.switches.form;
 
+      syncToolVisibility();
+
       if (saveSwitchesStatus) saveSwitchesStatus.textContent = '';
     }
 
-    if (selectClientBitblox) selectClientBitblox.addEventListener('click', () => updateClientUI('bitblox'));
-    if (selectClientAutokampeerder) selectClientAutokampeerder.addEventListener('click', () => updateClientUI('autokampeerder'));
+    if (clientSelectDropdown) {
+      clientSelectDropdown.addEventListener('change', (e) => {
+        updateClientUI(e.target.value);
+      });
+    }
+
+    // Luister naar live schuifjes veranderingen om direct tools te tonen/verbergen
+    [toggleBlog, toggleGeo, toggleReviews].forEach(t => {
+      if (t) t.addEventListener('change', syncToolVisibility);
+    });
 
     if (saveSwitchesBtn) {
       saveSwitchesBtn.addEventListener('click', () => {
@@ -502,6 +516,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         saveSwitchesBtn.textContent = '⏳ Opslaan...';
         saveSwitchesBtn.disabled = true;
 
+        syncToolVisibility();
+
         setTimeout(() => {
           if (saveSwitchesStatus) {
             saveSwitchesStatus.textContent = `✅ Schuifjes voor ${conf.name} succesvol opgeslagen!`;
@@ -511,6 +527,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         }, 600);
       });
     }
+
+    // Initialize UI
+    updateClientUI('bitblox');
 
     // 1. Microsite Generator JS
     const cityInput = document.getElementById('cityInput');
@@ -678,12 +697,12 @@ Reageer UITSLUITEND met valide JSON in dit exacte formaat:
         let filename = `${slug}.md`;
 
         try {
-          const prompt = `Schrijf een waardevol, professioneel en SEO-geoptimaliseerd blog-artikel in het Nederlands over het onderwerp: "${topic}" voor een webdesignbureau.
+          const prompt = `Schrijf een waardevol, professioneel en SEO-geoptimaliseerd blog-artikel in het Nederlands over het onderwerp: "${topic}" voor ${clientConfigs[currentSelectedClient].name}.
 Reageer UITSLUITEND met een JSON object in het volgende formaat:
 {
   "title": "<Pakkende SEO titel>",
   "description": "<Pakkende samenvatting van 1-2 zinnen voor de AI-capsule>",
-  "category": "<Webdesign, SEO, AI of Hosting>",
+  "category": "<Webdesign, SEO, AI of Praktijk>",
   "markdown": "<Volledig artikel in Markdown met duidelijke H2 (##) en H3 (###) kopjes, opsommingen en praktische adviezen. LET OP: Geen # H1 kop gebruiken in de markdown body!>"
 }`;
 
@@ -708,7 +727,7 @@ title: "${resObj.title.replace(/"/g, '\\"')}"
 description: "${resObj.description.replace(/"/g, '\\"')}"
 pubDate: ${dateStr}
 category: "${resObj.category || 'Webdesign'}"
-author: "BitbloX Team"
+author: "${clientConfigs[currentSelectedClient].name} Team"
 ---
 
 ${resObj.markdown}
@@ -724,7 +743,7 @@ title: "${topic.replace(/"/g, '\\"')}"
 description: "Praktische inzichten en adviezen over ${topic}."
 pubDate: ${dateStr}
 category: "Webdesign & SEO"
-author: "BitbloX Team"
+author: "${clientConfigs[currentSelectedClient].name} Team"
 ---
 
 Steeds meer ondernemers ontdekken de kracht van geoptimaliseerde weboplossingen. In dit artikel behandelen we waarom **${topic}** van essentieel belang is.
@@ -771,7 +790,7 @@ Als ondernemer wilt u dat uw website niet alleen mooi is, maar ook actief nieuwe
         let filename = `${slug}.md`;
 
         try {
-          const prompt = `Je bent een ervaren SEO copywriter. Transformeer de volgende ruwe tekst en titel van een ondernemer in een professioneel, goed gestructureerd blog-artikel in Markdown met duidelijke H2 (##) en H3 (###) tussenkoppen, alinea's en opsommingen.
+          const prompt = `Je bent een ervaren SEO copywriter voor ${clientConfigs[currentSelectedClient].name}. Transformeer de volgende ruwe tekst en titel van een ondernemer in een professioneel, goed gestructureerd blog-artikel in Markdown met duidelijke H2 (##) en H3 (###) tussenkoppen, alinea's en opsommingen.
 Titel van ondernemer: "${titleVal}"
 Ruwe tekst van ondernemer: "${storyVal}"
 
@@ -804,7 +823,7 @@ title: "${resObj.title.replace(/"/g, '\\"')}"
 description: "${resObj.description.replace(/"/g, '\\"')}"
 pubDate: ${dateStr}
 category: "${resObj.category || 'Praktijkverhaal'}"
-author: "BitbloX Team"
+author: "${clientConfigs[currentSelectedClient].name} Team"
 ---
 
 ${resObj.markdown}
@@ -820,7 +839,7 @@ title: "${titleVal.replace(/"/g, '\\"')}"
 description: "Praktijkervaring en advies over ${titleVal}."
 pubDate: ${dateStr}
 category: "Praktijkverhaal"
-author: "BitbloX Team"
+author: "${clientConfigs[currentSelectedClient].name} Team"
 ---
 
 ${storyVal}
