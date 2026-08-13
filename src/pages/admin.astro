@@ -84,7 +84,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
           <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 20px;">Schakel hieronder modules aan of uit naar gelang waar de klant voor betaalt. Als een module UIT staat, verdwijnt de bijbehorende beheertool hieronder automatisch van het scherm!</p>
 
-          <!-- Schuifjes Grid -->
+          <!-- Schuifjes Grid (7 Afzonderlijke Schuifjes) -->
           <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
             
             <!-- Schuifje 1: Blog Module -->
@@ -99,11 +99,23 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 2: SEO & AI-Vindbaarheid (GEO) -->
+            <!-- Schuifje 2: SEO (Google Zoekmachine Optimalisatie) -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">🤖 SEO &amp; AI-Vindbaarheid (GEO / ChatGPT)</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt llms.txt &amp; AI-capsules op de site.</span>
+                <strong style="display: block; color: var(--text); font-size: 0.95rem;">🔍 SEO (Google Zoekmachine Optimalisatie)</strong>
+                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt Google meta-tags, sitemaps &amp; Schema.org in of uit.</span>
+              </div>
+              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
+                <input type="checkbox" id="toggleSeo" checked style="opacity: 0; width: 0; height: 0;">
+                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
+              </label>
+            </div>
+
+            <!-- Schuifje 3: AI-Vindbaarheid (GEO / ChatGPT & Gemini) -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
+              <div>
+                <strong style="display: block; color: var(--text); font-size: 0.95rem;">🤖 AI-Vindbaarheid (GEO / ChatGPT &amp; Gemini)</strong>
+                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt llms.txt, AI Answer Capsules &amp; Wikipedia SameAs in of uit.</span>
               </div>
               <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
                 <input type="checkbox" id="toggleGeo" checked style="opacity: 0; width: 0; height: 0;">
@@ -111,7 +123,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 3: Steden Microsites Generator -->
+            <!-- Schuifje 4: Steden Microsites Generator -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">📍 Steden-Microsites Generator</strong>
@@ -123,7 +135,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 4: Google Reviews Carrousel -->
+            <!-- Schuifje 5: Google Reviews Carrousel -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">⭐ Google Reviews Carrousel &amp; Saver</strong>
@@ -135,7 +147,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 5: Veelgestelde Vragen (FAQ) -->
+            <!-- Schuifje 6: Veelgestelde Vragen (FAQ) -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">❓ Veelgestelde Vragen (FAQ)</strong>
@@ -147,7 +159,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 6: Contact & Offerte Formulier -->
+            <!-- Schuifje 7: Contact & Offerte Formulier -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">📩 Contact &amp; Offerte Formulier</strong>
@@ -439,6 +451,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const switchesClientName = document.getElementById('switchesClientName');
 
     const toggleBlog = document.getElementById('toggleBlog');
+    const toggleSeo = document.getElementById('toggleSeo');
     const toggleGeo = document.getElementById('toggleGeo');
     const toggleMicrosites = document.getElementById('toggleMicrosites');
     const toggleReviews = document.getElementById('toggleReviews');
@@ -469,7 +482,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "BitbloX Webdesign & Hosting",
         domain: "bitblox.nl",
         pagesUrl: "https://bitblox.nl",
-        switches: { blog: true, geo: true, microsites: true, reviews: true, faq: true, form: true },
+        switches: { blog: true, seo: true, geo: true, microsites: true, reviews: true, faq: true, form: true },
         microsites: [
           { name: "Assen", url: "/webdesign-assen/" },
           { name: "Groningen", url: "/webdesign-groningen/" },
@@ -492,7 +505,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "De Autokampeerder",
         domain: "deautokampeerder.nl",
         pagesUrl: "https://deautokampeerder.pages.dev",
-        switches: { blog: true, geo: true, microsites: false, reviews: false, faq: true, form: false },
+        switches: { blog: true, seo: true, geo: false, microsites: false, reviews: false, faq: true, form: false },
         microsites: [],
         blogs: [
           { title: "Daktent op kleine auto: Kan dat op Polo/Fiat 500?", url: "https://deautokampeerder.pages.dev/kennisbank/daktent-op-kleine-auto-mogelijk-en-tips" },
@@ -534,6 +547,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (blogInput) blogInput.value = '';
 
       if (toggleBlog) toggleBlog.checked = conf.switches.blog;
+      if (toggleSeo) toggleSeo.checked = conf.switches.seo;
       if (toggleGeo) toggleGeo.checked = conf.switches.geo;
       if (toggleMicrosites) toggleMicrosites.checked = conf.switches.microsites;
       if (toggleReviews) toggleReviews.checked = conf.switches.reviews;
@@ -603,6 +617,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       saveSwitchesBtn.addEventListener('click', () => {
         const conf = clientConfigs[currentSelectedClient];
         conf.switches.blog = toggleBlog ? toggleBlog.checked : true;
+        conf.switches.seo = toggleSeo ? toggleSeo.checked : true;
         conf.switches.geo = toggleGeo ? toggleGeo.checked : true;
         conf.switches.microsites = toggleMicrosites ? toggleMicrosites.checked : true;
         conf.switches.reviews = toggleReviews ? toggleReviews.checked : true;
