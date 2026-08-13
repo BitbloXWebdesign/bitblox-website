@@ -90,8 +90,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <!-- Schuifje 1: Blog Module -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">📝 Blog Module &amp; Artikelen Studio</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt het blog op de site én de Blog Studio hieronder.</span>
+                <strong style="display: block; color: var(--text); font-size: 0.95rem;">📝 Blog Module &amp; Kennisbank Studio</strong>
+                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt de Kennisbank op de site én de Blog Studio hieronder.</span>
               </div>
               <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
                 <input type="checkbox" id="toggleBlog" checked style="opacity: 0; width: 0; height: 0;">
@@ -193,13 +193,13 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         <!-- 📝 2. Interactive Blog Studio (Afhankelijk van Blog Schuifje) -->
         <div id="blogToolSection" class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
-            <h2 style="font-size: 1.4rem; color: var(--gold); margin: 0;">📝 2. Blog Studio voor <span class="clientTargetName">BitbloX Webdesign</span></h2>
+            <h2 style="font-size: 1.4rem; color: var(--gold); margin: 0;">📝 2. Blog Studio / Kennisbank voor <span class="clientTargetName">BitbloX Webdesign</span></h2>
             <div style="display: flex; gap: 8px;">
               <button id="modeAiBtn" class="btn btn--gold btn--sm" style="padding: 6px 14px; font-size: 0.82rem;">🤖 Genereer via AI</button>
               <button id="modeManualBtn" class="btn btn--ghost btn--sm" style="padding: 6px 14px; font-size: 0.82rem;">✍️ Eigen Verhaal Opmaken</button>
             </div>
           </div>
-          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Laat DeepSeek een nieuw artikel schrijven OF voer je eigen ruwe verhaal in. Vervolgens kun je het artikel in de interactieve editor bewerken en publiceren!</p>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Laat DeepSeek een nieuw Kennisbank-artikel schrijven OF voer je eigen ruwe verhaal in. Vervolgens kun je het artikel in de interactieve editor bewerken en publiceren!</p>
 
           <!-- Input AI Mode -->
           <div id="aiInputSection" style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
@@ -316,9 +316,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             </div>
           </div>
 
-          <!-- Gepubliceerde Blogs -->
+          <!-- Gepubliceerde Blogs / Kennisbank -->
           <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
-            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📝 Blogs (<span id="blogCountDisplay">{blogPosts.length}</span>)</h3>
+            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📝 Blogs / Kennisbank (<span id="blogCountDisplay">{blogPosts.length}</span>)</h3>
             <div id="blogListDisplay" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
               {blogPosts.map((post) => (
                 <div style="display: flex; justify-content: space-between;">
@@ -481,7 +481,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         pagesUrl: "https://deautokampeerder.pages.dev",
         switches: { blog: true, geo: true, reviews: true, faq: true, form: true },
         microsites: [],
-        blogs: [],
+        blogs: [
+          { title: "Camper Onderhoud & Inspectie", url: "https://deautokampeerder.pages.dev" },
+          { title: "Kennisbank: Eerste Keer Kamperen", url: "https://deautokampeerder.pages.dev" }
+        ],
         reviews: []
       }
     };
@@ -540,7 +543,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (blogCountDisplay) blogCountDisplay.textContent = conf.blogs.length;
       if (blogListDisplay) {
         if (conf.blogs.length === 0) {
-          blogListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen blogs gepubliceerd</span>`;
+          blogListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen Kennisbank artikelen</span>`;
         } else {
           blogListDisplay.innerHTML = conf.blogs.map(b => `
             <div style="display: flex; justify-content: space-between;">
@@ -773,12 +776,12 @@ Reageer UITSLUITEND met valide JSON in dit exacte formaat:
         let filename = `${slug}.md`;
 
         try {
-          const prompt = `Schrijf een waardevol, professioneel en SEO-geoptimaliseerd blog-artikel in het Nederlands over het onderwerp: "${topic}" voor ${clientConfigs[currentSelectedClient].name}.
+          const prompt = `Schrijf een waardevol, professioneel en SEO-geoptimaliseerd Kennisbank-artikel in het Nederlands over het onderwerp: "${topic}" voor ${clientConfigs[currentSelectedClient].name}.
 Reageer UITSLUITEND met een JSON object in het volgende formaat:
 {
   "title": "<Pakkende SEO titel>",
   "description": "<Pakkende samenvatting van 1-2 zinnen voor de AI-capsule>",
-  "category": "<Webdesign, SEO, AI of Praktijk>",
+  "category": "<Kennisbank & Tips>",
   "markdown": "<Volledig artikel in Markdown met duidelijke H2 (##) en H3 (###) kopjes, opsommingen en praktische adviezen. LET OP: Geen # H1 kop gebruiken in de markdown body!>"
 }`;
 
@@ -802,7 +805,7 @@ Reageer UITSLUITEND met een JSON object in het volgende formaat:
 title: "${resObj.title.replace(/"/g, '\\"')}"
 description: "${resObj.description.replace(/"/g, '\\"')}"
 pubDate: ${dateStr}
-category: "${resObj.category || 'Webdesign'}"
+category: "${resObj.category || 'Kennisbank'}"
 author: "${clientConfigs[currentSelectedClient].name} Team"
 ---
 
@@ -818,20 +821,18 @@ ${resObj.markdown}
 title: "${topic.replace(/"/g, '\\"')}"
 description: "Praktische inzichten en adviezen over ${topic}."
 pubDate: ${dateStr}
-category: "Webdesign & SEO"
+category: "Kennisbank"
 author: "${clientConfigs[currentSelectedClient].name} Team"
 ---
 
-Steeds meer ondernemers ontdekken de kracht van geoptimaliseerde weboplossingen. In dit artikel behandelen we waarom **${topic}** van essentieel belang is.
+Praktische tips en informatie over **${topic}**.
 
-## De impact van ${topic} op uw conversie
+## Belangrijke informatie over ${topic}
 
-Als ondernemer wilt u dat uw website niet alleen mooi is, maar ook actief nieuwe klanten oplevert.
-
-### 3 Belangrijkste pijlers voor succes:
-1. **Snelle Laadtijden**: Bezoekers haken af als een site traag reageert.
-2. **Lokale SEO & Zichtbaarheid**: Zorg dat uw bedrijf bovenaan staat in zoekresultaten.
-3. **AI-Vindbaarheid (GEO)**: Uitgerust met structured data en llms.txt voor ChatGPT en Google AI.
+### 3 Handige tips:
+1. **Onderhoud & Controle**: Zorg voor regelmatige inspectie.
+2. **Goede Voorbereiding**: Voorkom verrassingen onderweg.
+3. **Deskundig Advies**: Vraag advies aan specialisten.
 `;
         }
 
@@ -866,16 +867,16 @@ Als ondernemer wilt u dat uw website niet alleen mooi is, maar ook actief nieuwe
         let filename = `${slug}.md`;
 
         try {
-          const prompt = `Je bent een ervaren SEO copywriter voor ${clientConfigs[currentSelectedClient].name}. Transformeer de volgende ruwe tekst en titel van een ondernemer in een professioneel, goed gestructureerd blog-artikel in Markdown met duidelijke H2 (##) en H3 (###) tussenkoppen, alinea's en opsommingen.
-Titel van ondernemer: "${titleVal}"
-Ruwe tekst van ondernemer: "${storyVal}"
+          const prompt = `Je bent een ervaren SEO copywriter voor ${clientConfigs[currentSelectedClient].name}. Transformeer de volgende ruwe tekst en titel in een professioneel, goed gestructureerd Kennisbank-artikel in Markdown met duidelijke H2 (##) en H3 (###) tussenkoppen, alinea's en opsommingen.
+Titel: "${titleVal}"
+Ruwe tekst: "${storyVal}"
 
 Reageer UITSLUITEND met een JSON object in dit formaat:
 {
   "title": "<Verfijnde pakkende SEO titel>",
   "description": "<Beknopte samenvatting van 1-2 zinnen>",
-  "category": "<Webdesign, SEO, AI of Praktijkverhaal>",
-  "markdown": "<Gekuisde, aantrekkelijke Markdown tekst gebaseerd op het verhaal van de ondernemer. LET OP: Geen # H1 kop gebruiken in de markdown body!>"
+  "category": "<Kennisbank & Tips>",
+  "markdown": "<Gekuisde, aantrekkelijke Markdown tekst. LET OP: Geen # H1 kop gebruiken in de markdown body!>"
 }`;
 
           const res = await fetch('https://api.deepseek.com/v1/chat/completions', {
@@ -898,7 +899,7 @@ Reageer UITSLUITEND met een JSON object in dit formaat:
 title: "${resObj.title.replace(/"/g, '\\"')}"
 description: "${resObj.description.replace(/"/g, '\\"')}"
 pubDate: ${dateStr}
-category: "${resObj.category || 'Praktijkverhaal'}"
+category: "${resObj.category || 'Kennisbank'}"
 author: "${clientConfigs[currentSelectedClient].name} Team"
 ---
 
@@ -914,7 +915,7 @@ ${resObj.markdown}
 title: "${titleVal.replace(/"/g, '\\"')}"
 description: "Praktijkervaring en advies over ${titleVal}."
 pubDate: ${dateStr}
-category: "Praktijkverhaal"
+category: "Kennisbank"
 author: "${clientConfigs[currentSelectedClient].name} Team"
 ---
 
