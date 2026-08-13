@@ -131,7 +131,16 @@ h3 { font-size: 1.3rem; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; height: 84px; }
 .brand { display: flex; align-items: center; gap: 12px; }
 .brand img { height: 34px; width: auto; }
-.main-nav { display: flex; align-items: center; gap: 6px; }
+.main-nav { 
+  position: fixed;
+  top: 0;
+  right: calc((100vw - min(1180px, 92vw)) / 2 + 20px);
+  height: 84px;
+  z-index: 101;
+  display: flex; 
+  align-items: center; 
+  gap: 6px; 
+}
 .main-nav .nav-list { display: flex; align-items: center; gap: 6px; }
 .main-nav .custom-logo { height: 34px; width: auto; }
 .main-nav a {
@@ -811,7 +820,7 @@ html.js .reveal.visible { opacity: 1; transform: none; }
   .main-nav {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     width: 100vw; height: 100vh; height: 100dvh;
-    z-index: 105;
+    z-index: 9999;
     flex-direction: column; justify-content: center; align-items: center; gap: 14px;
     background: rgba(10, 11, 14, 0.98);
     backdrop-filter: blur(16px);
