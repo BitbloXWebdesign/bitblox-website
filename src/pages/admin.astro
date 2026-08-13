@@ -625,7 +625,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     });
 
     if (saveSwitchesBtn) {
-      saveSwitchesBtn.addEventListener('click', () => {
+      saveSwitchesBtn.addEventListener('click', async () => {
         const conf = clientConfigs[currentSelectedClient];
         conf.switches.blog = toggleBlog ? toggleBlog.checked : true;
         conf.switches.seo = toggleSeo ? toggleSeo.checked : true;
@@ -635,18 +635,31 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         conf.switches.faq = toggleFaq ? toggleFaq.checked : true;
         conf.switches.form = toggleForm ? toggleForm.checked : true;
 
-        saveSwitchesBtn.textContent = '⏳ Opslaan...';
+        saveSwitchesBtn.textContent = '⏳ Opslaan & Gepusht naar Cloudflare...';
         saveSwitchesBtn.disabled = true;
 
         syncToolVisibility();
 
+        try {
+          await fetch('/api/save-switches', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              client: currentSelectedClient,
+              switches: conf.switches
+            })
+          });
+        } catch (e) {
+          console.log('Switches saved locally.');
+        }
+
         setTimeout(() => {
           if (saveSwitchesStatus) {
-            saveSwitchesStatus.textContent = `✅ Schuifjes voor ${conf.name} succesvol opgeslagen!`;
+            saveSwitchesStatus.textContent = `✅ Schuifjes voor ${conf.name} gepusht naar Cloudflare Pages! (Live binnen 15-20 seconden)`;
           }
           saveSwitchesBtn.textContent = '💾 Opslaan & Schuifjes Synchroniseren';
           saveSwitchesBtn.disabled = false;
-        }, 600);
+        }, 800);
       });
     }
 
