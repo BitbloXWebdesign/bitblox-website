@@ -12,416 +12,588 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 <Layout title="BitbloX Admin — Command Center" description="Beheermodule voor het beheren van klantsites, microsites, blog-artikelen en reviews.">
   
   <!-- Login Gate Modal -->
-  <div id="loginGate" style="position: fixed; inset: 0; z-index: 999; background: rgba(10, 11, 14, 0.98); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; padding: 20px;">
-    <div class="card" style="max-width: 440px; width: 100%; padding: 40px 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.8);">
-      <img src="/assets/img/logo-light.png" alt="BitbloX" style="height: 36px; margin: 0 auto 20px; display: block;" />
-      <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">Beveiligde Admin Toegang</h2>
-      <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 24px;">Voer het beheerderswachtwoord in om toegang te krijgen tot het BitbloX Beheerdashboard.</p>
+  <div id="loginGate" style="position: fixed; inset: 0; z-index: 9999; background: radial-gradient(circle at 50% 30%, #151824 0%, #08090d 100%); backdrop-filter: blur(24px); display: flex; align-items: center; justify-content: center; padding: 20px;">
+    <div style="max-width: 440px; width: 100%; padding: 44px 36px; background: rgba(18, 21, 32, 0.85); border: 1px solid rgba(222, 193, 72, 0.3); border-radius: 20px; text-align: center; box-shadow: 0 25px 70px rgba(0,0,0,0.8), 0 0 40px rgba(222, 193, 72, 0.1); backdrop-filter: blur(16px);">
+      <img src="/assets/img/logo-light.png" alt="BitbloX" style="height: 38px; margin: 0 auto 24px; display: block; filter: drop-shadow(0 4px 12px rgba(222, 193, 72, 0.3));" />
+      <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(222, 193, 72, 0.1); border: 1px solid rgba(222, 193, 72, 0.25); border-radius: 999px; margin-bottom: 14px;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background: #dec148; box-shadow: 0 0 8px #dec148;"></span>
+        <span style="font-size: 0.75rem; font-weight: 700; color: #dec148; letter-spacing: 0.08em; text-transform: uppercase;">Command Center</span>
+      </div>
+      <h2 style="font-size: 1.5rem; color: #ffffff; margin-bottom: 8px; font-weight: 700;">Beveiligde Toegang</h2>
+      <p style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 28px; line-height: 1.5;">Voer uw beheerderswachtwoord in om het centrale BitbloX Agency Dashboard te openen.</p>
       
-      <div style="display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
         <input 
           type="password" 
           id="adminPassInput" 
-          placeholder="Voer wachtwoord in..." 
-          style="width: 100%; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem; text-align: center;"
+          placeholder="••••••••••••" 
+          style="width: 100%; padding: 15px 20px; background: #0c0e15; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 1.1rem; text-align: center; letter-spacing: 2px; transition: border-color 0.2s;"
         />
-        <button id="adminLoginBtn" class="btn btn--gold" style="width: 100%; justify-content: center;">
-          Inloggen op Dashboard 🔑
+        <button id="adminLoginBtn" class="btn btn--gold" style="width: 100%; justify-content: center; padding: 14px; font-size: 1rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(222, 193, 72, 0.35);">
+          Dashboard Ontgrendelen 🔑
         </button>
-        <p id="loginErrorMsg" style="color: #ef4444; font-size: 0.85rem; margin: 0; display: none;">Onjuist wachtwoord. Probeer opnieuw.</p>
+        <p id="loginErrorMsg" style="color: #f87171; font-size: 0.85rem; margin: 0; display: none;">⚠️ Onjuist wachtwoord. Probeer het opnieuw.</p>
       </div>
     </div>
   </div>
 
   <!-- Protected Admin Dashboard Content -->
-  <div id="adminContent" style="display: none;">
-    <section class="page-hero">
-      <div class="hero-grid-bg"></div>
-      <div class="container page-hero-inner">
-        <nav class="breadcrumb"><a href="/">Home</a> <span>/</span> <span>Admin</span></nav>
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-          <div>
-            <span class="kicker">BitbloX Command Center</span>
-            <h1>Klantsite Beheer: <span id="headerClientTitle" class="text-gradient">BitbloX Webdesign</span></h1>
-          </div>
-          <button id="logoutBtn" class="btn btn--ghost btn--sm">Uitloggen 🔒</button>
-        </div>
-        <p class="lead">Selecteer hieronder een klantsite uit het dropdownmenu. De hele pagina past zich direct aan!</p>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container" style="max-width: 960px;">
+  <div id="adminContent" style="display: none; min-height: 100vh; background: #08090d;">
+    
+    <!-- Top Command Center Bar -->
+    <header style="background: rgba(14, 17, 26, 0.9); border-bottom: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100; padding: 16px 0;">
+      <div class="container" style="max-width: 1180px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
         
-        <!-- 🎛️ KLANT SELECTOR DROPDOWN & BAR -->
-        <div class="card" style="padding: 24px 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-          <div style="flex: 1; min-width: 280px;">
-            <label for="clientSelectDropdown" style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">
-              Selecteer Klantsite uit Dropdown:
+        <!-- Left: Brand & Active Client Badge -->
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <a href="/" style="display: flex; align-items: center;">
+            <img src="/assets/img/logo-light.png" alt="BitbloX" style="height: 30px;" />
+          </a>
+          <span style="color: rgba(255,255,255,0.2); font-size: 1.2rem;">/</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 0.9rem; font-weight: 700; color: #fff;" id="headerClientTitle">BitbloX Webdesign</span>
+            <span id="activeClientBadge" style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.72rem; background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 10px; border-radius: 999px; font-weight: 700;">
+              <span style="width: 5px; height: 5px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 6px #4ade80;"></span> Live
+            </span>
+          </div>
+        </div>
+
+        <!-- Right: Actions & Logout -->
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <a id="clientLiveLink" href="https://bitblox.nl" target="_blank" rel="noopener" class="btn btn--gold btn--sm" style="padding: 9px 16px; font-size: 0.84rem; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px;">
+            <span>🌐 Live Site</span> <span id="clientLiveDomainText" style="opacity: 0.85;">(bitblox.nl)</span> ↗
+          </a>
+          <button id="logoutBtn" class="btn btn--ghost btn--sm" style="padding: 9px 14px; font-size: 0.84rem; border-radius: 999px; color: #94a3b8; border-color: rgba(255,255,255,0.1);">
+            🔒 Uitloggen
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main style="padding: 36px 0 80px;">
+      <div class="container" style="max-width: 1180px;">
+        
+        <!-- 🌟 HERO CLIENT SWITCHER & METRICS CARD -->
+        <div style="background: linear-gradient(135deg, rgba(20, 24, 38, 0.9) 0%, rgba(12, 14, 22, 0.95) 100%); border: 1px solid rgba(222, 193, 72, 0.25); border-radius: 20px; padding: 28px 32px; margin-bottom: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;">
+          
+          <!-- Dropdown Section -->
+          <div style="flex: 1; min-width: 300px;">
+            <label for="clientSelectDropdown" style="display: block; font-size: 0.76rem; font-weight: 700; color: #dec148; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">
+              Actieve Klantsite Selecteren
             </label>
-            <select id="clientSelectDropdown" style="width: 100%; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); color: var(--gold); font-size: 1.05rem; font-weight: 700; cursor: pointer;">
-              <option value="bitblox" selected>🌐 BitbloX Webdesign (bitblox.nl)</option>
-              <option value="autokampeerder">🚐 De Autokampeerder (deautokampeerder.nl)</option>
-              <option value="voetreflextherapeut">🌿 Voetreflextherapeut Groningen (voetreflextherapeutgroningen.nl)</option>
-            </select>
-          </div>
-
-          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-            <a id="clientLiveLink" href="https://bitblox.nl" target="_blank" rel="noopener" class="btn btn--gold btn--sm" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px;">
-              🔗 Bekijk Live Site <span id="clientLiveDomainText">bitblox.nl</span> ↗
-            </a>
-          </div>
-        </div>
-
-        <!-- 🎛️ SCHUIFJES OVERZICHT PER GEKOZEN KLANT -->
-        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
-            <div>
-              <span class="kicker" style="font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; text-transform: uppercase;">Actieve Modules &amp; Schuifjes</span>
-              <h3 style="font-size: 1.25rem; color: var(--text); margin: 4px 0 0 0;">Module Instellingen voor <span id="switchesClientName" style="color: var(--gold);">BitbloX Webdesign</span></h3>
-            </div>
-            <span id="activeClientBadge" style="font-size: 0.78rem; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid #22c55e; padding: 4px 12px; border-radius: 999px; font-weight: 700;">🟢 Live &amp; Beveiligd</span>
-          </div>
-
-          <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 20px;">Schakel hieronder modules aan of uit naar gelang waar de klant voor betaalt. Als een module UIT staat, verdwijnt het onderdeel op de site én de bijbehorende beheertool hieronder automatisch!</p>
-
-          <!-- Schuifjes Grid (8 Afzonderlijke Schuifjes) -->
-          <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
-            
-            <!-- Schuifje 1: Blog Module -->
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
-              <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">📝 Blog / Kennisbank Module</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt de Kennisbank op de site én de Blog Studio hieronder.</span>
-              </div>
-              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
-                <input type="checkbox" id="toggleBlog" checked style="opacity: 0; width: 0; height: 0;">
-                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
-              </label>
-            </div>
-
-            <!-- Schuifje 2: SEO (Google Zoekmachine Optimalisatie) -->
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
-              <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">🔍 SEO (Google Zoekmachine Optimalisatie)</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt Google meta-tags, sitemaps &amp; Schema.org in of uit.</span>
-              </div>
-              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
-                <input type="checkbox" id="toggleSeo" checked style="opacity: 0; width: 0; height: 0;">
-                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
-              </label>
-            </div>
-
-            <!-- Schuifje 3: AI-Vindbaarheid (GEO / ChatGPT & Gemini) -->
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
-              <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">🤖 AI-Vindbaarheid (GEO / ChatGPT &amp; Gemini)</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt llms.txt, AI Answer Capsules &amp; Wikipedia SameAs in of uit.</span>
-              </div>
-              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
-                <input type="checkbox" id="toggleGeo" checked style="opacity: 0; width: 0; height: 0;">
-                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
-              </label>
-            </div>
-
-            <!-- Schuifje 4: WhatsApp Direct Chat Floating Widget -->
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
-              <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">💬 WhatsApp Direct Chat Floating Widget</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Toont of verbergt de zwevende WhatsApp knop rechtsonder op de site.</span>
-              </div>
-              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
-                <input type="checkbox" id="toggleWhatsapp" checked style="opacity: 0; width: 0; height: 0;">
-                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
-              </label>
-            </div>
-
-            <!-- Schuifje 5: Steden Microsites Generator -->
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
-              <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">📍 Steden-Microsites Generator</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt regio landingspagina's op de site én de Microsite Generator hieronder.</span>
-              </div>
-              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
-                <input type="checkbox" id="toggleMicrosites" checked style="opacity: 0; width: 0; height: 0;">
-                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
-              </label>
-            </div>
-
-            <!-- Schuifje 6: Google Reviews Carrousel -->
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
-              <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">⭐ Google Reviews Carrousel &amp; Saver</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Toont/verbergt de reviews carrousel op de site én het review-formulier hieronder.</span>
-              </div>
-              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
-                <input type="checkbox" id="toggleReviews" checked style="opacity: 0; width: 0; height: 0;">
-                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
-              </label>
-            </div>
-
-            <!-- Schuifje 7: Veelgestelde Vragen (FAQ) -->
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
-              <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">❓ Veelgestelde Vragen (FAQ)</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Toont of verbergt het uitklapbare FAQ blok met Schema markup.</span>
-              </div>
-              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
-                <input type="checkbox" id="toggleFaq" checked style="opacity: 0; width: 0; height: 0;">
-                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
-              </label>
-            </div>
-
-            <!-- Schuifje 8: Contact & Offerte Formulier -->
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
-              <div>
-                <strong style="display: block; color: var(--text); font-size: 0.95rem;">📩 Contact &amp; Offerte Formulier</strong>
-                <span style="font-size: 0.82rem; color: var(--muted);">Schakelt het interactieve e-mailformulier op de contactpagina in of uit.</span>
-              </div>
-              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
-                <input type="checkbox" id="toggleForm" checked style="opacity: 0; width: 0; height: 0;">
-                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
-              </label>
-            </div>
-
-          </div>
-
-          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-            <button id="saveSwitchesBtn" class="btn btn--gold">
-              💾 Opslaan &amp; Schuifjes Synchroniseren
-            </button>
-            <span id="saveSwitchesStatus" style="font-size: 0.88rem; color: #22c55e; font-weight: 600;"></span>
-          </div>
-        </div>
-
-        <!-- 📍 1. DeepSeek Microsite Generator (Afhankelijk van Microsites Schuifje) -->
-        <div id="micrositeToolSection" class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
-          <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">📍 1. DeepSeek Microsite Generator voor <span class="clientTargetName">BitbloX Webdesign</span></h2>
-          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Typ een plaatsnaam in (bijv. <em>Veendam</em>, <em>Emmen</em>, <em>Winschoten</em>). DeepSeek genereert direct de echte buurten, provincie en unieke teksten.</p>
-
-          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-            <input 
-              type="text" 
-              id="cityInput" 
-              placeholder="Voer plaatsnaam of regio in..." 
-              autocomplete="off"
-              style="flex: 1; min-width: 260px; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
-            />
-            <button id="generateBtn" class="btn btn--gold" style="white-space: nowrap;">
-              🤖 Genereer via DeepSeek AI
-            </button>
-          </div>
-
-          <div id="resultBox" style="display: none; margin-top: 24px; padding: 20px; background: var(--bg); border: 1px solid var(--border-gold); border-radius: var(--radius-sm);">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-              <h4 style="color: var(--gold); margin: 0;">Gegenereerde Data voor <span id="generatedCityName"></span>:</h4>
-              <span id="sourceBadge" style="font-size: 0.75rem; background: rgba(222,193,72,0.15); color: var(--gold); border: 1px solid var(--border-gold); padding: 2px 10px; border-radius: 999px; font-weight: 700;">Bron: DeepSeek AI</span>
-            </div>
-            <pre id="jsonPreview" style="background: var(--surface-2); padding: 14px; border-radius: 8px; font-size: 0.85rem; color: var(--gold); overflow-x: auto; max-height: 250px;"></pre>
-            
-            <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-              <button id="saveLocationBtn" class="btn btn--gold btn--sm">📍 Bewaar Microsite</button>
-              <button id="copyJsonBtn" class="btn btn--ghost btn--sm">📋 Kopieer JSON</button>
-              <span id="saveLocationStatus" style="font-size: 0.85rem; color: #22c55e; font-weight: 600;"></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 📝 2. Interactive Blog Studio (Afhankelijk van Blog Schuifje) -->
-        <div id="blogToolSection" class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
-            <h2 style="font-size: 1.4rem; color: var(--gold); margin: 0;">📝 2. Blog Studio / Kennisbank voor <span class="clientTargetName">BitbloX Webdesign</span></h2>
-            <div style="display: flex; gap: 8px;">
-              <button id="modeAiBtn" class="btn btn--gold btn--sm" style="padding: 6px 14px; font-size: 0.82rem;">🤖 Genereer via AI</button>
-              <button id="modeManualBtn" class="btn btn--ghost btn--sm" style="padding: 6px 14px; font-size: 0.82rem;">✍️ Eigen Verhaal Opmaken</button>
-            </div>
-          </div>
-          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Laat DeepSeek een nieuw Kennisbank-artikel schrijven OF voer je eigen ruwe verhaal in. Vervolgens kun je het artikel in de interactieve editor bewerken en publiceren!</p>
-
-          <!-- Input AI Mode -->
-          <div id="aiInputSection" style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
-            <input 
-              type="search" 
-              id="blogInput" 
-              name="searchTopicFieldNoFill"
-              placeholder="Voer blog-onderwerp of titel in (bijv. Onderwerp, Tips, Nieuws)..." 
-              autocomplete="new-password"
-              style="flex: 1; min-width: 260px; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
-            />
-            <button id="generateBlogBtn" class="btn btn--gold" style="white-space: nowrap;">
-              🚀 Genereer via DeepSeek AI
-            </button>
-          </div>
-
-          <!-- Input Manual Story Mode -->
-          <div id="manualInputSection" style="display: none; flex-direction: column; gap: 14px; margin-bottom: 16px;">
-            <input 
-              type="text" 
-              id="manualTitleInput" 
-              placeholder="Titel van verhaal of onderwerp..." 
-              autocomplete="off"
-              style="width: 100%; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 1rem;"
-            />
-            <textarea 
-              id="manualStoryText" 
-              rows="5" 
-              placeholder="Typ of plak hier de ruwe tekst of gedachten... DeepSeek giet het automatisch in een strakke SEO-blog met juiste koppen en indeling!"
-              style="width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: inherit; font-size: 0.95rem;"
-            ></textarea>
-            <button id="transformStoryBtn" class="btn btn--gold">
-              ✨ Transformeer naar SEO Blog Formaat
-            </button>
-          </div>
-
-          <!-- Interactive Editor Area -->
-          <div id="blogResultBox" style="display: none; margin-top: 24px; padding: 20px; background: var(--bg); border: 1px solid var(--border-gold); border-radius: var(--radius-sm);">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
-              <h4 style="color: var(--gold); margin: 0;">Bestandsnaam: <span id="generatedBlogFilename"></span></h4>
-              <span id="blogSourceBadge" style="font-size: 0.75rem; background: rgba(222,193,72,0.15); color: var(--gold); border: 1px solid var(--border-gold); padding: 2px 10px; border-radius: 999px; font-weight: 700;">Interactieve Markdown Editor</span>
-            </div>
-
-            <!-- Editable Textarea -->
-            <div style="margin-bottom: 14px;">
-              <label style="display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 6px;">Bewerken &amp; Aanpassen (Markdown Editor):</label>
-              <textarea 
-                id="blogMarkdownEditor" 
-                rows="14" 
-                style="width: 100%; padding: 16px; background: var(--surface-2); border: 1px solid var(--border-gold); border-radius: 8px; font-family: monospace; font-size: 0.9rem; color: var(--gold); line-height: 1.5; resize: vertical;"
-              ></textarea>
-            </div>
-            
-            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
-              <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-                <button id="saveBlogBtn" class="btn btn--gold btn--sm">🚀 Bewaar Artikel</button>
-                <button id="copyBlogBtn" class="btn btn--ghost btn--sm">📋 Kopieer Bewerkt Artikel</button>
-              </div>
-              <span id="saveBlogStatus" style="font-size: 0.85rem; color: #22c55e; font-weight: 600;"></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ⭐ 3. Google Review Invoeren Form (Afhankelijk van Review Schuifje) -->
-        <div id="reviewsToolSection" class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); margin-bottom: 40px;">
-          <h2 style="font-size: 1.4rem; color: var(--gold); margin-bottom: 8px;">⭐ 3. Google Review Toevoegen voor <span class="clientTargetName">BitbloX Webdesign</span></h2>
-          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">Voer hier handmatig een echte Google review van je klant in.</p>
-
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px;">
-            <div>
-              <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Naam Klant</label>
-              <input type="text" id="reviewName" placeholder="Naam van klant..." autocomplete="off" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
-            </div>
-            <div>
-              <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Bedrijfsnaam / Branche</label>
-              <input type="text" id="reviewCompany" placeholder="Bedrijfsnaam / Branche..." autocomplete="off" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
-            </div>
-            <div>
-              <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Plaats / Regio</label>
-              <input type="text" id="reviewCity" placeholder="Plaats / Regio..." autocomplete="off" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);" />
-            </div>
-            <div>
-              <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Aantal Sterren</label>
-              <select id="reviewRating" style="width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);">
-                <option value="5">★★★★★ (5 Sterren)</option>
-                <option value="4">★★★★☆ (4 Sterren)</option>
+            <div style="position: relative;">
+              <select id="clientSelectDropdown" style="width: 100%; padding: 14px 20px; background: #0c0e17; border: 1px solid rgba(222, 193, 72, 0.35); border-radius: 12px; color: #fff; font-size: 1.05rem; font-weight: 700; cursor: pointer; appearance: none; -webkit-appearance: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);">
+                <option value="bitblox" selected>🌐 BitbloX Webdesign (bitblox.nl)</option>
+                <option value="autokampeerder">🚐 De Autokampeerder (deautokampeerder.nl)</option>
+                <option value="voetreflextherapeut">🌿 Voetreflextherapeut Groningen (voetreflextherapeutgroningen.nl)</option>
               </select>
+              <span style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #dec148; font-size: 0.85rem;">▼</span>
             </div>
           </div>
 
-          <div style="margin-bottom: 20px;">
-            <label style="display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Review Tekst</label>
-            <textarea id="reviewText" rows="3" placeholder="Typ of plak hier de review tekst..." style="width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: inherit; font-size: 0.95rem;"></textarea>
+          <!-- Quick Metrics Badges -->
+          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 12px 20px; min-width: 110px; text-align: center;">
+              <span style="display: block; font-size: 0.75rem; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Microsites</span>
+              <strong id="kpiMicrosites" style="font-size: 1.4rem; color: #dec148; font-weight: 800;">{currentLocations.length}</strong>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 12px 20px; min-width: 110px; text-align: center;">
+              <span style="display: block; font-size: 0.75rem; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Blogs</span>
+              <strong id="kpiBlogs" style="font-size: 1.4rem; color: #dec148; font-weight: 800;">{blogPosts.length}</strong>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 12px 20px; min-width: 110px; text-align: center;">
+              <span style="display: block; font-size: 0.75rem; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Reviews</span>
+              <strong id="kpiReviews" style="font-size: 1.4rem; color: #dec148; font-weight: 800;">{reviewsData.length}</strong>
+            </div>
           </div>
 
-          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-            <button id="saveReviewBtn" class="btn btn--gold">⭐ Bewaar &amp; Kopieer Review JSON</button>
-            <span id="saveReviewStatus" style="font-size: 0.85rem; color: #22c55e; font-weight: 600;"></span>
+        </div>
+
+        <!-- 📑 MODERN SEGMENTED TAB NAVIGATION -->
+        <div style="display: flex; gap: 8px; margin-bottom: 28px; background: #111420; padding: 6px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); overflow-x: auto;">
+          <button class="nav-tab active" data-tab="tab-switches">
+            🎛️ 1. Modules &amp; Schuifjes
+          </button>
+          <button class="nav-tab" data-tab="tab-microsites" id="tabBtnMicrosites">
+            📍 2. Regio Microsites
+          </button>
+          <button class="nav-tab" data-tab="tab-blog" id="tabBtnBlog">
+            📝 3. AI Blog Studio
+          </button>
+          <button class="nav-tab" data-tab="tab-reviews" id="tabBtnReviews">
+            ⭐ 4. Google Reviews
+          </button>
+          <button class="nav-tab" data-tab="tab-overview">
+            📊 5. Content Overzicht &amp; Prullenbak
+          </button>
+        </div>
+
+        <!-- ================= TAB 1: SCHUIFJES & MODULES ================= -->
+        <div id="tab-switches" class="tab-pane active">
+          <div style="background: #111420; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 20px;">
+              <div>
+                <h3 style="font-size: 1.3rem; color: #fff; margin: 0 0 6px 0; font-weight: 700;">
+                  Actieve Modules voor <span id="switchesClientName" style="color: #dec148;">BitbloX Webdesign</span>
+                </h3>
+                <p style="font-size: 0.88rem; color: #94a3b8; margin: 0;">Schakel eenvoudig functionaliteiten aan of uit. Uitgeschakelde onderdelen verdwijnen direct van de site!</p>
+              </div>
+              <button id="saveSwitchesBtn" class="btn btn--gold" style="padding: 12px 24px; border-radius: 12px; font-weight: 700; box-shadow: 0 8px 25px rgba(222, 193, 72, 0.3);">
+                💾 Opslaan &amp; Synchroniseren
+              </button>
+            </div>
+
+            <!-- 2-Column Grid voor de 8 Schuifjes -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; margin-bottom: 24px;">
+              
+              <!-- 1. Blog -->
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.95rem; margin-bottom: 2px;">📝 Blog / Kennisbank</strong>
+                  <span style="font-size: 0.8rem; color: #94a3b8;">Kennisbank artikelen &amp; Blog Studio editor.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="toggleBlog" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- 2. SEO -->
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.95rem; margin-bottom: 2px;">🔍 SEO (Google Zoekmachine)</strong>
+                  <span style="font-size: 0.8rem; color: #94a3b8;">Google sitemaps, meta-tags &amp; Schema.org.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="toggleSeo" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- 3. GEO -->
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.95rem; margin-bottom: 2px;">🤖 AI-Vindbaarheid (GEO)</strong>
+                  <span style="font-size: 0.8rem; color: #94a3b8;">Aanbevelingen in ChatGPT, Gemini &amp; llms.txt.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="toggleGeo" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- 4. WhatsApp -->
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.95rem; margin-bottom: 2px;">💬 WhatsApp Floating Widget</strong>
+                  <span style="font-size: 0.8rem; color: #94a3b8;">Zwevende chat-knop rechtsonder op de site.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="toggleWhatsapp" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- 5. Microsites -->
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.95rem; margin-bottom: 2px;">📍 Steden-Microsites</strong>
+                  <span style="font-size: 0.8rem; color: #94a3b8;">Regio-landingspagina's voor omliggende dorpen.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="toggleMicrosites" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- 6. Reviews -->
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.95rem; margin-bottom: 2px;">⭐ Google Reviews Carrousel</strong>
+                  <span style="font-size: 0.8rem; color: #94a3b8;">Interactieve swipebare reviews op de site.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="toggleReviews" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- 7. FAQ -->
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.95rem; margin-bottom: 2px;">❓ Veelgestelde Vragen (FAQ)</strong>
+                  <span style="font-size: 0.8rem; color: #94a3b8;">Uitklapbaar FAQ blok met Schema markup.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="toggleFaq" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- 8. Formulier -->
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.95rem; margin-bottom: 2px;">📩 Contact &amp; Offerte Formulier</strong>
+                  <span style="font-size: 0.8rem; color: #94a3b8;">E-mailformulier met brachedropdown keuzes.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="toggleForm" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+            </div>
+
+            <div id="saveSwitchesStatus" style="font-size: 0.9rem; color: #4ade80; font-weight: 700; text-align: right; min-height: 24px;"></div>
           </div>
         </div>
 
-        <!-- Overzicht Huidige Content van Gekozen Klant -->
-        <div id="clientContentGrid" class="grid grid--3">
-          <!-- Actieve locaties -->
-          <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
-            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📍 Microsites (<span id="micrositeCountDisplay">{currentLocations.length}</span>)</h3>
-            <div id="micrositeListDisplay" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
-              {currentLocations.slice(0, 5).map((loc, idx) => (
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
-                  <span style="color: var(--text); font-weight: 500;">{loc.plaats}</span>
-                  <div style="display: flex; gap: 8px; align-items: center;">
-                    <a href={`/webdesign-${loc.slug}/`} target="_blank" style="color: var(--gold); font-size: 0.8rem;">Bekijk ↗</a>
-                    <button onclick={`window.deleteMicrositeItem('${loc.slug}', '${loc.plaats}', ${idx})`} title={`Verwijder ${loc.plaats}`} style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
-                  </div>
+        <!-- ================= TAB 2: MICROSITES ================= -->
+        <div id="tab-microsites" class="tab-pane">
+          <div id="micrositeToolSection" style="background: #111420; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);">
+            <div style="margin-bottom: 24px;">
+              <h3 style="font-size: 1.3rem; color: #fff; margin: 0 0 6px 0; font-weight: 700;">
+                📍 DeepSeek Microsite Generator voor <span class="clientTargetName" style="color: #dec148;">BitbloX Webdesign</span>
+              </h3>
+              <p style="font-size: 0.88rem; color: #94a3b8; margin: 0;">Voer een plaatsnaam in (bijv. <em>Veendam, Emmen, Zuidlaren</em>). DeepSeek genereert direct de echte wijken, provincie en SEO-content.</p>
+            </div>
+
+            <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 24px;">
+              <input 
+                type="text" 
+                id="cityInput" 
+                placeholder="Typ plaatsnaam of regio (bijv. Haren, Veendam)..." 
+                autocomplete="off"
+                style="flex: 1; min-width: 280px; padding: 15px 20px; background: #0c0e17; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 1rem;"
+              />
+              <button id="generateBtn" class="btn btn--gold" style="padding: 14px 28px; border-radius: 12px; font-weight: 700; white-space: nowrap;">
+                🤖 Genereer via DeepSeek AI
+              </button>
+            </div>
+
+            <div id="resultBox" style="display: none; background: #0c0e17; border: 1px solid rgba(222, 193, 72, 0.3); border-radius: 16px; padding: 24px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <h4 style="color: #dec148; margin: 0; font-size: 1.1rem;">Gegenereerde Data voor <span id="generatedCityName"></span></h4>
+                <span id="sourceBadge" style="font-size: 0.75rem; background: rgba(222,193,72,0.15); color: #dec148; border: 1px solid rgba(222,193,72,0.3); padding: 3px 12px; border-radius: 999px; font-weight: 700;">DeepSeek AI Output</span>
+              </div>
+              <pre id="jsonPreview" style="background: #141724; padding: 18px; border-radius: 12px; font-size: 0.88rem; color: #dec148; overflow-x: auto; max-height: 280px; line-height: 1.5; font-family: monospace;"></pre>
+              
+              <div style="margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                  <button id="saveLocationBtn" class="btn btn--gold btn--sm" style="border-radius: 999px; padding: 10px 20px;">📍 Bewaar &amp; Publiceer Microsite</button>
+                  <button id="copyJsonBtn" class="btn btn--ghost btn--sm" style="border-radius: 999px; padding: 10px 20px;">📋 Kopieer JSON</button>
                 </div>
-              ))}
+                <span id="saveLocationStatus" style="font-size: 0.88rem; color: #4ade80; font-weight: 700;"></span>
+              </div>
             </div>
           </div>
+        </div>
 
-          <!-- Gepubliceerde Blogs / Kennisbank -->
-          <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
-            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📝 Blogs / Kennisbank (<span id="blogCountDisplay">{blogPosts.length}</span>)</h3>
-            <div id="blogListDisplay" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
-              {blogPosts.map((post, idx) => (
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
-                  <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px; font-weight: 500;">{post.data.title}</span>
-                  <div style="display: flex; gap: 8px; align-items: center;">
-                    <a href={`/blog/${post.id}/`} target="_blank" style="color: var(--gold); font-size: 0.8rem;">Bekijk ↗</a>
-                    <button onclick={`window.deleteBlogItem('${post.id}', '${post.data.title.replace(/'/g, "\\'")}', ${idx})`} title={`Verwijder ${post.data.title}`} style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
-                  </div>
+        <!-- ================= TAB 3: BLOG STUDIO ================= -->
+        <div id="tab-blog" class="tab-pane">
+          <div id="blogToolSection" style="background: #111420; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 18px;">
+              <div>
+                <h3 style="font-size: 1.3rem; color: #fff; margin: 0 0 6px 0; font-weight: 700;">
+                  📝 Blog Studio / Kennisbank voor <span class="clientTargetName" style="color: #dec148;">BitbloX Webdesign</span>
+                </h3>
+                <p style="font-size: 0.88rem; color: #94a3b8; margin: 0;">Genereer razendsnel nieuwe artikelen via AI of giet een eigen verhaal in een strakke SEO structuur.</p>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button id="modeAiBtn" class="btn btn--gold btn--sm" style="border-radius: 999px; padding: 8px 16px;">🤖 Genereer via AI</button>
+                <button id="modeManualBtn" class="btn btn--ghost btn--sm" style="border-radius: 999px; padding: 8px 16px;">✍️ Eigen Verhaal Opmaken</button>
+              </div>
+            </div>
+
+            <!-- Input AI Mode -->
+            <div id="aiInputSection" style="display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px;">
+              <input 
+                type="search" 
+                id="blogInput" 
+                name="searchTopicFieldNoFill"
+                placeholder="Voer blog-onderwerp in (bijv. Voetreflex bij migraine, Daktent tips)..." 
+                autocomplete="new-password"
+                style="flex: 1; min-width: 280px; padding: 15px 20px; background: #0c0e17; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 1rem;"
+              />
+              <button id="generateBlogBtn" class="btn btn--gold" style="padding: 14px 28px; border-radius: 12px; font-weight: 700; white-space: nowrap;">
+                🚀 Schrijf Artikel via DeepSeek
+              </button>
+            </div>
+
+            <!-- Input Manual Story Mode -->
+            <div id="manualInputSection" style="display: none; flex-direction: column; gap: 14px; margin-bottom: 20px;">
+              <input 
+                type="text" 
+                id="manualTitleInput" 
+                placeholder="Titel of hoofdonderwerp van het verhaal..." 
+                autocomplete="off"
+                style="width: 100%; padding: 14px 20px; background: #0c0e17; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 1rem;"
+              />
+              <textarea 
+                id="manualStoryText" 
+                rows="5" 
+                placeholder="Plak hier je ruwe gedachten, tips of verhaal... DeepSeek transformeert het automatisch in een perfect opgemaakte SEO-blog!"
+                style="width: 100%; padding: 16px; background: #0c0e17; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-family: inherit; font-size: 0.95rem; line-height: 1.5;"
+              ></textarea>
+              <button id="transformStoryBtn" class="btn btn--gold" style="padding: 14px; border-radius: 12px; font-weight: 700;">
+                ✨ Transformeer naar SEO Blog
+              </button>
+            </div>
+
+            <!-- Interactive Editor Area -->
+            <div id="blogResultBox" style="display: none; background: #0c0e17; border: 1px solid rgba(222, 193, 72, 0.3); border-radius: 16px; padding: 24px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                <h4 style="color: #dec148; margin: 0; font-size: 1.05rem;">Bestand: <span id="generatedBlogFilename" style="font-family: monospace;"></span></h4>
+                <span id="blogSourceBadge" style="font-size: 0.75rem; background: rgba(222,193,72,0.15); color: #dec148; border: 1px solid rgba(222,193,72,0.3); padding: 3px 12px; border-radius: 999px; font-weight: 700;">Markdown Live Editor</span>
+              </div>
+
+              <div style="margin-bottom: 16px;">
+                <textarea 
+                  id="blogMarkdownEditor" 
+                  rows="15" 
+                  style="width: 100%; padding: 18px; background: #141724; border: 1px solid rgba(222, 193, 72, 0.25); border-radius: 12px; font-family: monospace; font-size: 0.9rem; color: #dec148; line-height: 1.6; resize: vertical;"
+                ></textarea>
+              </div>
+              
+              <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                  <button id="saveBlogBtn" class="btn btn--gold btn--sm" style="border-radius: 999px; padding: 10px 20px;">🚀 Bewaar &amp; Publiceer Artikel</button>
+                  <button id="copyBlogBtn" class="btn btn--ghost btn--sm" style="border-radius: 999px; padding: 10px 20px;">📋 Kopieer Tekst</button>
                 </div>
-              ))}
+                <span id="saveBlogStatus" style="font-size: 0.88rem; color: #4ade80; font-weight: 700;"></span>
+              </div>
             </div>
           </div>
+        </div>
 
-          <!-- Reviews -->
-          <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
-            <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">⭐️ Reviews (<span id="reviewCountDisplay">{reviewsData.length}</span>)</h3>
-            <div id="reviewListDisplay" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
-              {reviewsData.map((r, idx) => (
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
-                  <span style="color: var(--text); font-weight: 500;">{r.name}</span>
-                  <div style="display: flex; gap: 8px; align-items: center;">
-                    <span style="color: var(--gold); font-size: 0.8rem;">★★★★★</span>
-                    <button onclick={`window.deleteReviewItem('${r.name}', ${idx})`} title={`Verwijder review van ${r.name}`} style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
-                  </div>
-                </div>
-              ))}
+        <!-- ================= TAB 4: REVIEWS ================= -->
+        <div id="tab-reviews" class="tab-pane">
+          <div id="reviewsToolSection" style="background: #111420; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);">
+            <div style="margin-bottom: 24px;">
+              <h3 style="font-size: 1.3rem; color: #fff; margin: 0 0 6px 0; font-weight: 700;">
+                ⭐ Google Review Toevoegen voor <span class="clientTargetName" style="color: #dec148;">BitbloX Webdesign</span>
+              </h3>
+              <p style="font-size: 0.88rem; color: #94a3b8; margin: 0;">Voer handmatig een echte klantbeoordeling in om direct in de carrousel te tonen.</p>
             </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px;">
+              <div>
+                <label style="display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600;">Naam Klant</label>
+                <input type="text" id="reviewName" placeholder="Bijv. Annelies de V." autocomplete="off" style="width: 100%; padding: 13px 16px; background: #0c0e17; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #fff;" />
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600;">Bedrijf / Branche</label>
+                <input type="text" id="reviewCompany" placeholder="Bijv. Praktijk EviCare" autocomplete="off" style="width: 100%; padding: 13px 16px; background: #0c0e17; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #fff;" />
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600;">Plaats / Regio</label>
+                <input type="text" id="reviewCity" placeholder="Bijv. Groningen" autocomplete="off" style="width: 100%; padding: 13px 16px; background: #0c0e17; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #fff;" />
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600;">Aantal Sterren</label>
+                <select id="reviewRating" style="width: 100%; padding: 13px 16px; background: #0c0e17; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #dec148; font-weight: 700;">
+                  <option value="5">★★★★★ (5 Sterren)</option>
+                  <option value="4">★★★★☆ (4 Sterren)</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+              <label style="display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px; font-weight: 600;">Review Tekst</label>
+              <textarea id="reviewText" rows="3" placeholder="Typ of plak hier de review ervaring..." style="width: 100%; padding: 16px; background: #0c0e17; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-family: inherit; font-size: 0.95rem; line-height: 1.5;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+              <button id="saveReviewBtn" class="btn btn--gold" style="padding: 12px 24px; border-radius: 12px; font-weight: 700;">
+                ⭐ Bewaar Review
+              </button>
+              <span id="saveReviewStatus" style="font-size: 0.88rem; color: #4ade80; font-weight: 700;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 5: OVERZICHT & PRULLENBAK ================= -->
+        <div id="tab-overview" class="tab-pane">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px;">
+            
+            <!-- 📍 Microsites Card -->
+            <div style="background: #111420; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+                <h4 style="font-size: 1.05rem; color: #dec148; margin: 0; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                  📍 Steden-Microsites
+                </h4>
+                <span id="micrositeCountDisplay" style="font-size: 0.8rem; background: rgba(222,193,72,0.15); color: #dec148; padding: 2px 10px; border-radius: 999px; font-weight: 700;">{currentLocations.length}</span>
+              </div>
+              <div id="micrositeListDisplay" style="display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto;">
+                {currentLocations.slice(0, 5).map((loc, idx) => (
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px;">
+                    <span style="color: #fff; font-size: 0.9rem; font-weight: 500;">{loc.plaats}</span>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                      <a href={`/webdesign-${loc.slug}/`} target="_blank" style="color: #dec148; font-size: 0.8rem; text-decoration: none; padding: 2px 8px; background: rgba(222,193,72,0.1); border-radius: 6px;">Bekijk ↗</a>
+                      <button onclick={`window.deleteMicrositeItem('${loc.slug}', '${loc.plaats}', ${idx})`} title={`Verwijder ${loc.plaats}`} style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #f87171; cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">🗑️</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- 📝 Blogs Card -->
+            <div style="background: #111420; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+                <h4 style="font-size: 1.05rem; color: #dec148; margin: 0; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                  📝 Blogs / Kennisbank
+                </h4>
+                <span id="blogCountDisplay" style="font-size: 0.8rem; background: rgba(222,193,72,0.15); color: #dec148; padding: 2px 10px; border-radius: 999px; font-weight: 700;">{blogPosts.length}</span>
+              </div>
+              <div id="blogListDisplay" style="display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto;">
+                {blogPosts.map((post, idx) => (
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px;">
+                    <span style="color: #fff; font-size: 0.88rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px;">{post.data.title}</span>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                      <a href={`/blog/${post.id}/`} target="_blank" style="color: #dec148; font-size: 0.8rem; text-decoration: none; padding: 2px 8px; background: rgba(222,193,72,0.1); border-radius: 6px;">Bekijk ↗</a>
+                      <button onclick={`window.deleteBlogItem('${post.id}', '${post.data.title.replace(/'/g, "\\'")}', ${idx})`} title={`Verwijder ${post.data.title}`} style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #f87171; cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">🗑️</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- ⭐ Reviews Card -->
+            <div style="background: #111420; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+                <h4 style="font-size: 1.05rem; color: #dec148; margin: 0; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                  ⭐ Google Reviews
+                </h4>
+                <span id="reviewCountDisplay" style="font-size: 0.8rem; background: rgba(222,193,72,0.15); color: #dec148; padding: 2px 10px; border-radius: 999px; font-weight: 700;">{reviewsData.length}</span>
+              </div>
+              <div id="reviewListDisplay" style="display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto;">
+                {reviewsData.map((r, idx) => (
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px;">
+                    <span style="color: #fff; font-size: 0.9rem; font-weight: 500;">{r.name}</span>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                      <span style="color: #dec148; font-size: 0.8rem;">★★★★★</span>
+                      <button onclick={`window.deleteReviewItem('${r.name}', ${idx})`} title={`Verwijder review van ${r.name}`} style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #f87171; cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">🗑️</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
         </div>
 
       </div>
-    </section>
+    </main>
   </div>
 </Layout>
 
 <style>
-  #adminContent .card:hover {
-    transform: none !important;
+  /* Navigation Tabs */
+  .nav-tab {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 10px 18px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
   }
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover, 
-  input:-webkit-autofill:focus,
-  textarea:-webkit-autofill {
-    -webkit-text-fill-color: var(--text) !important;
-    -webkit-box-shadow: 0 0 0px 1000px var(--bg) inset !important;
-    transition: background-color 5000s ease-in-out 0s !important;
+  .nav-tab:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.04);
   }
-  .switch input:checked + .slider {
-    background-color: var(--gold) !important;
+  .nav-tab.active {
+    color: #0b0d13;
+    background: #dec148;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(222, 193, 72, 0.35);
   }
-  .switch input:checked + .slider:before {
-    transform: translateX(24px) !important;
+
+  /* Tab Panes */
+  .tab-pane {
+    display: none;
+    animation: fadeIn 0.25s ease-in-out;
+  }
+  .tab-pane.active {
+    display: block;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Module Card */
+  .module-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    background: #0c0e17;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+  .module-card:hover {
+    border-color: rgba(222, 193, 72, 0.3);
+    background: #0f121d;
+  }
+
+  /* Toggle Switch */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #242938;
+    transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 34px;
+    border: 1px solid rgba(255,255,255,0.1);
   }
   .slider:before {
     position: absolute;
     content: "";
-    height: 18px;
-    width: 18px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .3s;
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #ffffff;
+    transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  }
+  .switch input:checked + .slider {
+    background-color: #dec148 !important;
+    border-color: #dec148;
+  }
+  .switch input:checked + .slider:before {
+    transform: translateX(24px) !important;
+    background-color: #0b0d13 !important;
+  }
+
+  /* Autofill fixes */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill {
+    -webkit-text-fill-color: #fff !important;
+    -webkit-box-shadow: 0 0 0px 1000px #0c0e17 inset !important;
+    transition: background-color 5000s ease-in-out 0s !important;
   }
 </style>
 
@@ -476,7 +648,23 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
     checkAuth();
 
-    // 🎛️ 0. Schuifjes Dashboard & Klant Selector JS
+    // 📑 Tab Navigation Handler
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetId = tab.getAttribute('data-tab');
+        navTabs.forEach(t => t.classList.remove('active'));
+        tabPanes.forEach(p => p.classList.remove('active'));
+
+        tab.classList.add('active');
+        const targetPane = document.getElementById(targetId);
+        if (targetPane) targetPane.classList.add('active');
+      });
+    });
+
+    // 🎛️ Schuifjes & Client Switcher
     const clientSelectDropdown = document.getElementById('clientSelectDropdown');
     const clientLiveLink = document.getElementById('clientLiveLink');
     const clientLiveDomainText = document.getElementById('clientLiveDomainText');
@@ -499,12 +687,20 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const reviewsToolSection = document.getElementById('reviewsToolSection');
     const clientTargetNameLabels = document.querySelectorAll('.clientTargetName');
 
+    const tabBtnMicrosites = document.getElementById('tabBtnMicrosites');
+    const tabBtnBlog = document.getElementById('tabBtnBlog');
+    const tabBtnReviews = document.getElementById('tabBtnReviews');
+
     const micrositeCountDisplay = document.getElementById('micrositeCountDisplay');
     const micrositeListDisplay = document.getElementById('micrositeListDisplay');
     const blogCountDisplay = document.getElementById('blogCountDisplay');
     const blogListDisplay = document.getElementById('blogListDisplay');
     const reviewCountDisplay = document.getElementById('reviewCountDisplay');
     const reviewListDisplay = document.getElementById('reviewListDisplay');
+
+    const kpiMicrosites = document.getElementById('kpiMicrosites');
+    const kpiBlogs = document.getElementById('kpiBlogs');
+    const kpiReviews = document.getElementById('kpiReviews');
 
     const blogInput = document.getElementById('blogInput');
     if (blogInput) blogInput.value = '';
@@ -518,16 +714,16 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         pagesUrl: "https://bitblox.nl",
         switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true },
         microsites: [
-          { name: "Assen", url: "/webdesign-assen/" },
-          { name: "Groningen", url: "/webdesign-groningen/" },
-          { name: "Haren", url: "/webdesign-haren/" },
-          { name: "Eelde", url: "/webdesign-eelde/" },
-          { name: "Norg", url: "/webdesign-norg/" }
+          { name: "Assen", url: "/webdesign-assen/", slug: "assen" },
+          { name: "Groningen", url: "/webdesign-groningen/", slug: "groningen" },
+          { name: "Haren", url: "/webdesign-haren/", slug: "haren" },
+          { name: "Eelde", url: "/webdesign-eelde/", slug: "eelde" },
+          { name: "Norg", url: "/webdesign-norg/", slug: "norg" }
         ],
         blogs: [
-          { title: "AI-Vindbaarheid (GEO) gids", url: "/blog/ai-vindbaarheid-chatgpt-zzp/" },
-          { title: "5 grootste fouten op zzp sites", url: "/blog/de-5-grootste-fouten-op-zzp-websites/" },
-          { title: "De kracht van microsites", url: "/blog/de-kracht-van-microsites/" }
+          { id: "ai-vindbaarheid-chatgpt-zzp", title: "AI-Vindbaarheid (GEO) gids", url: "/blog/ai-vindbaarheid-chatgpt-zzp/" },
+          { id: "de-5-grootste-fouten-op-zzp-websites", title: "5 grootste fouten op zzp sites", url: "/blog/de-5-grootste-fouten-op-zzp-websites/" },
+          { id: "de-kracht-van-microsites", title: "De kracht van microsites", url: "/blog/de-kracht-van-microsites/" }
         ],
         reviews: [
           { name: "Alianne Zuidhof", rating: "★★★★★" },
@@ -565,18 +761,17 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     };
 
     function syncToolVisibility() {
-      // Blog tool tonen/verbergen
-      if (blogToolSection) {
-        blogToolSection.style.display = toggleBlog.checked ? 'block' : 'none';
-      }
-      // Microsite GEO tool tonen/verbergen
-      if (micrositeToolSection) {
-        micrositeToolSection.style.display = toggleMicrosites.checked ? 'block' : 'none';
-      }
-      // Reviews tool tonen/verbergen
-      if (reviewsToolSection) {
-        reviewsToolSection.style.display = toggleReviews.checked ? 'block' : 'none';
-      }
+      const blogActive = toggleBlog ? toggleBlog.checked : true;
+      const micrositesActive = toggleMicrosites ? toggleMicrosites.checked : true;
+      const reviewsActive = toggleReviews ? toggleReviews.checked : true;
+
+      if (tabBtnBlog) tabBtnBlog.style.display = blogActive ? 'block' : 'none';
+      if (tabBtnMicrosites) tabBtnMicrosites.style.display = micrositesActive ? 'block' : 'none';
+      if (tabBtnReviews) tabBtnReviews.style.display = reviewsActive ? 'block' : 'none';
+
+      if (blogToolSection) blogToolSection.style.display = blogActive ? 'block' : 'none';
+      if (micrositeToolSection) micrositeToolSection.style.display = micrositesActive ? 'block' : 'none';
+      if (reviewsToolSection) reviewsToolSection.style.display = reviewsActive ? 'block' : 'none';
     }
 
     function updateClientUI(clientId) {
@@ -586,7 +781,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (headerClientTitle) headerClientTitle.textContent = conf.name;
       if (switchesClientName) switchesClientName.textContent = conf.name;
       if (clientLiveLink) clientLiveLink.href = conf.pagesUrl;
-      if (clientLiveDomainText) clientLiveDomainText.textContent = conf.domain;
+      if (clientLiveDomainText) clientLiveDomainText.textContent = `(${conf.domain})`;
 
       clientTargetNameLabels.forEach(lbl => {
         lbl.textContent = conf.name;
@@ -603,18 +798,23 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (toggleFaq) toggleFaq.checked = conf.switches.faq;
       if (toggleForm) toggleForm.checked = conf.switches.form;
 
-      // Update bottom grid dynamically for the active client
+      // Update KPI Badges
+      if (kpiMicrosites) kpiMicrosites.textContent = conf.microsites.length;
+      if (kpiBlogs) kpiBlogs.textContent = conf.blogs.length;
+      if (kpiReviews) kpiReviews.textContent = conf.reviews.length;
+
+      // Update Bottom Content Lists
       if (micrositeCountDisplay) micrositeCountDisplay.textContent = conf.microsites.length;
       if (micrositeListDisplay) {
         if (conf.microsites.length === 0) {
-          micrositeListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen microsites aangemaakt</span>`;
+          micrositeListDisplay.innerHTML = `<span style="color: #64748b; font-style: italic; padding: 12px; display: block; text-align: center;">Nog geen microsites aangemaakt</span>`;
         } else {
           micrositeListDisplay.innerHTML = conf.microsites.map((m, idx) => `
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
-              <span style="color: var(--text); font-weight: 500;">${m.name}</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px;">
+              <span style="color: #fff; font-size: 0.9rem; font-weight: 500;">${m.name}</span>
               <div style="display: flex; gap: 8px; align-items: center;">
-                <a href="${m.url}" target="_blank" style="color: var(--gold); font-size: 0.8rem;">Bekijk ↗</a>
-                <button onclick="window.deleteMicrositeItem('${m.slug || m.name.toLowerCase()}', '${m.name}', ${idx})" title="Verwijder ${m.name}" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
+                <a href="${m.url}" target="_blank" style="color: #dec148; font-size: 0.8rem; text-decoration: none; padding: 2px 8px; background: rgba(222,193,72,0.1); border-radius: 6px;">Bekijk ↗</a>
+                <button onclick="window.deleteMicrositeItem('${m.slug || m.name.toLowerCase()}', '${m.name}', ${idx})" title="Verwijder ${m.name}" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #f87171; cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">🗑️</button>
               </div>
             </div>
           `).join('');
@@ -624,14 +824,14 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (blogCountDisplay) blogCountDisplay.textContent = conf.blogs.length;
       if (blogListDisplay) {
         if (conf.blogs.length === 0) {
-          blogListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen Kennisbank artikelen</span>`;
+          blogListDisplay.innerHTML = `<span style="color: #64748b; font-style: italic; padding: 12px; display: block; text-align: center;">Nog geen Kennisbank artikelen</span>`;
         } else {
           blogListDisplay.innerHTML = conf.blogs.map((b, idx) => `
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
-              <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px; font-weight: 500;">${b.title}</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px;">
+              <span style="color: #fff; font-size: 0.88rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px;">${b.title}</span>
               <div style="display: flex; gap: 8px; align-items: center;">
-                <a href="${b.url}" target="_blank" style="color: var(--gold); font-size: 0.8rem;">Bekijk ↗</a>
-                <button onclick="window.deleteBlogItem('${b.slug || b.id || b.title}', '${b.title}', ${idx})" title="Verwijder ${b.title}" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
+                <a href="${b.url}" target="_blank" style="color: #dec148; font-size: 0.8rem; text-decoration: none; padding: 2px 8px; background: rgba(222,193,72,0.1); border-radius: 6px;">Bekijk ↗</a>
+                <button onclick="window.deleteBlogItem('${b.slug || b.id || b.title}', '${b.title}', ${idx})" title="Verwijder ${b.title}" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #f87171; cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">🗑️</button>
               </div>
             </div>
           `).join('');
@@ -641,14 +841,14 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (reviewCountDisplay) reviewCountDisplay.textContent = conf.reviews.length;
       if (reviewListDisplay) {
         if (conf.reviews.length === 0) {
-          reviewListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen reviews toegevoegd</span>`;
+          reviewListDisplay.innerHTML = `<span style="color: #64748b; font-style: italic; padding: 12px; display: block; text-align: center;">Nog geen reviews toegevoegd</span>`;
         } else {
           reviewListDisplay.innerHTML = conf.reviews.map((r, idx) => `
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
-              <span style="color: var(--text); font-weight: 500;">${r.name}</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px;">
+              <span style="color: #fff; font-size: 0.9rem; font-weight: 500;">${r.name}</span>
               <div style="display: flex; gap: 8px; align-items: center;">
-                <span style="color: var(--gold); font-size: 0.8rem;">${r.rating}</span>
-                <button onclick="window.deleteReviewItem('${r.name}', ${idx})" title="Verwijder review van ${r.name}" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
+                <span style="color: #dec148; font-size: 0.8rem;">${r.rating}</span>
+                <button onclick="window.deleteReviewItem('${r.name}', ${idx})" title="Verwijder review van ${r.name}" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #f87171; cursor: pointer; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">🗑️</button>
               </div>
             </div>
           `).join('');
@@ -656,10 +856,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       }
 
       syncToolVisibility();
-
       if (saveSwitchesStatus) saveSwitchesStatus.textContent = '';
     }
 
+    // 🗑️ Global Delete Handlers
     window.deleteMicrositeItem = async (slug, name, index) => {
       if (!confirm(`Weet je zeker dat je de microsite voor "${name}" wilt verwijderen?`)) return;
       const conf = clientConfigs[currentSelectedClient];
@@ -669,7 +869,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         await fetch('/api/delete-location', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ slug, name })
+          body: JSON.stringify({ slug, name, client: currentSelectedClient })
         });
       } catch (e) {
         console.log('Deleted locally');
@@ -685,7 +885,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         await fetch('/api/delete-blog', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id, filename: id })
+          body: JSON.stringify({ id, filename: id, client: currentSelectedClient })
         });
       } catch (e) {
         console.log('Deleted blog locally');
@@ -701,7 +901,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         await fetch('/api/delete-review', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name })
+          body: JSON.stringify({ name, client: currentSelectedClient })
         });
       } catch (e) {
         console.log('Deleted review locally');
@@ -714,7 +914,6 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       });
     }
 
-    // Luister naar live schuifjes veranderingen om direct tools te tonen/verbergen
     [toggleBlog, toggleGeo, toggleMicrosites, toggleReviews].forEach(t => {
       if (t) t.addEventListener('change', syncToolVisibility);
     });
@@ -731,7 +930,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         conf.switches.faq = toggleFaq ? toggleFaq.checked : true;
         conf.switches.form = toggleForm ? toggleForm.checked : true;
 
-        saveSwitchesBtn.textContent = '⏳ Opslaan & Gepusht naar Cloudflare...';
+        saveSwitchesBtn.textContent = '⏳ Opslaan & Naar Cloudflare...';
         saveSwitchesBtn.disabled = true;
 
         syncToolVisibility();
@@ -751,15 +950,15 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
         setTimeout(() => {
           if (saveSwitchesStatus) {
-            saveSwitchesStatus.textContent = `✅ Schuifjes voor ${conf.name} gepusht naar Cloudflare Pages! (Live binnen 15-20 seconden)`;
+            saveSwitchesStatus.textContent = `✅ Schuifjes voor ${conf.name} live gepusht naar Cloudflare Pages!`;
           }
-          saveSwitchesBtn.textContent = '💾 Opslaan & Schuifjes Synchroniseren';
+          saveSwitchesBtn.textContent = '💾 Opslaan & Synchroniseren';
           saveSwitchesBtn.disabled = false;
         }, 800);
       });
     }
 
-    // Initialize UI
+    // Initialize UI default to BitbloX
     updateClientUI('bitblox');
 
     // 1. Microsite Generator JS
@@ -877,7 +1076,7 @@ Reageer UITSLUITEND met valide JSON in dit exacte formaat:
       }
     }
 
-    // 2. Interactive Blog Studio & Editor JS
+    // 2. Interactive Blog Studio JS
     const modeAiBtn = document.getElementById('modeAiBtn');
     const modeManualBtn = document.getElementById('modeManualBtn');
     const aiInputSection = document.getElementById('aiInputSection');
@@ -911,7 +1110,6 @@ Reageer UITSLUITEND met valide JSON in dit exacte formaat:
     const saveBlogBtn = document.getElementById('saveBlogBtn');
     const saveBlogStatus = document.getElementById('saveBlogStatus');
 
-    // A. DeepSeek AI Generation
     if (generateBlogBtn && blogInput) {
       generateBlogBtn.addEventListener('click', async () => {
         const topic = blogInput.value.trim();
@@ -996,12 +1194,11 @@ Praktische tips en informatie over **${topic}**.
         if (generatedBlogFilename) generatedBlogFilename.textContent = filename;
         if (blogResultBox) blogResultBox.style.display = 'block';
 
-        generateBlogBtn.textContent = '🚀 Genereer via DeepSeek AI';
+        generateBlogBtn.textContent = '🚀 Schrijf Artikel via DeepSeek';
         generateBlogBtn.disabled = false;
       });
     }
 
-    // B. Transform Manual Story to SEO Blog
     if (transformStoryBtn && manualTitleInput && manualStoryText) {
       transformStoryBtn.addEventListener('click', async () => {
         const titleVal = manualTitleInput.value.trim();
@@ -1083,12 +1280,11 @@ ${storyVal}
         if (generatedBlogFilename) generatedBlogFilename.textContent = filename;
         if (blogResultBox) blogResultBox.style.display = 'block';
 
-        transformStoryBtn.textContent = '✨ Transformeer naar SEO Blog Formaat';
+        transformStoryBtn.textContent = '✨ Transformeer naar SEO Blog';
         transformStoryBtn.disabled = false;
       });
     }
 
-    // C. Save & Copy handlers for Blog Editor
     if (saveBlogBtn) {
       saveBlogBtn.addEventListener('click', async () => {
         const editedContent = blogMarkdownEditor ? blogMarkdownEditor.value : '';
@@ -1105,7 +1301,8 @@ ${storyVal}
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
               filename: activeFilename,
-              fileContent: editedContent
+              fileContent: editedContent,
+              client: currentSelectedClient
             })
           });
           const resData = await res.json();
@@ -1117,7 +1314,7 @@ ${storyVal}
           }
         } catch (e) {
           if (blogMarkdownEditor) navigator.clipboard.writeText(blogMarkdownEditor.value);
-          if (saveBlogStatus) saveBlogStatus.textContent = `📋 Bewerkt artikel gekopieerd naar klembord!`;
+          if (saveBlogStatus) saveBlogStatus.textContent = `📋 Gekopieerd naar klembord!`;
           saveBlogBtn.textContent = '📋 Gekopieerd!';
         } finally {
           saveBlogBtn.disabled = false;
@@ -1130,7 +1327,7 @@ ${storyVal}
         if (blogMarkdownEditor) {
           navigator.clipboard.writeText(blogMarkdownEditor.value);
           copyBlogBtn.textContent = '✅ Gekopieerd!';
-          setTimeout(() => { copyBlogBtn.textContent = '📋 Kopieer Bewerkt Artikel'; }, 2500);
+          setTimeout(() => { copyBlogBtn.textContent = '📋 Kopieer Tekst'; }, 2500);
         }
       });
     }
@@ -1185,7 +1382,8 @@ ${storyVal}
               city: cityVal,
               rating: ratingVal,
               text: textVal,
-              date: 'Google Beoordeling'
+              date: 'Google Beoordeling',
+              client: currentSelectedClient
             })
           });
           const resData = await res.json();
@@ -1198,7 +1396,7 @@ ${storyVal}
         } catch (e) {
           navigator.clipboard.writeText(reviewJsonString);
           if (saveReviewStatus) saveReviewStatus.textContent = `📋 Review JSON gekopieerd naar klembord!`;
-          saveReviewBtn.textContent = '📋 Review JSON Gekopieerd!';
+          saveReviewBtn.textContent = '📋 Review Gekopieerd!';
         } finally {
           saveReviewBtn.disabled = false;
         }
