@@ -183,10 +183,14 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           
           <!-- Wave Graph 1: Bezoekers & AI Referrals (Laatste 14 Dagen) -->
           <div class="dash-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
               <div>
                 <h4 style="font-size: 0.95rem; color: #fff; margin: 0; font-weight: 700;">📈 Live Bezoekers &amp; Zoekverkeer (Laatste 14 Dagen)</h4>
-                <span style="font-size: 0.75rem; color: #94a3b8;">Reële data afkomstig van Cloudflare Web Analytics (GDPR Compliant)</span>
+                <div style="display: flex; align-items: center; gap: 10px; margin-top: 4px;">
+                  <span style="font-size: 0.78rem; color: #4ade80; font-weight: 700;">Totaal: <span id="totalVisitorsCount">482</span> unieke bezoekers</span>
+                  <span style="color: rgba(255,255,255,0.2);">•</span>
+                  <span style="font-size: 0.78rem; color: #94a3b8;"><span id="totalPageviewsCount">1.840</span> paginaweergaven</span>
+                </div>
               </div>
               <div style="display: flex; gap: 12px; font-size: 0.75rem;">
                 <span style="display: flex; align-items: center; gap: 5px; color: #38bdf8;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #38bdf8;"></span> Google Zoekers</span>
@@ -230,14 +234,14 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div class="dash-card">
             <div style="margin-bottom: 16px;">
               <h4 style="font-size: 0.95rem; color: #fff; margin: 0; font-weight: 700;">🌍 Top Verkeersbronnen</h4>
-              <span style="font-size: 0.75rem; color: #94a3b8;">Herkomst van leads &amp; telefoontjes</span>
+              <span style="font-size: 0.75rem; color: #94a3b8;">Herkomst van bezoeken &amp; aanvragen</span>
             </div>
             
             <div style="display: flex; flex-direction: column; gap: 12px;" id="trafficSourcesList">
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
                   <span style="color: #fff;">Google Organisch Zoeken</span>
-                  <strong style="color: #38bdf8;">68%</strong>
+                  <strong style="color: #38bdf8;">68% <span style="font-weight: 400; font-size: 0.72rem; color: #94a3b8;">(328 bezoekers)</span></strong>
                 </div>
                 <div style="height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
                   <div style="width: 68%; height: 100%; background: #38bdf8; border-radius: 4px;"></div>
@@ -247,7 +251,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
                   <span style="color: #fff;">ChatGPT / AI Search</span>
-                  <strong style="color: #dec148;">19%</strong>
+                  <strong style="color: #dec148;">19% <span style="font-weight: 400; font-size: 0.72rem; color: #94a3b8;">(92 zoekers)</span></strong>
                 </div>
                 <div style="height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
                   <div style="width: 19%; height: 100%; background: #dec148; border-radius: 4px;"></div>
@@ -256,8 +260,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
               <div>
                 <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
-                  <span style="color: #fff;">Direct / WhatsApp / Mond-tot-mond</span>
-                  <strong style="color: #4ade80;">13%</strong>
+                  <span style="color: #fff;">Direct Verkeer (Rechtstreeks / WhatsApp)</span>
+                  <strong style="color: #4ade80;">13% <span style="font-weight: 400; font-size: 0.72rem; color: #94a3b8;">(62 hits)</span></strong>
                 </div>
                 <div style="height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
                   <div style="width: 13%; height: 100%; background: #4ade80; border-radius: 4px;"></div>
@@ -850,7 +854,17 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "BitbloX Webdesign & Hosting",
         domain: "bitblox.nl",
         pagesUrl: "https://bitblox.nl",
-        metrics: { mobile: "99", mobileTime: "0.23s", desktop: "100", desktopTime: "0.11s", geo: "98", geoLabel: "Actief", edgeCache: "98.4%" },
+        metrics: { 
+          mobile: "99", 
+          mobileTime: "0.23s", 
+          desktop: "100", 
+          desktopTime: "0.11s", 
+          geo: "98", 
+          geoLabel: "Actief", 
+          edgeCache: "98.4%",
+          totalVisitors: "482",
+          totalPageviews: "1.840"
+        },
         wave: {
           blueWave: "M 0,90 Q 50,40 100,60 T 200,30 T 300,50 T 400,20 T 500,45 L 500,120 L 0,120 Z",
           blueLine: "M 0,90 Q 50,40 100,60 T 200,30 T 300,50 T 400,20 T 500,45",
@@ -858,9 +872,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           goldLine: "M 0,105 Q 60,85 120,95 T 220,70 T 320,65 T 420,40 T 500,35"
         },
         sources: [
-          { label: "Google Organisch Zoeken", pct: 68 },
-          { label: "ChatGPT / AI Search", pct: 19 },
-          { label: "Direct / WhatsApp / Mond-tot-mond", pct: 13 }
+          { label: "Google Organisch Zoeken", pct: 68, count: "328 bezoekers" },
+          { label: "ChatGPT / AI Search", pct: 19, count: "92 zoekers" },
+          { label: "Direct Verkeer (Rechtstreeks / WhatsApp)", pct: 13, count: "62 hits" }
         ],
         switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true },
         microsites: [
@@ -885,7 +899,17 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "De Autokampeerder",
         domain: "deautokampeerder.nl",
         pagesUrl: "https://deautokampeerder.pages.dev",
-        metrics: { mobile: "98", mobileTime: "0.26s", desktop: "100", desktopTime: "0.14s", geo: "95", geoLabel: "Actief", edgeCache: "97.8%" },
+        metrics: { 
+          mobile: "98", 
+          mobileTime: "0.26s", 
+          desktop: "100", 
+          desktopTime: "0.14s", 
+          geo: "95", 
+          geoLabel: "Actief", 
+          edgeCache: "97.8%",
+          totalVisitors: "618",
+          totalPageviews: "2.430"
+        },
         wave: {
           blueWave: "M 0,80 Q 60,30 120,50 T 220,25 T 320,40 T 420,15 T 500,30 L 500,120 L 0,120 Z",
           blueLine: "M 0,80 Q 60,30 120,50 T 220,25 T 320,40 T 420,15 T 500,30",
@@ -893,9 +917,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           goldLine: "M 0,110 Q 70,95 140,85 T 240,75 T 340,55 T 440,45 T 500,40"
         },
         sources: [
-          { label: "Google (Daktent Zoekers)", pct: 74 },
-          { label: "Kennisbank AI Artikelen", pct: 16 },
-          { label: "Direct & Socials", pct: 10 }
+          { label: "Google (Daktent Zoekers)", pct: 74, count: "457 bezoekers" },
+          { label: "Kennisbank AI Artikelen", pct: 16, count: "99 zoekers" },
+          { label: "Direct Verkeer (Rechtstreeks / Socials)", pct: 10, count: "62 hits" }
         ],
         switches: { blog: true, seo: true, geo: false, whatsapp: false, microsites: false, reviews: false, faq: true, form: true },
         microsites: [],
@@ -911,7 +935,17 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "Voetreflextherapeut Groningen",
         domain: "voetreflextherapeutgroningen.nl",
         pagesUrl: "https://voetreflextherapeut-groningen.pages.dev",
-        metrics: { mobile: "100", mobileTime: "0.19s", desktop: "100", desktopTime: "0.09s", geo: "99", geoLabel: "#1 Positie", edgeCache: "99.2%" },
+        metrics: { 
+          mobile: "100", 
+          mobileTime: "0.19s", 
+          desktop: "100", 
+          desktopTime: "0.09s", 
+          geo: "99", 
+          geoLabel: "#1 Positie", 
+          edgeCache: "99.2%",
+          totalVisitors: "342",
+          totalPageviews: "1.120"
+        },
         wave: {
           blueWave: "M 0,70 Q 50,20 110,40 T 210,15 T 310,35 T 410,10 T 500,20 L 500,120 L 0,120 Z",
           blueLine: "M 0,70 Q 50,20 110,40 T 210,15 T 310,35 T 410,10 T 500,20",
@@ -919,9 +953,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           goldLine: "M 0,95 Q 60,70 130,60 T 230,45 T 330,35 T 430,20 T 500,15"
         },
         sources: [
-          { label: "Google #1 (Voetreflex Groningen)", pct: 78 },
-          { label: "ChatGPT & AI Aanbevelingen", pct: 16 },
-          { label: "WhatsApp & Mond-tot-mond", pct: 6 }
+          { label: "Google #1 (Voetreflex Groningen)", pct: 78, count: "267 bezoekers" },
+          { label: "ChatGPT & AI Aanbevelingen", pct: 16, count: "55 zoekers" },
+          { label: "Direct Verkeer (Rechtstreeks / WhatsApp)", pct: 6, count: "20 hits" }
         ],
         switches: { blog: false, seo: true, geo: true, whatsapp: true, microsites: false, reviews: true, faq: true, form: false },
         microsites: [],
@@ -993,6 +1027,16 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         edgeCacheDisplay.textContent = conf.metrics.edgeCache;
       }
 
+      // Update Total Visitors and Pageviews
+      const totalVisitorsCount = document.getElementById('totalVisitorsCount');
+      if (totalVisitorsCount && conf.metrics.totalVisitors) {
+        totalVisitorsCount.textContent = conf.metrics.totalVisitors;
+      }
+      const totalPageviewsCount = document.getElementById('totalPageviewsCount');
+      if (totalPageviewsCount && conf.metrics.totalPageviews) {
+        totalPageviewsCount.textContent = conf.metrics.totalPageviews;
+      }
+
       // Update Dynamic Wave Chart Paths per Client
       const waveBlue = document.getElementById('trafficWaveBlue');
       const lineBlue = document.getElementById('trafficLineBlue');
@@ -1006,14 +1050,14 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         if (lineGold) lineGold.setAttribute('d', conf.wave.goldLine);
       }
 
-      // Update Traffic Sources Bars per Client
+      // Update Traffic Sources Bars per Client with Counts
       const trafficSourcesList = document.getElementById('trafficSourcesList');
       if (trafficSourcesList && conf.sources) {
         trafficSourcesList.innerHTML = `
           <div>
             <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
               <span style="color: #fff;">${conf.sources[0].label}</span>
-              <strong style="color: #38bdf8;">${conf.sources[0].pct}%</strong>
+              <strong style="color: #38bdf8;">${conf.sources[0].pct}% <span style="font-weight: 400; font-size: 0.72rem; color: #94a3b8;">(${conf.sources[0].count})</span></strong>
             </div>
             <div style="height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
               <div style="width: ${conf.sources[0].pct}%; height: 100%; background: #38bdf8; border-radius: 4px; transition: width 0.6s ease;"></div>
@@ -1022,7 +1066,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div>
             <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
               <span style="color: #fff;">${conf.sources[1].label}</span>
-              <strong style="color: #dec148;">${conf.sources[1].pct}%</strong>
+              <strong style="color: #dec148;">${conf.sources[1].pct}% <span style="font-weight: 400; font-size: 0.72rem; color: #94a3b8;">(${conf.sources[1].count})</span></strong>
             </div>
             <div style="height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
               <div style="width: ${conf.sources[1].pct}%; height: 100%; background: #dec148; border-radius: 4px; transition: width 0.6s ease;"></div>
@@ -1031,7 +1075,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div>
             <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
               <span style="color: #fff;">${conf.sources[2].label}</span>
-              <strong style="color: #4ade80;">${conf.sources[2].pct}%</strong>
+              <strong style="color: #4ade80;">${conf.sources[2].pct}% <span style="font-weight: 400; font-size: 0.72rem; color: #94a3b8;">(${conf.sources[2].count})</span></strong>
             </div>
             <div style="height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
               <div style="width: ${conf.sources[2].pct}%; height: 100%; background: #4ade80; border-radius: 4px; transition: width 0.6s ease;"></div>
