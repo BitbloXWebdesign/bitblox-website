@@ -198,9 +198,27 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </div>
             </div>
 
-            <!-- SVG Wave Graph Line Chart -->
-            <div style="position: relative; width: 100%; height: 160px; background: rgba(0,0,0,0.25); border-radius: 8px; padding: 10px; border: 1px solid rgba(255,255,255,0.04);">
-              <svg viewBox="0 0 500 120" style="width: 100%; height: 100%; overflow: visible;" preserveAspectRatio="none">
+            <!-- SVG Wave Graph Line Chart with Interactive Hover Tooltip -->
+            <div id="chartContainer" style="position: relative; width: 100%; height: 160px; background: rgba(0,0,0,0.25); border-radius: 8px; padding: 10px; border: 1px solid rgba(255,255,255,0.04); cursor: crosshair;">
+              
+              <!-- Floating Cyber Tooltip -->
+              <div id="chartTooltip" style="position: absolute; display: none; pointer-events: none; z-index: 50; background: rgba(13, 15, 23, 0.95); border: 1px solid rgba(56, 189, 248, 0.5); border-radius: 10px; padding: 10px 14px; box-shadow: 0 12px 30px rgba(0,0,0,0.9); backdrop-filter: blur(12px); font-size: 0.78rem; min-width: 180px; transform: translate(-50%, -115%); transition: opacity 0.15s ease;">
+                <div id="tooltipDate" style="color: #fff; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; margin-bottom: 6px;"></div>
+                <div style="display: flex; justify-content: space-between; gap: 12px; margin-bottom: 3px;">
+                  <span style="color: #38bdf8;">🔵 Google Zoekers:</span>
+                  <strong id="tooltipGoogle" style="color: #fff;"></strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; gap: 12px; margin-bottom: 3px;">
+                  <span style="color: #dec148;">🟡 ChatGPT / AI:</span>
+                  <strong id="tooltipAi" style="color: #fff;"></strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; gap: 12px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 3px; margin-top: 3px;">
+                  <span style="color: #4ade80;">📊 Totaal die dag:</span>
+                  <strong id="tooltipTotal" style="color: #4ade80;"></strong>
+                </div>
+              </div>
+
+              <svg id="trafficSvg" viewBox="0 0 500 120" style="width: 100%; height: 100%; overflow: visible;" preserveAspectRatio="none">
                 <defs>
                   <linearGradient id="gradBlue" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.4"/>
@@ -223,6 +241,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
                 <!-- Gold Wave (AI ChatGPT Referrals) -->
                 <path id="trafficWaveGold" d="M 0,105 Q 60,85 120,95 T 220,70 T 320,65 T 420,40 T 500,35 L 500,120 L 0,120 Z" fill="url(#gradGold)" />
                 <path id="trafficLineGold" d="M 0,105 Q 60,85 120,95 T 220,70 T 320,65 T 420,40 T 500,35" fill="none" stroke="#dec148" stroke-width="2" />
+
+                <!-- Interactive Crosshair & Glowing Hover Dots -->
+                <line id="chartCrosshair" x1="0" y1="0" x2="0" y2="120" stroke="rgba(255,255,255,0.45)" stroke-dasharray="3" stroke-width="1.5" style="display:none;" />
+                <circle id="hoverDotBlue" r="5" fill="#38bdf8" stroke="#06070b" stroke-width="2" style="display:none; filter: drop-shadow(0 0 6px #38bdf8);" />
+                <circle id="hoverDotGold" r="5" fill="#dec148" stroke="#06070b" stroke-width="2" style="display:none; filter: drop-shadow(0 0 6px #dec148);" />
               </svg>
             </div>
             <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b; margin-top: 8px;">
@@ -876,6 +899,22 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { label: "ChatGPT / AI Search", pct: 19, count: "92 zoekers" },
           { label: "Direct Verkeer (Rechtstreeks / WhatsApp)", pct: 13, count: "62 hits" }
         ],
+        dailyData: [
+          { date: "1 Aug", google: 18, ai: 4, blueY: 90, goldY: 105 },
+          { date: "2 Aug", google: 22, ai: 5, blueY: 75, goldY: 98 },
+          { date: "3 Aug", google: 20, ai: 6, blueY: 65, goldY: 92 },
+          { date: "4 Aug", google: 26, ai: 7, blueY: 45, goldY: 86 },
+          { date: "5 Aug", google: 24, ai: 6, blueY: 55, goldY: 90 },
+          { date: "6 Aug", google: 28, ai: 8, blueY: 40, goldY: 80 },
+          { date: "7 Aug", google: 31, ai: 9, blueY: 30, goldY: 72 },
+          { date: "8 Aug", google: 29, ai: 8, blueY: 42, goldY: 70 },
+          { date: "9 Aug", google: 32, ai: 10, blueY: 35, goldY: 66 },
+          { date: "10 Aug", google: 35, ai: 11, blueY: 28, goldY: 58 },
+          { date: "11 Aug", google: 33, ai: 10, blueY: 36, goldY: 50 },
+          { date: "12 Aug", google: 38, ai: 12, blueY: 22, goldY: 42 },
+          { date: "13 Aug", google: 36, ai: 11, blueY: 26, goldY: 38 },
+          { date: "14 Aug (Vandaag)", google: 42, ai: 14, blueY: 18, goldY: 32 }
+        ],
         switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true },
         microsites: [
           { name: "Assen", url: "/webdesign-assen/", slug: "assen" },
@@ -921,6 +960,22 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { label: "Kennisbank AI Artikelen", pct: 16, count: "99 zoekers" },
           { label: "Direct Verkeer (Rechtstreeks / Socials)", pct: 10, count: "62 hits" }
         ],
+        dailyData: [
+          { date: "1 Aug", google: 24, ai: 5, blueY: 80, goldY: 110 },
+          { date: "2 Aug", google: 28, ai: 6, blueY: 60, goldY: 102 },
+          { date: "3 Aug", google: 32, ai: 7, blueY: 45, goldY: 96 },
+          { date: "4 Aug", google: 36, ai: 8, blueY: 35, goldY: 90 },
+          { date: "5 Aug", google: 34, ai: 7, blueY: 42, goldY: 88 },
+          { date: "6 Aug", google: 39, ai: 9, blueY: 30, goldY: 80 },
+          { date: "7 Aug", google: 42, ai: 10, blueY: 26, goldY: 74 },
+          { date: "8 Aug", google: 40, ai: 9, blueY: 32, goldY: 70 },
+          { date: "9 Aug", google: 46, ai: 11, blueY: 22, goldY: 62 },
+          { date: "10 Aug", google: 49, ai: 12, blueY: 18, goldY: 55 },
+          { date: "11 Aug", google: 47, ai: 11, blueY: 24, goldY: 50 },
+          { date: "12 Aug", google: 53, ai: 13, blueY: 15, goldY: 44 },
+          { date: "13 Aug", google: 51, ai: 12, blueY: 20, goldY: 40 },
+          { date: "14 Aug (Vandaag)", google: 58, ai: 15, blueY: 12, goldY: 34 }
+        ],
         switches: { blog: true, seo: true, geo: false, whatsapp: false, microsites: false, reviews: false, faq: true, form: true },
         microsites: [],
         blogs: [
@@ -956,6 +1011,22 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { label: "Google #1 (Voetreflex Groningen)", pct: 78, count: "267 bezoekers" },
           { label: "ChatGPT & AI Aanbevelingen", pct: 16, count: "55 zoekers" },
           { label: "Direct Verkeer (Rechtstreeks / WhatsApp)", pct: 6, count: "20 hits" }
+        ],
+        dailyData: [
+          { date: "1 Aug", google: 14, ai: 3, blueY: 70, goldY: 95 },
+          { date: "2 Aug", google: 16, ai: 3, blueY: 55, goldY: 88 },
+          { date: "3 Aug", google: 18, ai: 4, blueY: 40, goldY: 82 },
+          { date: "4 Aug", google: 21, ai: 4, blueY: 28, goldY: 75 },
+          { date: "5 Aug", google: 19, ai: 4, blueY: 35, goldY: 72 },
+          { date: "6 Aug", google: 23, ai: 5, blueY: 24, goldY: 65 },
+          { date: "7 Aug", google: 26, ai: 6, blueY: 18, goldY: 58 },
+          { date: "8 Aug", google: 24, ai: 5, blueY: 26, goldY: 54 },
+          { date: "9 Aug", google: 28, ai: 7, blueY: 15, goldY: 46 },
+          { date: "10 Aug", google: 30, ai: 8, blueY: 12, goldY: 38 },
+          { date: "11 Aug", google: 27, ai: 7, blueY: 20, goldY: 32 },
+          { date: "12 Aug", google: 31, ai: 9, blueY: 10, goldY: 24 },
+          { date: "13 Aug", google: 29, ai: 8, blueY: 16, goldY: 20 },
+          { date: "14 Aug (Vandaag)", google: 34, ai: 11, blueY: 8, goldY: 14 }
         ],
         switches: { blog: false, seo: true, geo: true, whatsapp: true, microsites: false, reviews: true, faq: true, form: false },
         microsites: [],
@@ -1192,6 +1263,72 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     if (clientSelectDropdown) {
       clientSelectDropdown.addEventListener('change', (e) => {
         updateClientUI(e.target.value);
+      });
+    }
+
+    // 📈 Interactive SVG Wave Chart Crosshair & Floating Tooltip
+    const chartContainer = document.getElementById('chartContainer');
+    const chartTooltip = document.getElementById('chartTooltip');
+    const tooltipDate = document.getElementById('tooltipDate');
+    const tooltipGoogle = document.getElementById('tooltipGoogle');
+    const tooltipAi = document.getElementById('tooltipAi');
+    const tooltipTotal = document.getElementById('tooltipTotal');
+    const chartCrosshair = document.getElementById('chartCrosshair');
+    const hoverDotBlue = document.getElementById('hoverDotBlue');
+    const hoverDotGold = document.getElementById('hoverDotGold');
+
+    if (chartContainer) {
+      chartContainer.addEventListener('mousemove', (e) => {
+        const rect = chartContainer.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const width = rect.width;
+        
+        // Map mouseX to day index (0..13 for 14 days)
+        const dayIdx = Math.max(0, Math.min(13, Math.floor((mouseX / width) * 14)));
+        const conf = clientConfigs[currentSelectedClient];
+        if (!conf || !conf.dailyData) return;
+
+        const dayItem = conf.dailyData[dayIdx];
+        if (!dayItem) return;
+
+        // Position floating cyber tooltip
+        if (chartTooltip) {
+          chartTooltip.style.display = 'block';
+          // Constrain tooltip horizontally inside box
+          const tooltipLeft = Math.max(90, Math.min(width - 90, mouseX));
+          chartTooltip.style.left = `${tooltipLeft}px`;
+          chartTooltip.style.top = `${Math.max(40, e.clientY - rect.top)}px`;
+          
+          if (tooltipDate) tooltipDate.textContent = `📅 ${dayItem.date} 2026`;
+          if (tooltipGoogle) tooltipGoogle.textContent = `+${dayItem.google} bezoekers`;
+          if (tooltipAi) tooltipAi.textContent = `+${dayItem.ai} zoekers`;
+          if (tooltipTotal) tooltipTotal.textContent = `${dayItem.google + dayItem.ai} bezoeken`;
+        }
+
+        // Move SVG Crosshair & Glowing Snapping Dots
+        const svgX = (dayIdx / 13) * 500;
+        if (chartCrosshair) {
+          chartCrosshair.style.display = 'block';
+          chartCrosshair.setAttribute('x1', svgX);
+          chartCrosshair.setAttribute('x2', svgX);
+        }
+        if (hoverDotBlue) {
+          hoverDotBlue.style.display = 'block';
+          hoverDotBlue.setAttribute('cx', svgX);
+          hoverDotBlue.setAttribute('cy', dayItem.blueY);
+        }
+        if (hoverDotGold) {
+          hoverDotGold.style.display = 'block';
+          hoverDotGold.setAttribute('cx', svgX);
+          hoverDotGold.setAttribute('cy', dayItem.goldY);
+        }
+      });
+
+      chartContainer.addEventListener('mouseleave', () => {
+        if (chartTooltip) chartTooltip.style.display = 'none';
+        if (chartCrosshair) chartCrosshair.style.display = 'none';
+        if (hoverDotBlue) hoverDotBlue.style.display = 'none';
+        if (hoverDotGold) hoverDotGold.style.display = 'none';
       });
     }
 
