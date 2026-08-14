@@ -7,13 +7,15 @@ interface Props {
   description?: string;
   canonical?: string;
   schema?: object;
+  hideHeaderFooter?: boolean;
 }
 
 const {
   title = "BitbloX — Webdesign, Hosting, SEO, Logo Design & Beveiliging",
   description = "Full-service webdesign- en hostingbureau in Assen en Groningen. Supersnelle, betrouwbare websites, logo design, SEO en AI-vindbaarheid voor ZZP & MKB.",
   canonical,
-  schema
+  schema,
+  hideHeaderFooter = false
 } = Astro.props;
 
 const canonicalURL = canonical || Astro.url.href;
@@ -55,13 +57,13 @@ const canonicalURL = canonical || Astro.url.href;
   )}
 </head>
 <body>
-  <Header />
+  {!hideHeaderFooter && <Header />}
   
   <main id="main-content">
     <slot />
   </main>
 
-  <Footer />
+  {!hideHeaderFooter && <Footer />}
 
   <script is:inline src="/assets/js/main.js"></script>
 </body>

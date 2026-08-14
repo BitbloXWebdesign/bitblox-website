@@ -9,7 +9,7 @@ const blogPosts = await getCollection('blog');
 const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 ---
 
-<Layout title="BitbloX Enterprise — Command Center & Analytics" description="Enterprise Dark Dashboard voor het beheren van klantsites, snelheidsmetingen, bezoekersstatistieken en AI modules.">
+<Layout title="BitbloX Enterprise — Command Center & Analytics" description="Enterprise Dark Dashboard voor het beheren van klantsites, snelheidsmetingen, bezoekersstatistieken en AI modules." hideHeaderFooter={true}>
   
   <!-- Login Gate Modal -->
   <div id="loginGate" style="position: fixed; inset: 0; z-index: 999999; background: radial-gradient(circle at 50% 35%, #161a29 0%, #06070a 100%); backdrop-filter: blur(30px); display: flex; align-items: center; justify-content: center; padding: 20px;">
