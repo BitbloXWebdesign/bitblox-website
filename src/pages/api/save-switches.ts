@@ -28,7 +28,7 @@ export const POST: APIRoute = async ({ request }) => {
       voetreflextherapeut: {
         name: "Voetreflextherapeut Groningen",
         domain: "voetreflextherapeutgroningen.nl",
-        path: path.resolve('C:/Users/hzuid/OneDrive - BitbloX/BitbloX/WebDesign/Sites/Voetreflextherapeutgroningen')
+        path: path.resolve('C:/Users/hzuid/OneDrive - BitbloX/BitbloX/WebDesign/Sites/BitbloX/BitbloX webdesing/VRG')
       }
     };
 
