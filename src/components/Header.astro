@@ -1,13 +1,17 @@
 ---
+import switches from '../data/switches.json';
+
 const currentPath = Astro.url.pathname;
 
-const navItems = [
+const allNavItems = [
   { href: '/', label: 'Home' },
   { href: '/diensten/', label: 'Diensten' },
   { href: '/prijzen/', label: 'Prijzen' },
-  { href: '/blog/', label: 'Blog' },
+  { href: '/blog/', label: 'Blog', enabled: switches.blog },
   { href: '/contact/', label: 'Contact' },
 ];
+
+const navItems = allNavItems.filter(item => item.enabled !== false);
 ---
 
 <header class="site-header">

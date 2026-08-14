@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import GoogleReviews from '../components/GoogleReviews.astro';
 import FAQ from '../components/FAQ.astro';
+import switches from '../data/switches.json';
 
 const clients = [
   "yogaplanet.nl", "studiobm.nl", "massagestudioeelde.nl", "shemotion.nl", 
@@ -195,7 +196,7 @@ const homeSchema = {
   </section>
 
   <!-- ============ Google Reviews Component ============ -->
-  <GoogleReviews />
+  {switches.reviews && <GoogleReviews />}
 
   <!-- ============ Werkwijze ============ -->
   <section class="section" id="werkwijze">
@@ -232,7 +233,7 @@ const homeSchema = {
   </section>
 
   <!-- ============ FAQ Section ============ -->
-  <FAQ title="Veelgestelde vragen over BitbloX Webdesign in Assen" />
+  {switches.faq && <FAQ title="Veelgestelde vragen over BitbloX Webdesign in Assen" />}
 
   <!-- ============ CTA Band ============ -->
   <section class="section--tight">
