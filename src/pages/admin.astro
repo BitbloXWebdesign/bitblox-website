@@ -69,7 +69,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       <div style="display: flex; align-items: center; gap: 14px;">
         <div style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #94a3b8; background: #151824; padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
           <span style="width: 7px; height: 7px; border-radius: 50%; background: #22c55e;"></span>
-          Edge Cache: <strong style="color: #fff;">98.4%</strong>
+          Edge Cache: <strong id="edgeCacheDisplay" style="color: #fff;">98.4%</strong>
         </div>
         <a id="clientLiveLink" href="https://bitblox.nl" target="_blank" rel="noopener" class="btn btn--gold btn--sm" style="padding: 7px 16px; font-size: 0.84rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;">
           <span>🌐 Live Site</span> <span id="clientLiveDomainText" style="opacity: 0.85;">(bitblox.nl)</span> ↗
@@ -850,7 +850,18 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "BitbloX Webdesign & Hosting",
         domain: "bitblox.nl",
         pagesUrl: "https://bitblox.nl",
-        metrics: { mobile: "99", mobileTime: "0.23s", desktop: "100", desktopTime: "0.11s", geo: "98", geoLabel: "Actief" },
+        metrics: { mobile: "99", mobileTime: "0.23s", desktop: "100", desktopTime: "0.11s", geo: "98", geoLabel: "Actief", edgeCache: "98.4%" },
+        wave: {
+          blueWave: "M 0,90 Q 50,40 100,60 T 200,30 T 300,50 T 400,20 T 500,45 L 500,120 L 0,120 Z",
+          blueLine: "M 0,90 Q 50,40 100,60 T 200,30 T 300,50 T 400,20 T 500,45",
+          goldWave: "M 0,105 Q 60,85 120,95 T 220,70 T 320,65 T 420,40 T 500,35 L 500,120 L 0,120 Z",
+          goldLine: "M 0,105 Q 60,85 120,95 T 220,70 T 320,65 T 420,40 T 500,35"
+        },
+        sources: [
+          { label: "Google Organisch Zoeken", pct: 68 },
+          { label: "ChatGPT / AI Search", pct: 19 },
+          { label: "Direct / WhatsApp / Mond-tot-mond", pct: 13 }
+        ],
         switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true },
         microsites: [
           { name: "Assen", url: "/webdesign-assen/", slug: "assen" },
@@ -874,7 +885,18 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "De Autokampeerder",
         domain: "deautokampeerder.nl",
         pagesUrl: "https://deautokampeerder.pages.dev",
-        metrics: { mobile: "98", mobileTime: "0.26s", desktop: "100", desktopTime: "0.14s", geo: "95", geoLabel: "Actief" },
+        metrics: { mobile: "98", mobileTime: "0.26s", desktop: "100", desktopTime: "0.14s", geo: "95", geoLabel: "Actief", edgeCache: "97.8%" },
+        wave: {
+          blueWave: "M 0,80 Q 60,30 120,50 T 220,25 T 320,40 T 420,15 T 500,30 L 500,120 L 0,120 Z",
+          blueLine: "M 0,80 Q 60,30 120,50 T 220,25 T 320,40 T 420,15 T 500,30",
+          goldWave: "M 0,110 Q 70,95 140,85 T 240,75 T 340,55 T 440,45 T 500,40 L 500,120 L 0,120 Z",
+          goldLine: "M 0,110 Q 70,95 140,85 T 240,75 T 340,55 T 440,45 T 500,40"
+        },
+        sources: [
+          { label: "Google (Daktent Zoekers)", pct: 74 },
+          { label: "Kennisbank AI Artikelen", pct: 16 },
+          { label: "Direct & Socials", pct: 10 }
+        ],
         switches: { blog: true, seo: true, geo: false, whatsapp: false, microsites: false, reviews: false, faq: true, form: true },
         microsites: [],
         blogs: [
@@ -889,7 +911,18 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "Voetreflextherapeut Groningen",
         domain: "voetreflextherapeutgroningen.nl",
         pagesUrl: "https://voetreflextherapeut-groningen.pages.dev",
-        metrics: { mobile: "100", mobileTime: "0.19s", desktop: "100", desktopTime: "0.09s", geo: "99", geoLabel: "#1 Positie" },
+        metrics: { mobile: "100", mobileTime: "0.19s", desktop: "100", desktopTime: "0.09s", geo: "99", geoLabel: "#1 Positie", edgeCache: "99.2%" },
+        wave: {
+          blueWave: "M 0,70 Q 50,20 110,40 T 210,15 T 310,35 T 410,10 T 500,20 L 500,120 L 0,120 Z",
+          blueLine: "M 0,70 Q 50,20 110,40 T 210,15 T 310,35 T 410,10 T 500,20",
+          goldWave: "M 0,95 Q 60,70 130,60 T 230,45 T 330,35 T 430,20 T 500,15 L 500,120 L 0,120 Z",
+          goldLine: "M 0,95 Q 60,70 130,60 T 230,45 T 330,35 T 430,20 T 500,15"
+        },
+        sources: [
+          { label: "Google #1 (Voetreflex Groningen)", pct: 78 },
+          { label: "ChatGPT & AI Aanbevelingen", pct: 16 },
+          { label: "WhatsApp & Mond-tot-mond", pct: 6 }
+        ],
         switches: { blog: false, seo: true, geo: true, whatsapp: true, microsites: false, reviews: true, faq: true, form: false },
         microsites: [],
         blogs: [],
@@ -938,13 +971,74 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (toggleFaq) toggleFaq.checked = conf.switches.faq;
       if (toggleForm) toggleForm.checked = conf.switches.form;
 
-      // Update Live Metric Gauges
+      // Update Live Metric Gauges & SVG Rings
       if (metricMobileScore) metricMobileScore.textContent = conf.metrics.mobile;
       if (metricMobileTime) metricMobileTime.textContent = conf.metrics.mobileTime;
+      const circleMobile = document.querySelector('.circular-chart.green .circle');
+      if (circleMobile) circleMobile.setAttribute('stroke-dasharray', `${conf.metrics.mobile}, 100`);
+
       if (metricDesktopScore) metricDesktopScore.textContent = conf.metrics.desktop;
       if (metricDesktopTime) metricDesktopTime.textContent = conf.metrics.desktopTime;
+      const circleDesktop = document.querySelector('.circular-chart.blue .circle');
+      if (circleDesktop) circleDesktop.setAttribute('stroke-dasharray', `${conf.metrics.desktop}, 100`);
+
       if (metricGeoScore) metricGeoScore.textContent = conf.metrics.geo;
       if (metricGeoLabel) metricGeoLabel.textContent = conf.metrics.geoLabel;
+      const circleGeo = document.querySelector('.circular-chart.gold .circle');
+      if (circleGeo) circleGeo.setAttribute('stroke-dasharray', `${conf.metrics.geo}, 100`);
+
+      // Update Edge Cache in Top Bar
+      const edgeCacheDisplay = document.getElementById('edgeCacheDisplay');
+      if (edgeCacheDisplay && conf.metrics.edgeCache) {
+        edgeCacheDisplay.textContent = conf.metrics.edgeCache;
+      }
+
+      // Update Dynamic Wave Chart Paths per Client
+      const waveBlue = document.getElementById('trafficWaveBlue');
+      const lineBlue = document.getElementById('trafficLineBlue');
+      const waveGold = document.getElementById('trafficWaveGold');
+      const lineGold = document.getElementById('trafficLineGold');
+
+      if (conf.wave) {
+        if (waveBlue) waveBlue.setAttribute('d', conf.wave.blueWave);
+        if (lineBlue) lineBlue.setAttribute('d', conf.wave.blueLine);
+        if (waveGold) waveGold.setAttribute('d', conf.wave.goldWave);
+        if (lineGold) lineGold.setAttribute('d', conf.wave.goldLine);
+      }
+
+      // Update Traffic Sources Bars per Client
+      const trafficSourcesList = document.getElementById('trafficSourcesList');
+      if (trafficSourcesList && conf.sources) {
+        trafficSourcesList.innerHTML = `
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
+              <span style="color: #fff;">${conf.sources[0].label}</span>
+              <strong style="color: #38bdf8;">${conf.sources[0].pct}%</strong>
+            </div>
+            <div style="height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+              <div style="width: ${conf.sources[0].pct}%; height: 100%; background: #38bdf8; border-radius: 4px; transition: width 0.6s ease;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
+              <span style="color: #fff;">${conf.sources[1].label}</span>
+              <strong style="color: #dec148;">${conf.sources[1].pct}%</strong>
+            </div>
+            <div style="height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+              <div style="width: ${conf.sources[1].pct}%; height: 100%; background: #dec148; border-radius: 4px; transition: width 0.6s ease;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
+              <span style="color: #fff;">${conf.sources[2].label}</span>
+              <strong style="color: #4ade80;">${conf.sources[2].pct}%</strong>
+            </div>
+            <div style="height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+              <div style="width: ${conf.sources[2].pct}%; height: 100%; background: #4ade80; border-radius: 4px; transition: width 0.6s ease;"></div>
+            </div>
+          </div>
+        `;
+      }
 
       // Update Bottom Content Lists
       if (micrositeCountDisplay) micrositeCountDisplay.textContent = conf.microsites.length;
