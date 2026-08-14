@@ -1,0 +1,10 @@
+{
+  "blog": true,
+  "seo": true,
+  "geo": true,
+  "whatsapp": true,
+  "microsites": true,
+  "reviews": true,
+  "faq": true,
+  "form": true
+}
