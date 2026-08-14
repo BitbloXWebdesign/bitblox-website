@@ -809,8 +809,6 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       });
     }
 
-    checkAuth();
-
     // 📑 Tab Navigation Handler
     const navTabs = document.querySelectorAll('.nav-tab');
     const tabPanes = document.querySelectorAll('.tab-pane');
@@ -1057,8 +1055,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     }
 
     function updateClientUI(clientId) {
+      if (!clientId || !clientConfigs[clientId]) clientId = 'bitblox';
       currentSelectedClient = clientId;
       const conf = clientConfigs[clientId];
+      if (!conf) return;
 
       if (switchesClientName) switchesClientName.textContent = conf.name;
       if (clientLiveLink) clientLiveLink.href = conf.pagesUrl;
@@ -1823,5 +1823,8 @@ ${storyVal}
         }
       });
     }
+
+    // Run auth check and UI synchronization after full setup
+    checkAuth();
   });
 </script>
