@@ -1414,7 +1414,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         conf.switches.faq = toggleFaq ? toggleFaq.checked : true;
         conf.switches.form = toggleForm ? toggleForm.checked : true;
 
-        const currentToken = ghTokenInput ? ghTokenInput.value.trim() : (localStorage.getItem('bitblox_gh_token') || '');
+        const currentToken = (ghTokenInput && ghTokenInput.value.trim()) || localStorage.getItem('bitblox_gh_token') || '';
         if (currentToken) {
           localStorage.setItem('bitblox_gh_token', currentToken);
         }
