@@ -325,10 +325,18 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
                   Module Instellingen voor <span id="switchesClientName" style="color: #dec148;">BitbloX Webdesign</span>
                 </h3>
                 <p style="font-size: 0.82rem; color: #94a3b8; margin: 0;">Schakel modules aan of uit. Uitgeschakelde onderdelen verdwijnen direct van de site!</p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <input 
+                  type="password" 
+                  id="ghTokenInput" 
+                  placeholder="🐙 GitHub Token (optioneel)..." 
+                  title="Plak hier je GitHub Personal Access Token om overal direct live te pushen" 
+                  style="padding: 9px 12px; font-size: 0.8rem; background: #151824; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #fff; width: 190px;" 
+                />
+                <button id="saveSwitchesBtn" class="btn btn--gold" style="padding: 10px 20px; border-radius: 8px; font-weight: 700;">
+                  💾 Opslaan &amp; Synchroniseren
+                </button>
               </div>
-              <button id="saveSwitchesBtn" class="btn btn--gold" style="padding: 10px 20px; border-radius: 8px; font-weight: 700;">
-                💾 Opslaan &amp; Synchroniseren
-              </button>
             </div>
 
             <!-- 2-Column Grid 8 Switches -->
@@ -1339,6 +1347,60 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (t) t.addEventListener('change', syncToolVisibility);
     });
 
+    const ghTokenInput = document.getElementById('ghTokenInput');
+    if (ghTokenInput) {
+      const savedToken = localStorage.getItem('bitblox_gh_token');
+      if (savedToken) ghTokenInput.value = savedToken;
+      ghTokenInput.addEventListener('change', () => {
+        localStorage.setItem('bitblox_gh_token', ghTokenInput.value.trim());
+      });
+    }
+
+    const clientGithubRepoMap = {
+      bitblox: "BitbloXWebdesign/bitblox-website",
+      autokampeerder: "BitbloXWebdesign/deautokampeerder",
+      voetreflextherapeut: "BitbloXWebdesign/voetreflextherapeut-groningen"
+    };
+
+    async function pushDirectToGitHub(repo, filePath, contentString, commitMsg, token) {
+      if (!token) return false;
+      try {
+        const apiUrl = `https://api.github.com/repos/${repo}/contents/${filePath}`;
+        let sha = null;
+        try {
+          const getRes = await fetch(apiUrl, {
+            headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+          });
+          if (getRes.ok) {
+            const getData = await getRes.json();
+            sha = getData.sha;
+          }
+        } catch (e) {}
+
+        const base64Content = btoa(unescape(encodeURIComponent(contentString)));
+        const putBody = {
+          message: commitMsg || "Update schuifjes via BitbloX Admin Dashboard",
+          content: base64Content,
+          branch: "main"
+        };
+        if (sha) putBody.sha = sha;
+
+        const putRes = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(putBody)
+        });
+        return putRes.ok;
+      } catch (err) {
+        console.warn('GitHub API Push Error:', err);
+        return false;
+      }
+    }
+
     if (saveSwitchesBtn) {
       saveSwitchesBtn.addEventListener('click', async () => {
         const conf = clientConfigs[currentSelectedClient];
@@ -1351,11 +1413,33 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         conf.switches.faq = toggleFaq ? toggleFaq.checked : true;
         conf.switches.form = toggleForm ? toggleForm.checked : true;
 
+        const currentToken = ghTokenInput ? ghTokenInput.value.trim() : (localStorage.getItem('bitblox_gh_token') || '');
+        if (currentToken) {
+          localStorage.setItem('bitblox_gh_token', currentToken);
+        }
+
         saveSwitchesBtn.textContent = '⏳ Opslaan...';
         saveSwitchesBtn.disabled = true;
 
         syncToolVisibility();
 
+        // 1. Direct Cloud GitHub API Push
+        let ghPushed = false;
+        if (currentToken) {
+          const targetRepo = clientGithubRepoMap[currentSelectedClient];
+          if (targetRepo) {
+            const configPayload = JSON.stringify({
+              site: conf.name,
+              domain: conf.domain,
+              updatedAt: new Date().toISOString(),
+              modules: conf.switches
+            }, null, 2);
+
+            ghPushed = await pushDirectToGitHub(targetRepo, 'public/site-config.json', configPayload, `Update schuifjes voor ${conf.name}`, currentToken);
+          }
+        }
+
+        // 2. Local fallback endpoint
         try {
           await fetch('/api/save-switches', {
             method: 'POST',
@@ -1365,17 +1449,19 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               switches: conf.switches
             })
           });
-        } catch (e) {
-          console.log('Switches saved locally.');
-        }
+        } catch (e) {}
 
         setTimeout(() => {
           if (saveSwitchesStatus) {
-            saveSwitchesStatus.textContent = `✅ Schuifjes voor ${conf.name} live gepusht naar Cloudflare Pages!`;
+            if (ghPushed) {
+              saveSwitchesStatus.textContent = `🚀 Direct via GitHub API gepusht! Cloudflare zet ${conf.name} nu live!`;
+            } else {
+              saveSwitchesStatus.textContent = `✅ Schuifjes voor ${conf.name} lokaal opgeslagen & gesynchroniseerd!`;
+            }
           }
           saveSwitchesBtn.textContent = '💾 Opslaan & Synchroniseren';
           saveSwitchesBtn.disabled = false;
-        }, 800);
+        }, 600);
       });
     }
 
