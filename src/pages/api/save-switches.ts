@@ -12,48 +12,67 @@ export const GET: APIRoute = async () => {
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const { client, switches } = await request.json();
+    const { client = 'bitblox', switches } = await request.json();
 
-    if (client === 'autokampeerder') {
-      const repoDir = path.resolve('C:/Users/hzuid/OneDrive - BitbloX/BitbloX/WebDesign/Sites/DeAutokampeerder');
-      const configPath = path.join(repoDir, 'public/site-config.json');
-
-      const configData = {
-        site: "De Autokampeerder",
+    const clientRepoMap: Record<string, { name: string; domain: string; path: string }> = {
+      bitblox: {
+        name: "BitbloX Webdesign",
+        domain: "bitblox.nl",
+        path: path.resolve(process.cwd())
+      },
+      autokampeerder: {
+        name: "De Autokampeerder",
         domain: "deautokampeerder.nl",
-        modules: switches
-      };
-
-      await fs.writeFile(configPath, JSON.stringify(configData, null, 2), 'utf-8');
-
-      // Git commit and push to GitHub so Cloudflare Pages deploys in 15s
-      try {
-        await execAsync('git add . && git commit -m "Update schuifjes via BitbloX Admin Dashboard" && git push origin main', { cwd: repoDir });
-      } catch (gitErr) {
-        console.warn('Git push for DeAutokampeerder:', gitErr);
+        path: path.resolve('C:/Users/hzuid/OneDrive - BitbloX/BitbloX/WebDesign/Sites/DeAutokampeerder')
+      },
+      voetreflextherapeut: {
+        name: "Voetreflextherapeut Groningen",
+        domain: "voetreflextherapeutgroningen.nl",
+        path: path.resolve('C:/Users/hzuid/OneDrive - BitbloX/BitbloX/WebDesign/Sites/Voetreflextherapeutgroningen')
       }
+    };
 
-      return new Response(JSON.stringify({ success: true, message: 'Schuifjes voor De Autokampeerder opgeslagen en live gepusht!' }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
+    const targetClient = clientRepoMap[client] || clientRepoMap.bitblox;
+    const repoDir = targetClient.path;
 
-    // Default: BitbloX Webdesign
-    const bitbloxDir = path.resolve(process.cwd());
-    const switchesDataPath = path.join(bitbloxDir, 'src/data/switches.json');
-    const publicConfigPath = path.join(bitbloxDir, 'public/site-config.json');
-
-    await fs.writeFile(switchesDataPath, JSON.stringify(switches, null, 2), 'utf-8');
-    await fs.writeFile(publicConfigPath, JSON.stringify({ site: "BitbloX", modules: switches }, null, 2), 'utf-8');
+    // 1. Write public/site-config.json
+    const publicConfigDir = path.join(repoDir, 'public');
+    const publicConfigPath = path.join(publicConfigDir, 'site-config.json');
+    const configData = {
+      site: targetClient.name,
+      domain: targetClient.domain,
+      updatedAt: new Date().toISOString(),
+      modules: switches
+    };
 
     try {
-      await execAsync('git add src/data/switches.json public/site-config.json && git commit -m "Update schuifjes via BitbloX Admin Dashboard" && git push origin main', { cwd: bitbloxDir });
-    } catch (gitErr) {
-      console.warn('Git push for BitbloX:', gitErr);
+      await fs.mkdir(publicConfigDir, { recursive: true });
+      await fs.writeFile(publicConfigPath, JSON.stringify(configData, null, 2), 'utf-8');
+    } catch (e) {
+      console.warn('Could not write public/site-config.json:', e);
     }
 
-    return new Response(JSON.stringify({ success: true, message: 'Schuifjes voor BitbloX succesvol opgeslagen en live gepusht!' }), {
+    // 2. Write src/data/switches.json if src/data directory exists
+    const srcDataDir = path.join(repoDir, 'src/data');
+    const switchesDataPath = path.join(srcDataDir, 'switches.json');
+    try {
+      await fs.mkdir(srcDataDir, { recursive: true });
+      await fs.writeFile(switchesDataPath, JSON.stringify(switches, null, 2), 'utf-8');
+    } catch (e) {
+      console.warn('Could not write src/data/switches.json:', e);
+    }
+
+    // 3. Git commit & push for automatic Cloudflare Pages deployment
+    try {
+      await execAsync('git add . && git commit -m "Update schuifjes via BitbloX Admin Dashboard" && git push origin main', { cwd: repoDir });
+    } catch (gitErr) {
+      console.warn(`Git push for ${targetClient.name}:`, gitErr);
+    }
+
+    return new Response(JSON.stringify({ 
+      success: true, 
+      message: `Schuifjes voor ${targetClient.name} succesvol opgeslagen en live gesynchroniseerd!` 
+    }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
