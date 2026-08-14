@@ -182,28 +182,28 @@ export const pricing = {
       id: "microsites-pakket",
       name: "Steden-Microsites Pakket",
       subtitle: "Regio-dominantie in omliggende dorpen",
-      amount: 125,
+      amount: 250,
       unit: "eenmalig (5 steden)",
       roi: "Trek klanten uit de hele regio naar uw praktijk",
       features: [
         "5 unieke regio-landingspagina's op maat",
         "Lokale SEO & zoekwoorden per plaats",
         "Geïntegreerd in BitbloX Dashboard",
-        "Losse extra steden uit te breiden voor € 25/stad"
+        "Losse extra steden uit te breiden voor € 45/stad"
       ]
     },
     {
       id: "blog-kennisbank",
       name: "Kennisbank & Blog Module",
       subtitle: "Autoriteit in uw vakgebied",
-      amount: 95,
+      amount: 195,
       unit: "eenmalig",
       roi: "Inclusief 3 geschreven artikelen door BitbloX",
       features: [
         "Inrichting van de Kennisbank module op uw site",
         "Inclusief 3 complete geschreven SEO-artikelen",
         "U mag onderwerpen aandragen, wij schrijven ze uit",
-        "Losse extra artikelen uit te breiden voor € 25/blog"
+        "Losse extra artikelen uit te breiden voor € 45/blog"
       ]
     },
     {
