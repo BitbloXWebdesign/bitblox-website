@@ -344,10 +344,13 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
             <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📍 Microsites (<span id="micrositeCountDisplay">{currentLocations.length}</span>)</h3>
             <div id="micrositeListDisplay" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
-              {currentLocations.slice(0, 5).map((loc) => (
-                <div style="display: flex; justify-content: space-between;">
-                  <span style="color: var(--text);">{loc.plaats}</span>
-                  <a href={`/webdesign-${loc.slug}/`} target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+              {currentLocations.slice(0, 5).map((loc, idx) => (
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
+                  <span style="color: var(--text); font-weight: 500;">{loc.plaats}</span>
+                  <div style="display: flex; gap: 8px; align-items: center;">
+                    <a href={`/webdesign-${loc.slug}/`} target="_blank" style="color: var(--gold); font-size: 0.8rem;">Bekijk ↗</a>
+                    <button onclick={`window.deleteMicrositeItem('${loc.slug}', '${loc.plaats}', ${idx})`} title={`Verwijder ${loc.plaats}`} style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -357,10 +360,13 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
             <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">📝 Blogs / Kennisbank (<span id="blogCountDisplay">{blogPosts.length}</span>)</h3>
             <div id="blogListDisplay" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
-              {blogPosts.map((post) => (
-                <div style="display: flex; justify-content: space-between;">
-                  <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px;">{post.data.title}</span>
-                  <a href={`/blog/${post.id}/`} target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+              {blogPosts.map((post, idx) => (
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
+                  <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px; font-weight: 500;">{post.data.title}</span>
+                  <div style="display: flex; gap: 8px; align-items: center;">
+                    <a href={`/blog/${post.id}/`} target="_blank" style="color: var(--gold); font-size: 0.8rem;">Bekijk ↗</a>
+                    <button onclick={`window.deleteBlogItem('${post.id}', '${post.data.title.replace(/'/g, "\\'")}', ${idx})`} title={`Verwijder ${post.data.title}`} style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -370,10 +376,13 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div class="card" style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
             <h3 style="font-size: 1.05rem; color: var(--gold); margin-bottom: 12px;">⭐️ Reviews (<span id="reviewCountDisplay">{reviewsData.length}</span>)</h3>
             <div id="reviewListDisplay" style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
-              {reviewsData.map((r) => (
-                <div style="display: flex; justify-content: space-between;">
-                  <span style="color: var(--text);">{r.name}</span>
-                  <span style="color: var(--gold);">★★★★★</span>
+              {reviewsData.map((r, idx) => (
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
+                  <span style="color: var(--text); font-weight: 500;">{r.name}</span>
+                  <div style="display: flex; gap: 8px; align-items: center;">
+                    <span style="color: var(--gold); font-size: 0.8rem;">★★★★★</span>
+                    <button onclick={`window.deleteReviewItem('${r.name}', ${idx})`} title={`Verwijder review van ${r.name}`} style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
+                  </div>
                 </div>
               ))}
             </div>
