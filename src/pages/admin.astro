@@ -599,10 +599,13 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         if (conf.microsites.length === 0) {
           micrositeListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen microsites aangemaakt</span>`;
         } else {
-          micrositeListDisplay.innerHTML = conf.microsites.map(m => `
-            <div style="display: flex; justify-content: space-between;">
-              <span style="color: var(--text);">${m.name}</span>
-              <a href="${m.url}" target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+          micrositeListDisplay.innerHTML = conf.microsites.map((m, idx) => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
+              <span style="color: var(--text); font-weight: 500;">${m.name}</span>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <a href="${m.url}" target="_blank" style="color: var(--gold); font-size: 0.8rem;">Bekijk ↗</a>
+                <button onclick="window.deleteMicrositeItem('${m.slug || m.name.toLowerCase()}', '${m.name}', ${idx})" title="Verwijder ${m.name}" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
+              </div>
             </div>
           `).join('');
         }
@@ -613,10 +616,13 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         if (conf.blogs.length === 0) {
           blogListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen Kennisbank artikelen</span>`;
         } else {
-          blogListDisplay.innerHTML = conf.blogs.map(b => `
-            <div style="display: flex; justify-content: space-between;">
-              <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px;">${b.title}</span>
-              <a href="${b.url}" target="_blank" style="color: var(--gold);">Bekijk ↗</a>
+          blogListDisplay.innerHTML = conf.blogs.map((b, idx) => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
+              <span style="color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px; font-weight: 500;">${b.title}</span>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <a href="${b.url}" target="_blank" style="color: var(--gold); font-size: 0.8rem;">Bekijk ↗</a>
+                <button onclick="window.deleteBlogItem('${b.slug || b.id || b.title}', '${b.title}', ${idx})" title="Verwijder ${b.title}" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
+              </div>
             </div>
           `).join('');
         }
@@ -627,10 +633,13 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         if (conf.reviews.length === 0) {
           reviewListDisplay.innerHTML = `<span style="color: var(--muted); italic;">Nog geen reviews toegevoegd</span>`;
         } else {
-          reviewListDisplay.innerHTML = conf.reviews.map(r => `
-            <div style="display: flex; justify-content: space-between;">
-              <span style="color: var(--text);">${r.name}</span>
-              <span style="color: var(--gold);">${r.rating}</span>
+          reviewListDisplay.innerHTML = conf.reviews.map((r, idx) => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--border);">
+              <span style="color: var(--text); font-weight: 500;">${r.name}</span>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <span style="color: var(--gold); font-size: 0.8rem;">${r.rating}</span>
+                <button onclick="window.deleteReviewItem('${r.name}', ${idx})" title="Verwijder review van ${r.name}" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px 4px; font-size: 0.85rem;">🗑️</button>
+              </div>
             </div>
           `).join('');
         }
@@ -640,6 +649,54 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
       if (saveSwitchesStatus) saveSwitchesStatus.textContent = '';
     }
+
+    window.deleteMicrositeItem = async (slug, name, index) => {
+      if (!confirm(`Weet je zeker dat je de microsite voor "${name}" wilt verwijderen?`)) return;
+      const conf = clientConfigs[currentSelectedClient];
+      conf.microsites.splice(index, 1);
+      updateClientUI(currentSelectedClient);
+      try {
+        await fetch('/api/delete-location', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug, name })
+        });
+      } catch (e) {
+        console.log('Deleted locally');
+      }
+    };
+
+    window.deleteBlogItem = async (id, title, index) => {
+      if (!confirm(`Weet je zeker dat je het artikel "${title}" wilt verwijderen?`)) return;
+      const conf = clientConfigs[currentSelectedClient];
+      conf.blogs.splice(index, 1);
+      updateClientUI(currentSelectedClient);
+      try {
+        await fetch('/api/delete-blog', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, filename: id })
+        });
+      } catch (e) {
+        console.log('Deleted blog locally');
+      }
+    };
+
+    window.deleteReviewItem = async (name, index) => {
+      if (!confirm(`Weet je zeker dat je de review van "${name}" wilt verwijderen?`)) return;
+      const conf = clientConfigs[currentSelectedClient];
+      conf.reviews.splice(index, 1);
+      updateClientUI(currentSelectedClient);
+      try {
+        await fetch('/api/delete-review', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name })
+        });
+      } catch (e) {
+        console.log('Deleted review locally');
+      }
+    };
 
     if (clientSelectDropdown) {
       clientSelectDropdown.addEventListener('change', (e) => {
