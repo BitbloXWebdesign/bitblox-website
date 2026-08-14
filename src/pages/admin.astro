@@ -778,6 +778,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (sessionStorage.getItem('bitblox_admin_auth') === 'true') {
         if (loginGate) loginGate.style.display = 'none';
         if (adminContent) adminContent.style.display = 'block';
+        if (clientSelectDropdown) updateClientUI(clientSelectDropdown.value);
       } else {
         if (loginGate) loginGate.style.display = 'flex';
         if (adminContent) adminContent.style.display = 'none';
@@ -926,7 +927,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         blogs: [
           { id: "ai-vindbaarheid-chatgpt-zzp", title: "AI-Vindbaarheid (GEO) gids", url: "/blog/ai-vindbaarheid-chatgpt-zzp/" },
           { id: "de-5-grootste-fouten-op-zzp-websites", title: "5 grootste fouten op zzp sites", url: "/blog/de-5-grootste-fouten-op-zzp-websites/" },
-          { id: "de-kracht-van-microsites", title: "De kracht van microsites", url: "/blog/de-kracht-van-microsites/" }
+          { id: "de-kracht-van-microsites", title: "De kracht van microsites", url: "/blog/de-kracht-van-microsites/" },
+          { id: "waarom-trage-website-klanten-kost", title: "Waarom trage website klanten kost", url: "/blog/waarom-trage-website-klanten-kost/" }
         ],
         reviews: [
           { name: "Alianne Zuidhof", rating: "★★★★★" },
