@@ -82,9 +82,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <span id="activeClientBadge" style="font-size: 0.78rem; background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid #22c55e; padding: 4px 12px; border-radius: 999px; font-weight: 700;">🟢 Live &amp; Beveiligd</span>
           </div>
 
-          <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 20px;">Schakel hieronder modules aan of uit naar gelang waar de klant voor betaalt. Als een module UIT staat, verdwijnt de bijbehorende beheertool hieronder automatisch van het scherm!</p>
+          <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 20px;">Schakel hieronder modules aan of uit naar gelang waar de klant voor betaalt. Als een module UIT staat, verdwijnt het onderdeel op de site én de bijbehorende beheertool hieronder automatisch!</p>
 
-          <!-- Schuifjes Grid (7 Afzonderlijke Schuifjes) -->
+          <!-- Schuifjes Grid (8 Afzonderlijke Schuifjes) -->
           <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
             
             <!-- Schuifje 1: Blog Module -->
@@ -123,7 +123,19 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 4: Steden Microsites Generator -->
+            <!-- Schuifje 4: WhatsApp Direct Chat Floating Widget -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
+              <div>
+                <strong style="display: block; color: var(--text); font-size: 0.95rem;">💬 WhatsApp Direct Chat Floating Widget</strong>
+                <span style="font-size: 0.82rem; color: var(--muted);">Toont of verbergt de zwevende WhatsApp knop rechtsonder op de site.</span>
+              </div>
+              <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
+                <input type="checkbox" id="toggleWhatsapp" checked style="opacity: 0; width: 0; height: 0;">
+                <span class="slider" style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 34px;"></span>
+              </label>
+            </div>
+
+            <!-- Schuifje 5: Steden Microsites Generator -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">📍 Steden-Microsites Generator</strong>
@@ -135,7 +147,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 5: Google Reviews Carrousel -->
+            <!-- Schuifje 6: Google Reviews Carrousel -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">⭐ Google Reviews Carrousel &amp; Saver</strong>
@@ -147,7 +159,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 6: Veelgestelde Vragen (FAQ) -->
+            <!-- Schuifje 7: Veelgestelde Vragen (FAQ) -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">❓ Veelgestelde Vragen (FAQ)</strong>
@@ -159,7 +171,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               </label>
             </div>
 
-            <!-- Schuifje 7: Contact & Offerte Formulier -->
+            <!-- Schuifje 8: Contact & Offerte Formulier -->
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);">
               <div>
                 <strong style="display: block; color: var(--text); font-size: 0.95rem;">📩 Contact &amp; Offerte Formulier</strong>
@@ -464,6 +476,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const toggleBlog = document.getElementById('toggleBlog');
     const toggleSeo = document.getElementById('toggleSeo');
     const toggleGeo = document.getElementById('toggleGeo');
+    const toggleWhatsapp = document.getElementById('toggleWhatsapp');
     const toggleMicrosites = document.getElementById('toggleMicrosites');
     const toggleReviews = document.getElementById('toggleReviews');
     const toggleFaq = document.getElementById('toggleFaq');
@@ -493,7 +506,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "BitbloX Webdesign & Hosting",
         domain: "bitblox.nl",
         pagesUrl: "https://bitblox.nl",
-        switches: { blog: true, seo: true, geo: true, microsites: true, reviews: true, faq: true, form: true },
+        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true },
         microsites: [
           { name: "Assen", url: "/webdesign-assen/" },
           { name: "Groningen", url: "/webdesign-groningen/" },
@@ -516,7 +529,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         name: "De Autokampeerder",
         domain: "deautokampeerder.nl",
         pagesUrl: "https://deautokampeerder.pages.dev",
-        switches: { blog: true, seo: true, geo: false, microsites: false, reviews: false, faq: true, form: true },
+        switches: { blog: true, seo: true, geo: false, whatsapp: false, microsites: false, reviews: false, faq: true, form: true },
         microsites: [],
         blogs: [
           { title: "Daktent op kleine auto: Kan dat op Polo/Fiat 500?", url: "https://deautokampeerder.pages.dev/kennisbank/daktent-op-kleine-auto-mogelijk-en-tips" },
@@ -560,6 +573,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (toggleBlog) toggleBlog.checked = conf.switches.blog;
       if (toggleSeo) toggleSeo.checked = conf.switches.seo;
       if (toggleGeo) toggleGeo.checked = conf.switches.geo;
+      if (toggleWhatsapp) toggleWhatsapp.checked = conf.switches.whatsapp !== undefined ? conf.switches.whatsapp : true;
       if (toggleMicrosites) toggleMicrosites.checked = conf.switches.microsites;
       if (toggleReviews) toggleReviews.checked = conf.switches.reviews;
       if (toggleFaq) toggleFaq.checked = conf.switches.faq;
@@ -630,6 +644,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         conf.switches.blog = toggleBlog ? toggleBlog.checked : true;
         conf.switches.seo = toggleSeo ? toggleSeo.checked : true;
         conf.switches.geo = toggleGeo ? toggleGeo.checked : true;
+        conf.switches.whatsapp = toggleWhatsapp ? toggleWhatsapp.checked : false;
         conf.switches.microsites = toggleMicrosites ? toggleMicrosites.checked : true;
         conf.switches.reviews = toggleReviews ? toggleReviews.checked : true;
         conf.switches.faq = toggleFaq ? toggleFaq.checked : true;
