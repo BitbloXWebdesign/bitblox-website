@@ -62,6 +62,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <select id="clientSelectDropdown" style="width: 100%; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); color: var(--gold); font-size: 1.05rem; font-weight: 700; cursor: pointer;">
               <option value="bitblox" selected>🌐 BitbloX Webdesign (bitblox.nl)</option>
               <option value="autokampeerder">🚐 De Autokampeerder (deautokampeerder.nl)</option>
+              <option value="voetreflextherapeut">🌿 Voetreflextherapeut Groningen (voetreflextherapeutgroningen.nl)</option>
             </select>
           </div>
 
@@ -537,6 +538,19 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { title: "Past een daktent op mijn auto? Daklast gids", url: "https://deautokampeerder.pages.dev/kennisbank/past-een-daktent-op-mijn-auto" }
         ],
         reviews: []
+      },
+      voetreflextherapeut: {
+        name: "Voetreflextherapeut Groningen",
+        domain: "voetreflextherapeutgroningen.nl",
+        pagesUrl: "https://voetreflextherapeut-groningen.pages.dev",
+        switches: { blog: false, seo: true, geo: true, whatsapp: true, microsites: false, reviews: true, faq: true, form: false },
+        microsites: [],
+        blogs: [],
+        reviews: [
+          { name: "Annelies de V.", rating: "★★★★★" },
+          { name: "Marloes & Sven", rating: "★★★★★" },
+          { name: "Karin B.", rating: "★★★★★" }
+        ]
       }
     };
 
