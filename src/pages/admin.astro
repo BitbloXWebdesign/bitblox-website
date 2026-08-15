@@ -438,6 +438,24 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
             </div>
 
+            <!-- Slimme Meldingenbalk Tekst & Actie Box -->
+            <div style="background: #101420; border: 1px solid rgba(222, 193, 72, 0.25); border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+                <strong style="color: #fff; font-size: 0.92rem; display: flex; align-items: center; gap: 8px;">
+                  📣 Tekst &amp; Link voor Slimme Meldingenbalk
+                </strong>
+                <span style="font-size: 0.78rem; color: #dec148;">Actief voor <span class="clientTargetName">BitbloX Webdesign</span></span>
+              </div>
+              <p style="font-size: 0.8rem; color: #94a3b8; margin: 0 0 12px 0;">
+                Voer hier de tekst in voor vakantiesluitingen, seizoenskortingen of belangrijk praktijknieuws. Klik daarna op <strong>💾 Opslaan &amp; Synchroniseren</strong>.
+              </p>
+              <div style="display: grid; grid-template-columns: 140px 1.5fr 1fr; gap: 10px;">
+                <input type="text" id="announcementBadgeInput" placeholder="Badge (bijv. UPDATE)" value="UPDATE" style="padding: 10px 14px; background: #181d2c; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #fff; font-size: 0.85rem;" />
+                <input type="text" id="announcementTextInput" placeholder="Melding (bijv. Praktijk gesloten van 1 t/m 15 augustus...)" value="🚀 Nieuwe AI-Vindbaarheid (GEO) modules nu live voor ZZP & MKB websites!" style="padding: 10px 14px; background: #181d2c; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #fff; font-size: 0.85rem;" />
+                <input type="text" id="announcementLinkInput" placeholder="Link (bijv. /contact/ of /prijzen/)" value="/diensten/" style="padding: 10px 14px; background: #181d2c; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #fff; font-size: 0.85rem;" />
+              </div>
+            </div>
+
             <div id="saveSwitchesStatus" style="font-size: 0.85rem; color: #4ade80; font-weight: 700; text-align: right; min-height: 20px;"></div>
           </div>
 
@@ -881,6 +899,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const toggleAnnouncement = document.getElementById('toggleAnnouncement');
     const toggleAccessibility = document.getElementById('toggleAccessibility');
     const toggleCallback = document.getElementById('toggleCallback');
+    const announcementBadgeInput = document.getElementById('announcementBadgeInput');
+    const announcementTextInput = document.getElementById('announcementTextInput');
+    const announcementLinkInput = document.getElementById('announcementLinkInput');
     const saveSwitchesBtn = document.getElementById('saveSwitchesBtn');
     const saveSwitchesStatus = document.getElementById('saveSwitchesStatus');
 
@@ -957,6 +978,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { date: "14 Aug (Vandaag)", google: 42, ai: 14, blueY: 18, goldY: 32 }
         ],
         switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true, cookies: true, announcement: true, accessibility: true, callback: true },
+        announcement: {
+          badge: "UPDATE",
+          text: "🚀 Nieuwe AI-Vindbaarheid (GEO) modules nu live voor ZZP & MKB websites!",
+          link: "/diensten/"
+        },
         microsites: [
           { name: "Assen", url: "/webdesign-assen/", slug: "assen" },
           { name: "Groningen", url: "/webdesign-groningen/", slug: "groningen" },
@@ -1019,6 +1045,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { date: "14 Aug (Vandaag)", google: 58, ai: 15, blueY: 12, goldY: 34 }
         ],
         switches: { blog: true, seo: true, geo: false, whatsapp: false, microsites: false, reviews: false, faq: true, form: true, cookies: true, announcement: true, accessibility: true, callback: false },
+        announcement: {
+          badge: "ACTIE",
+          text: "🏕️ Ontdek onze nieuwste collectie hardshell daktenten voor elektrische auto's!",
+          link: "/kennisbank"
+        },
         microsites: [],
         blogs: [
           { id: "daktent-op-elektrische-auto-actieradius-en-tips", title: "Daktent op Elektrische Auto (EV / Tesla): Actieradius & Tips", url: "https://deautokampeerder.pages.dev/kennisbank/daktent-op-elektrische-auto-actieradius-en-tips" },
@@ -1072,6 +1103,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { date: "14 Aug (Vandaag Live)", google: 14, ai: 4, blueY: 30, goldY: 65 }
         ],
         switches: { blog: false, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: false, cookies: false, announcement: false, accessibility: true, callback: true },
+        announcement: {
+          badge: "ZORGVERGOEDING",
+          text: "🌿 Vergoeding vanuit de aanvullende zorgverzekering direct mogelijk in 2026!",
+          link: "/prijzen"
+        },
         microsites: [],
         blogs: [],
         reviews: [
@@ -1124,6 +1160,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (toggleAnnouncement) toggleAnnouncement.checked = conf.switches.announcement !== undefined ? conf.switches.announcement : false;
       if (toggleAccessibility) toggleAccessibility.checked = conf.switches.accessibility !== undefined ? conf.switches.accessibility : true;
       if (toggleCallback) toggleCallback.checked = conf.switches.callback !== undefined ? conf.switches.callback : false;
+
+      // Update Announcement Input Fields
+      if (announcementBadgeInput) announcementBadgeInput.value = conf.announcement?.badge || 'UPDATE';
+      if (announcementTextInput) announcementTextInput.value = conf.announcement?.text || '';
+      if (announcementLinkInput) announcementLinkInput.value = conf.announcement?.link || '';
 
       // Update Live Metric Gauges & SVG Rings
       if (metricMobileScore) metricMobileScore.textContent = conf.metrics.mobile;
@@ -1463,6 +1504,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         conf.switches.accessibility = toggleAccessibility ? toggleAccessibility.checked : false;
         conf.switches.callback = toggleCallback ? toggleCallback.checked : false;
 
+        if (!conf.announcement) conf.announcement = {};
+        conf.announcement.badge = announcementBadgeInput ? announcementBadgeInput.value.trim() : 'UPDATE';
+        conf.announcement.text = announcementTextInput ? announcementTextInput.value.trim() : '';
+        conf.announcement.link = announcementLinkInput ? announcementLinkInput.value.trim() : '';
+
         saveSwitchesBtn.textContent = '⏳ Opslaan...';
         saveSwitchesBtn.disabled = true;
 
@@ -1476,6 +1522,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             site: conf.name,
             domain: conf.domain,
             updatedAt: new Date().toISOString(),
+            announcement: conf.announcement,
             modules: {
               ...conf.switches,
               whatsappWidget: conf.switches.whatsapp,
@@ -1494,7 +1541,13 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           ghPushed = await pushDirectToGitHub(targetRepo, 'public/site-config.json', configPayload, `Update 12-schuifjes voor ${conf.name}`);
 
           if (currentSelectedClient === 'bitblox') {
-            await pushDirectToGitHub(targetRepo, 'src/data/switches.json', JSON.stringify(conf.switches, null, 2), `Update switches.json voor BitbloX`);
+            const switchesPayload = {
+              ...conf.switches,
+              announcementBadge: conf.announcement.badge,
+              announcementText: conf.announcement.text,
+              announcementLink: conf.announcement.link
+            };
+            await pushDirectToGitHub(targetRepo, 'src/data/switches.json', JSON.stringify(switchesPayload, null, 2), `Update switches.json voor BitbloX`);
           }
         }
 

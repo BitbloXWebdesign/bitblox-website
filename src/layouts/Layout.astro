@@ -71,24 +71,28 @@ const canonicalURL = canonical || Astro.url.href;
 
   {!hideHeaderFooter && <Footer />}
 
-  {!hideHeaderFooter && switches.whatsapp && (
-    <a
-      href="https://wa.me/31630523907?text=Hallo%20BitbloX,%20ik%20heb%20een%20vraag%20over%20een%20website."
-      class="whatsapp-float"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Direct WhatsApp Contact"
-    >
-      <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
-        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.077-1.782-.397-1.467-.607-2.39-2.115-2.464-2.213-.073-.099-.582-.774-.582-1.478 0-.703.366-1.049.497-1.192.131-.144.288-.179.385-.179.096 0 .192 0 .274.005.087.005.203-.033.318.243.119.288.405.99.441 1.063.036.073.06.159.012.256-.048.097-.072.159-.144.244-.072.085-.152.19-.217.256-.072.072-.148.151-.064.296.084.144.373.615.8 1.002.551.498 1.015.653 1.159.725.144.073.228.06.312-.036.085-.097.362-.423.46-.568.097-.145.193-.121.325-.073.133.048.84.397.985.47.144.073.24.108.277.169.036.06.036.349-.108.754z"/>
-        <path d="M12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.954-1.399C8.409 21.494 10.15 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.636 0-3.165-.487-4.453-1.325l-.319-.208-2.935.829.837-2.86-.226-.339C4.015 14.779 3.5 13.434 3.5 12c0-4.687 3.813-8.5 8.5-8.5s8.5 3.813 8.5 8.5-3.813 8.5-8.5 8.5z"/>
-      </svg>
-      <span class="whatsapp-badge">WhatsApp</span>
-    </a>
-  )}
+  {!hideHeaderFooter && (switches.whatsapp || switches.callback) && (
+    <div class="floating-actions-dock">
+      {switches.whatsapp && (
+        <a
+          href="https://wa.me/31630523907?text=Hallo%20BitbloX,%20ik%20heb%20een%20vraag%20over%20een%20website."
+          class="whatsapp-float"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Direct WhatsApp Contact"
+        >
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.077-1.782-.397-1.467-.607-2.39-2.115-2.464-2.213-.073-.099-.582-.774-.582-1.478 0-.703.366-1.049.497-1.192.131-.144.288-.179.385-.179.096 0 .192 0 .274.005.087.005.203-.033.318.243.119.288.405.99.441 1.063.036.073.06.159.012.256-.048.097-.072.159-.144.244-.072.085-.152.19-.217.256-.072.072-.148.151-.064.296.084.144.373.615.8 1.002.551.498 1.015.653 1.159.725.144.073.228.06.312-.036.085-.097.362-.423.46-.568.097-.145.193-.121.325-.073.133.048.84.397.985.47.144.073.24.108.277.169.036.06.036.349-.108.754z"/>
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.954-1.399C8.409 21.494 10.15 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.636 0-3.165-.487-4.453-1.325l-.319-.208-2.935.829.837-2.86-.226-.339C4.015 14.779 3.5 13.434 3.5 12c0-4.687 3.813-8.5 8.5-8.5s8.5 3.813 8.5 8.5-3.813 8.5-8.5 8.5z"/>
+          </svg>
+          <span class="whatsapp-badge">WhatsApp</span>
+        </a>
+      )}
 
-  {!hideHeaderFooter && switches.callback && (
-    <CallBackWidget phoneDisplay="06 30523907" whatsappNumber="31630523907" clientName="BitbloX" />
+      {switches.callback && (
+        <CallBackWidget phoneDisplay="06 30523907" whatsappNumber="31630523907" clientName="BitbloX" />
+      )}
+    </div>
   )}
 
   {!hideHeaderFooter && switches.accessibility && (
@@ -98,6 +102,33 @@ const canonicalURL = canonical || Astro.url.href;
   {!hideHeaderFooter && switches.cookies && (
     <CookieBanner />
   )}
+
+  <style is:global>
+    .floating-actions-dock {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      gap: 12px;
+      z-index: 9990;
+      pointer-events: none;
+    }
+    .floating-actions-dock > * {
+      pointer-events: auto;
+      position: static !important;
+    }
+    @media (max-width: 768px) {
+      .floating-actions-dock {
+        flex-direction: column-reverse;
+        bottom: 20px;
+        right: 20px;
+        gap: 10px;
+        align-items: flex-end;
+      }
+    }
+  </style>
 
   <script is:inline src="/assets/js/main.js"></script>
 </body>
