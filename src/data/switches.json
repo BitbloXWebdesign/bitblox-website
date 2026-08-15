@@ -1,5 +1,5 @@
 {
-  "blog": false,
+  "blog": true,
   "seo": true,
   "geo": true,
   "whatsapp": true,
@@ -10,7 +10,7 @@
   "cookies": true,
   "announcement": true,
   "accessibility": true,
-  "callback": false,
+  "callback": true,
   "announcementBadge": "UPDATE",
   "announcementText": "🚀 Nieuwe AI-Vindbaarheid (GEO) modules nu live voor ZZP & MKB websites!",
   "announcementLink": "/diensten/"
