@@ -2,13 +2,13 @@
   "blog": true,
   "seo": true,
   "geo": true,
-  "whatsapp": false,
+  "whatsapp": true,
   "microsites": true,
   "reviews": true,
   "faq": true,
   "form": true,
-  "cookies": true,
-  "announcement": true,
-  "socialProof": true,
-  "callback": true
+  "cookies": false,
+  "announcement": false,
+  "accessibility": false,
+  "callback": false
 }
