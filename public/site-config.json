@@ -1,0 +1,21 @@
+{
+  "site": "BitbloX Webdesign & Hosting",
+  "domain": "bitblox.nl",
+  "updatedAt": "2026-08-15T08:56:50.098Z",
+  "modules": {
+    "blog": true,
+    "seo": true,
+    "geo": true,
+    "whatsapp": false,
+    "microsites": false,
+    "reviews": true,
+    "faq": true,
+    "form": true,
+    "whatsappWidget": false,
+    "geoAiVindbaarheid": true,
+    "stedenMicrosites": false,
+    "googleReviews": true,
+    "faqSection": true,
+    "contactForm": true
+  }
+}
