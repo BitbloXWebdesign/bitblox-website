@@ -61,7 +61,7 @@ const canonicalURL = canonical || Astro.url.href;
     )
   )}
 </head>
-<body>
+<body class={(!hideHeaderFooter && switches.announcement) ? "has-announcement-bar" : ""}>
   {!hideHeaderFooter && switches.announcement && <AnnouncementBar />}
   {!hideHeaderFooter && <Header />}
   
@@ -104,6 +104,16 @@ const canonicalURL = canonical || Astro.url.href;
   )}
 
   <style is:global>
+    body.has-announcement-bar .site-header {
+      top: 40px !important;
+    }
+    body.has-announcement-bar .main-nav {
+      top: 40px !important;
+    }
+    body.has-announcement-bar {
+      padding-top: 40px !important;
+    }
+
     .floating-actions-dock {
       position: fixed;
       bottom: 24px;
@@ -120,6 +130,15 @@ const canonicalURL = canonical || Astro.url.href;
       position: static !important;
     }
     @media (max-width: 768px) {
+      body.has-announcement-bar .site-header {
+        top: 44px !important;
+      }
+      body.has-announcement-bar .main-nav {
+        top: 0 !important;
+      }
+      body.has-announcement-bar {
+        padding-top: 44px !important;
+      }
       .floating-actions-dock {
         flex-direction: column-reverse;
         bottom: 20px;
