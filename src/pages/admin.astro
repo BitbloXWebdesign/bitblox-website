@@ -638,6 +638,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
                       <span style="color: #fff; font-size: 0.85rem;">{r.name}</span>
                       <div style="display: flex; gap: 6px; align-items: center;">
                         <span style="color: #dec148; font-size: 0.75rem;">★★★★★</span>
+                        <button onclick={`window.openEditReviewModal(${idx})`} title={`Bewerk review van ${r.name}`} style="background: rgba(222,193,72,0.15); border: 1px solid rgba(222,193,72,0.3); color: #dec148; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;">✏️</button>
                         <button onclick={`window.deleteReviewItem('${r.name}', ${idx})`} title={`Verwijder review van ${r.name}`} style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;">🗑️</button>
                       </div>
                     </div>
@@ -651,6 +652,49 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         </div>
 
       </div>
+    </div>
+  </div>
+
+  <!-- Edit Review Modal -->
+  <div id="editReviewModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 99999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px);">
+    <div style="background: #111420; border: 1px solid rgba(222,193,72,0.4); border-radius: 12px; max-width: 520px; width: 100%; padding: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+        <h3 style="margin: 0; color: #dec148; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">✏️ Review Aanpassen / Corrigeren</h3>
+        <button id="closeEditReviewModalBtn" style="background: none; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer; line-height: 1;">&times;</button>
+      </div>
+      
+      <input type="hidden" id="editReviewIndex" />
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+        <div>
+          <label style="display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Naam Klant</label>
+          <input type="text" id="modalEditName" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff; font-size: 0.9rem;" />
+        </div>
+        <div>
+          <label style="display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Sterren</label>
+          <select id="modalEditRating" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #dec148; font-weight: 700; font-size: 0.9rem;">
+            <option value="5">★★★★★ (5 Sterren)</option>
+            <option value="4">★★★★☆ (4 Sterren)</option>
+            <option value="3">★★★☆☆ (3 Sterren)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Bedrijf / Locatie</label>
+        <input type="text" id="modalEditLocation" placeholder="Bijv. Voetreflextherapeut Groningen — Groningen" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff; font-size: 0.9rem;" />
+      </div>
+
+      <div style="margin-bottom: 18px;">
+        <label style="display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px;">Review Tekst</label>
+        <textarea id="modalEditText" rows="4" style="width: 100%; padding: 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; color: #fff; font-family: inherit; font-size: 0.88rem; line-height: 1.4;"></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+        <button id="cancelEditReviewBtn" class="btn btn--ghost btn--sm" style="padding: 8px 16px;">Annuleren</button>
+        <button id="saveEditedReviewBtn" class="btn btn--gold btn--sm" style="padding: 8px 20px; font-weight: 700;">💾 Wijzigingen Opslaan &amp; Publiceren</button>
+      </div>
+      <div id="modalEditStatus" style="font-size: 0.82rem; color: #4ade80; font-weight: 700; margin-top: 10px; text-align: right; min-height: 18px;"></div>
     </div>
   </div>
 </Layout>
@@ -997,9 +1041,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { id: "waarom-trage-website-klanten-kost", title: "Waarom trage website klanten kost", url: "/blog/waarom-trage-website-klanten-kost/" }
         ],
         reviews: [
-          { name: "Alianne Zuidhof", rating: "★★★★★" },
-          { name: "MC Scholts", rating: "★★★★★" },
-          { name: "Jeroen Renkema", rating: "★★★★★" }
+          { id: 4, name: "Georgette Pots", location: "Voetreflextherapeut Groningen — Groningen", rating: 5, ratingDisplay: "★★★★★", text: "Al jaren ben ik klant bij BitbloX. Met een eigenzaak erg fijn dat hij mijn website onderhoud en meedenkt. Scheelt mij veel werk en ziet er piekfijn uit." },
+          { id: 1, name: "Jeroen Renkema", location: "Jeroen Renkema Boomverzorging — Noordbroek", rating: 5, ratingDisplay: "★★★★★", text: "Echt een topbedrijf! Heeft inmiddels 2 hele mooie websites voor ons gebouwd — sterkinbomenwerk.nl en boombehoud.nu. Snelle communicatie en super resultaat. Aanrader!!" },
+          { id: 2, name: "Alianne Zuidhof", location: "Massage Studio Eelde — Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Mijn website ziet er geweldig uit en als ik veranderingen wil is dat zo aangepast. Heldere communicatie en professioneel afgewerkt, erg trots !" },
+          { id: 3, name: "MC Scholts", location: "SheMotion — Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Fijne communicatie, Harold is kundig, denkt mee en reageert snel bij vragen of verzoeken." }
         ]
       },
       autokampeerder: {
@@ -1287,10 +1332,11 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         } else {
           reviewListDisplay.innerHTML = conf.reviews.map((r, idx) => `
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.04); border-radius: 6px;">
-              <span style="color: #fff; font-size: 0.85rem;">${r.name}</span>
+              <span style="color: #fff; font-size: 0.85rem;">${r.name || r.author}</span>
               <div style="display: flex; gap: 6px; align-items: center;">
-                <span style="color: #dec148; font-size: 0.75rem;">${r.rating}</span>
-                <button onclick="window.deleteReviewItem('${r.name}', ${idx})" title="Verwijder review van ${r.name}" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;">🗑️</button>
+                <span style="color: #dec148; font-size: 0.75rem;">${typeof r.rating === 'string' ? r.rating : '★'.repeat(r.rating || 5)}</span>
+                <button onclick="window.openEditReviewModal(${idx})" title="Bewerk review van ${r.name || r.author}" style="background: rgba(222,193,72,0.15); border: 1px solid rgba(222,193,72,0.3); color: #dec148; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;">✏️</button>
+                <button onclick="window.deleteReviewItem('${r.name || r.author}', ${idx})" title="Verwijder review van ${r.name || r.author}" style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;">🗑️</button>
               </div>
             </div>
           `).join('');
@@ -1299,6 +1345,123 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
       syncToolVisibility();
       if (saveSwitchesStatus) saveSwitchesStatus.textContent = '';
+    }
+
+    // ✏️ Review Edit Modal Wiring
+    const editReviewModal = document.getElementById('editReviewModal');
+    const closeEditReviewModalBtn = document.getElementById('closeEditReviewModalBtn');
+    const cancelEditReviewBtn = document.getElementById('cancelEditReviewBtn');
+    const saveEditedReviewBtn = document.getElementById('saveEditedReviewBtn');
+    const modalEditStatus = document.getElementById('modalEditStatus');
+
+    const editReviewIndex = document.getElementById('editReviewIndex');
+    const modalEditName = document.getElementById('modalEditName');
+    const modalEditRating = document.getElementById('modalEditRating');
+    const modalEditLocation = document.getElementById('modalEditLocation');
+    const modalEditText = document.getElementById('modalEditText');
+
+    window.openEditReviewModal = (idx) => {
+      const conf = clientConfigs[currentSelectedClient];
+      const r = conf.reviews[idx];
+      if (!r) return;
+
+      if (editReviewIndex) editReviewIndex.value = idx;
+      if (modalEditName) modalEditName.value = r.name || r.author || '';
+      if (modalEditLocation) modalEditLocation.value = r.location || '';
+      if (modalEditRating) modalEditRating.value = typeof r.rating === 'number' ? r.rating : 5;
+      if (modalEditText) modalEditText.value = r.text || '';
+      if (modalEditStatus) modalEditStatus.textContent = '';
+
+      if (editReviewModal) editReviewModal.style.display = 'flex';
+    };
+
+    const closeReviewEditModal = () => {
+      if (editReviewModal) editReviewModal.style.display = 'none';
+    };
+
+    if (closeEditReviewModalBtn) closeEditReviewModalBtn.addEventListener('click', closeReviewEditModal);
+    if (cancelEditReviewBtn) cancelEditReviewBtn.addEventListener('click', closeReviewEditModal);
+
+    if (saveEditedReviewBtn) {
+      saveEditedReviewBtn.addEventListener('click', async () => {
+        const idx = Number(editReviewIndex.value);
+        const conf = clientConfigs[currentSelectedClient];
+        const r = conf.reviews[idx];
+        if (!r) return;
+
+        const newName = modalEditName.value.trim();
+        const newLoc = modalEditLocation.value.trim();
+        const newRating = Number(modalEditRating.value);
+        const newText = modalEditText.value.trim();
+
+        if (!newName || !newText) return alert('Voer a.u.b. een naam en tekst in.');
+
+        saveEditedReviewBtn.textContent = '⏳ Opslaan...';
+        saveEditedReviewBtn.disabled = true;
+
+        r.name = newName;
+        r.author = newName;
+        r.location = newLoc;
+        r.rating = newRating;
+        r.ratingDisplay = '★'.repeat(newRating) + '☆'.repeat(Math.max(0, 5 - newRating));
+        r.text = newText;
+        const initials = newName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        r.initials = initials || 'G';
+
+        // Direct Cloud GitHub API Push
+        const targetRepo = clientGithubRepoMap[currentSelectedClient];
+        if (targetRepo) {
+          try {
+            const token = localStorage.getItem('bitblox_gh_token') || AUTO_GH_TOKEN;
+            const apiUrl = `https://api.github.com/repos/${targetRepo}/contents/src/data/reviews.json`;
+            let currentReviews = [];
+            let sha = null;
+            const getRes = await fetch(apiUrl, {
+              headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+            });
+            if (getRes.ok) {
+              const getData = await getRes.json();
+              sha = getData.sha;
+              try {
+                const decoded = decodeURIComponent(escape(atob(getData.content.replace(/\s/g, ''))));
+                currentReviews = JSON.parse(decoded);
+              } catch (e) {}
+            }
+
+            if (currentReviews.length > idx) {
+              currentReviews[idx] = {
+                id: currentReviews[idx].id || Date.now(),
+                name: newName,
+                author: newName,
+                location: newLoc,
+                rating: newRating,
+                text: newText,
+                initials: initials || 'G',
+                date: currentReviews[idx].date || 'Google Beoordeling'
+              };
+            }
+
+            await pushDirectToGitHub(
+              targetRepo,
+              'src/data/reviews.json',
+              JSON.stringify(currentReviews.length > 0 ? currentReviews : conf.reviews, null, 2),
+              `Review bijgewerkt voor ${newName}`
+            );
+          } catch (e) {
+            console.warn('Edit push error:', e);
+          }
+        }
+
+        updateClientUI(currentSelectedClient);
+        if (modalEditStatus) modalEditStatus.textContent = '✅ Wijzigingen direct gepubliceerd naar Cloudflare!';
+        saveEditedReviewBtn.textContent = '✅ Opgeslagen!';
+
+        setTimeout(() => {
+          closeReviewEditModal();
+          saveEditedReviewBtn.textContent = '💾 Wijzigingen Opslaan & Publiceren';
+          saveEditedReviewBtn.disabled = false;
+        }, 1200);
+      });
     }
 
     // 🗑️ Global Delete Handlers
@@ -1339,6 +1502,28 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       const conf = clientConfigs[currentSelectedClient];
       conf.reviews.splice(index, 1);
       updateClientUI(currentSelectedClient);
+
+      const targetRepo = clientGithubRepoMap[currentSelectedClient];
+      if (targetRepo) {
+        try {
+          const token = localStorage.getItem('bitblox_gh_token') || AUTO_GH_TOKEN;
+          const apiUrl = `https://api.github.com/repos/${targetRepo}/contents/src/data/reviews.json`;
+          let currentReviews = [];
+          const getRes = await fetch(apiUrl, {
+            headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+          });
+          if (getRes.ok) {
+            const getData = await getRes.json();
+            try {
+              const decoded = decodeURIComponent(escape(atob(getData.content.replace(/\s/g, ''))));
+              currentReviews = JSON.parse(decoded);
+            } catch (e) {}
+          }
+          currentReviews = currentReviews.filter((_, i) => i !== index);
+          await pushDirectToGitHub(targetRepo, 'src/data/reviews.json', JSON.stringify(currentReviews, null, 2), `Review verwijderd van ${name}`);
+        } catch (e) {}
+      }
+
       try {
         await fetch('/api/delete-review', {
           method: 'POST',
