@@ -3,7 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import AnnouncementBar from '../components/AnnouncementBar.astro';
-import SocialProofToast from '../components/SocialProofToast.astro';
+import AccessibilityWidget from '../components/AccessibilityWidget.astro';
 import CallBackWidget from '../components/CallBackWidget.astro';
 import switches from '../data/switches.json';
 
@@ -91,8 +91,8 @@ const canonicalURL = canonical || Astro.url.href;
     <CallBackWidget phoneDisplay="06 30523907" whatsappNumber="31630523907" clientName="BitbloX" />
   )}
 
-  {!hideHeaderFooter && switches.socialProof && (
-    <SocialProofToast clientType="bitblox" />
+  {!hideHeaderFooter && switches.accessibility && (
+    <AccessibilityWidget />
   )}
 
   {!hideHeaderFooter && switches.cookies && (

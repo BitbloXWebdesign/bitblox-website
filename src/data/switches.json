@@ -9,6 +9,6 @@
   "form": true,
   "cookies": true,
   "announcement": true,
-  "socialProof": true,
+  "accessibility": true,
   "callback": true
 }
