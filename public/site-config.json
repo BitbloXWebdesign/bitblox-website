@@ -1,7 +1,7 @@
 {
   "site": "BitbloX Webdesign & Hosting",
   "domain": "bitblox.nl",
-  "updatedAt": "2026-08-15T09:46:30.795Z",
+  "updatedAt": "2026-08-15T09:46:57.946Z",
   "modules": {
     "blog": true,
     "seo": true,
@@ -17,13 +17,13 @@
     "googleReviews": true,
     "faqSection": true,
     "contactForm": true,
-    "cookies": false,
+    "cookies": true,
     "announcement": false,
     "socialProof": true,
-    "callback": false,
-    "cookieBanner": false,
+    "callback": true,
+    "cookieBanner": true,
     "announcementBar": false,
-    "callBack": false,
-    "accessibility": false
+    "callBack": true,
+    "accessibility": true
   }
 }
