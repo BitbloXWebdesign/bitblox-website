@@ -8,7 +8,10 @@
   "faq": true,
   "form": true,
   "cookies": true,
-  "announcement": false,
+  "announcement": true,
   "accessibility": true,
-  "callback": true
+  "callback": true,
+  "announcementBadge": "UPDATE",
+  "announcementText": "🚀 Nieuwe AI-Vindbaarheid (GEO) modules nu live voor ZZP & MKB websites!",
+  "announcementLink": "/diensten"
 }
