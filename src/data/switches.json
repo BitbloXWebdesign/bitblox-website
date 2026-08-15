@@ -1,7 +1,7 @@
 {
   "blog": true,
   "seo": true,
-  "geo": true,
+  "geo": false,
   "whatsapp": true,
   "microsites": true,
   "reviews": true,
