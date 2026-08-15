@@ -2,7 +2,7 @@
   "blog": true,
   "seo": true,
   "geo": false,
-  "whatsapp": true,
+  "whatsapp": false,
   "microsites": true,
   "reviews": true,
   "faq": true,
