@@ -6,5 +6,9 @@
   "microsites": true,
   "reviews": true,
   "faq": true,
-  "form": true
+  "form": true,
+  "cookies": true,
+  "announcement": true,
+  "socialProof": true,
+  "callback": true
 }

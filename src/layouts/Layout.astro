@@ -1,6 +1,10 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import AnnouncementBar from '../components/AnnouncementBar.astro';
+import SocialProofToast from '../components/SocialProofToast.astro';
+import CallBackWidget from '../components/CallBackWidget.astro';
 import switches from '../data/switches.json';
 
 interface Props {
@@ -58,6 +62,7 @@ const canonicalURL = canonical || Astro.url.href;
   )}
 </head>
 <body>
+  {!hideHeaderFooter && switches.announcement && <AnnouncementBar />}
   {!hideHeaderFooter && <Header />}
   
   <main id="main-content">
@@ -80,6 +85,18 @@ const canonicalURL = canonical || Astro.url.href;
       </svg>
       <span class="whatsapp-badge">WhatsApp</span>
     </a>
+  )}
+
+  {!hideHeaderFooter && switches.callback && (
+    <CallBackWidget phoneDisplay="06 30523907" whatsappNumber="31630523907" clientName="BitbloX" />
+  )}
+
+  {!hideHeaderFooter && switches.socialProof && (
+    <SocialProofToast clientType="bitblox" />
+  )}
+
+  {!hideHeaderFooter && switches.cookies && (
+    <CookieBanner />
   )}
 
   <script is:inline src="/assets/js/main.js"></script>

@@ -404,6 +404,38 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
                 <label class="switch"><input type="checkbox" id="toggleForm" checked><span class="slider"></span></label>
               </div>
 
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.9rem; margin-bottom: 2px;">🍪 Cookiebanner (Privacy)</strong>
+                  <span style="font-size: 0.78rem; color: #94a3b8;">AVG / GDPR privacymelding onderin.</span>
+                </div>
+                <label class="switch"><input type="checkbox" id="toggleCookies" checked><span class="slider"></span></label>
+              </div>
+
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.9rem; margin-bottom: 2px;">📣 Slimme Meldingenbalk (Top-Bar)</strong>
+                  <span style="font-size: 0.78rem; color: #94a3b8;">Balk bovenaan voor acties of vakanties.</span>
+                </div>
+                <label class="switch"><input type="checkbox" id="toggleAnnouncement" checked><span class="slider"></span></label>
+              </div>
+
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.9rem; margin-bottom: 2px;">👥 Live Social Proof Toasts</strong>
+                  <span style="font-size: 0.78rem; color: #94a3b8;">Subtiele recente activiteits-meldingen linksonder.</span>
+                </div>
+                <label class="switch"><input type="checkbox" id="toggleSocialProof" checked><span class="slider"></span></label>
+              </div>
+
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.9rem; margin-bottom: 2px;">📞 "Bel-Me-Terug" Quick Widget</strong>
+                  <span style="font-size: 0.78rem; color: #94a3b8;">1-Klik belverzoek modal voor mobiele leads.</span>
+                </div>
+                <label class="switch"><input type="checkbox" id="toggleCallback" checked><span class="slider"></span></label>
+              </div>
+
             </div>
 
             <div id="saveSwitchesStatus" style="font-size: 0.85rem; color: #4ade80; font-weight: 700; text-align: right; min-height: 20px;"></div>
@@ -845,6 +877,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const toggleReviews = document.getElementById('toggleReviews');
     const toggleFaq = document.getElementById('toggleFaq');
     const toggleForm = document.getElementById('toggleForm');
+    const toggleCookies = document.getElementById('toggleCookies');
+    const toggleAnnouncement = document.getElementById('toggleAnnouncement');
+    const toggleSocialProof = document.getElementById('toggleSocialProof');
+    const toggleCallback = document.getElementById('toggleCallback');
     const saveSwitchesBtn = document.getElementById('saveSwitchesBtn');
     const saveSwitchesStatus = document.getElementById('saveSwitchesStatus');
 
@@ -920,7 +956,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { date: "13 Aug", google: 36, ai: 11, blueY: 26, goldY: 38 },
           { date: "14 Aug (Vandaag)", google: 42, ai: 14, blueY: 18, goldY: 32 }
         ],
-        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true },
+        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true, cookies: true, announcement: true, socialProof: true, callback: true },
         microsites: [
           { name: "Assen", url: "/webdesign-assen/", slug: "assen" },
           { name: "Groningen", url: "/webdesign-groningen/", slug: "groningen" },
@@ -982,7 +1018,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { date: "13 Aug", google: 51, ai: 12, blueY: 20, goldY: 40 },
           { date: "14 Aug (Vandaag)", google: 58, ai: 15, blueY: 12, goldY: 34 }
         ],
-        switches: { blog: true, seo: true, geo: false, whatsapp: false, microsites: false, reviews: false, faq: true, form: true },
+        switches: { blog: true, seo: true, geo: false, whatsapp: false, microsites: false, reviews: false, faq: true, form: true, cookies: true, announcement: true, socialProof: true, callback: false },
         microsites: [],
         blogs: [
           { id: "daktent-op-elektrische-auto-actieradius-en-tips", title: "Daktent op Elektrische Auto (EV / Tesla): Actieradius & Tips", url: "https://deautokampeerder.pages.dev/kennisbank/daktent-op-elektrische-auto-actieradius-en-tips" },
@@ -1035,7 +1071,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { date: "13 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
           { date: "14 Aug (Vandaag Live)", google: 14, ai: 4, blueY: 30, goldY: 65 }
         ],
-        switches: { blog: false, seo: true, geo: true, whatsapp: true, microsites: false, reviews: true, faq: true, form: false },
+        switches: { blog: false, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: false, cookies: false, announcement: false, socialProof: true, callback: true },
         microsites: [],
         blogs: [],
         reviews: [
@@ -1084,6 +1120,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (toggleReviews) toggleReviews.checked = conf.switches.reviews;
       if (toggleFaq) toggleFaq.checked = conf.switches.faq;
       if (toggleForm) toggleForm.checked = conf.switches.form;
+      if (toggleCookies) toggleCookies.checked = conf.switches.cookies !== undefined ? conf.switches.cookies : true;
+      if (toggleAnnouncement) toggleAnnouncement.checked = conf.switches.announcement !== undefined ? conf.switches.announcement : false;
+      if (toggleSocialProof) toggleSocialProof.checked = conf.switches.socialProof !== undefined ? conf.switches.socialProof : true;
+      if (toggleCallback) toggleCallback.checked = conf.switches.callback !== undefined ? conf.switches.callback : false;
 
       // Update Live Metric Gauges & SVG Rings
       if (metricMobileScore) metricMobileScore.textContent = conf.metrics.mobile;
@@ -1418,6 +1458,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         conf.switches.reviews = toggleReviews ? toggleReviews.checked : true;
         conf.switches.faq = toggleFaq ? toggleFaq.checked : true;
         conf.switches.form = toggleForm ? toggleForm.checked : true;
+        conf.switches.cookies = toggleCookies ? toggleCookies.checked : false;
+        conf.switches.announcement = toggleAnnouncement ? toggleAnnouncement.checked : false;
+        conf.switches.socialProof = toggleSocialProof ? toggleSocialProof.checked : false;
+        conf.switches.callback = toggleCallback ? toggleCallback.checked : false;
 
         saveSwitchesBtn.textContent = '⏳ Opslaan...';
         saveSwitchesBtn.disabled = true;
@@ -1439,11 +1483,15 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               stedenMicrosites: conf.switches.microsites,
               googleReviews: conf.switches.reviews,
               faqSection: conf.switches.faq,
-              contactForm: conf.switches.form
+              contactForm: conf.switches.form,
+              cookieBanner: conf.switches.cookies,
+              announcementBar: conf.switches.announcement,
+              socialProof: conf.switches.socialProof,
+              callBack: conf.switches.callback
             }
           }, null, 2);
 
-          ghPushed = await pushDirectToGitHub(targetRepo, 'public/site-config.json', configPayload, `Update schuifjes voor ${conf.name}`);
+          ghPushed = await pushDirectToGitHub(targetRepo, 'public/site-config.json', configPayload, `Update 12-schuifjes voor ${conf.name}`);
 
           if (currentSelectedClient === 'bitblox') {
             await pushDirectToGitHub(targetRepo, 'src/data/switches.json', JSON.stringify(conf.switches, null, 2), `Update switches.json voor BitbloX`);

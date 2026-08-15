@@ -1,0 +1,176 @@
+---
+interface Props {
+  clientType?: string;
+}
+
+const { clientType = 'bitblox' } = Astro.props;
+---
+
+<div id="socialProofToast" class="social-proof-toast" aria-live="polite">
+  <div class="toast-avatar" id="toastIcon">🚀</div>
+  <div class="toast-body">
+    <strong id="toastTitle" class="toast-title">Nieuwe Website Aanvraag</strong>
+    <p id="toastDesc" class="toast-desc">Ondernemer uit Assen heeft een SEO website aangevraagd.</p>
+    <span id="toastTime" class="toast-time">4 minuten geleden</span>
+  </div>
+  <button id="closeToastBtn" class="toast-close">&times;</button>
+</div>
+
+<style>
+  .social-proof-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    max-width: 320px;
+    width: calc(100% - 48px);
+    background: rgba(15, 18, 28, 0.95);
+    border: 1px solid rgba(222, 193, 72, 0.35);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 16px rgba(222, 193, 72, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 998;
+    transform: translateY(120px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .social-proof-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .toast-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(222, 193, 72, 0.15);
+    border: 1px solid rgba(222, 193, 72, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+  }
+
+  .toast-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .toast-title {
+    display: block;
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .toast-desc {
+    margin: 0 0 4px 0;
+    font-size: 0.74rem;
+    color: #94a3b8;
+    line-height: 1.35;
+  }
+
+  .toast-time {
+    display: inline-block;
+    font-size: 0.68rem;
+    color: #dec148;
+    font-weight: 600;
+  }
+
+  .toast-close {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 2px 4px;
+    align-self: flex-start;
+    transition: color 0.2s;
+  }
+
+  .toast-close:hover {
+    color: #ffffff;
+  }
+
+  @media (max-width: 640px) {
+    .social-proof-toast {
+      bottom: 80px;
+      left: 14px;
+      right: 14px;
+      max-width: calc(100% - 28px);
+    }
+  }
+</style>
+
+<script is:inline define:vars={{ clientType }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toast = document.getElementById('socialProofToast');
+    const titleEl = document.getElementById('toastTitle');
+    const descEl = document.getElementById('toastDesc');
+    const timeEl = document.getElementById('toastTime');
+    const iconEl = document.getElementById('toastIcon');
+    const closeBtn = document.getElementById('closeToastBtn');
+
+    if (!toast) return;
+
+    const dataMap = {
+      bitblox: [
+        { icon: '🚀', title: 'Nieuwe Website Aanvraag', desc: 'ZZP ondernemer uit Assen start met een flitsende Astro website.', time: '3 min geleden' },
+        { icon: '⭐', title: 'Nieuwe 5-Sterren Review', desc: 'MC Scholts: "Super snelle levering en waanzinnig resultaat!"', time: '18 min geleden' },
+        { icon: '🤖', title: 'AI-Vindbaarheid Geactiveerd', desc: 'MKB klant uit Groningen staat nu live in ChatGPT Search.', time: '34 min geleden' }
+      ],
+      voetreflex: [
+        { icon: '🌿', title: 'Nieuw Consult Inepland', desc: 'Cliënt uit Haren boekt een intake voor stress & burn-out.', time: '6 min geleden' },
+        { icon: '⭐', title: 'Ervaring van Cliënt', desc: 'Marloes & Sven: "Zeer kundig, rustgevend en vergoed door verzekering."', time: '21 min geleden' },
+        { icon: '🌸', title: 'Zwangerschap Behandeling', desc: 'Cliënt uit Groningen start met het ontspannende NIBYS traject.', time: '45 min geleden' }
+      ],
+      autokampeerder: [
+        { icon: '🏕️', title: 'Daktent Offerte Aangevraagd', desc: 'Klant uit Utrecht kiest een hardshell daktent voor Tesla Model Y.', time: '8 min geleden' },
+        { icon: '⭐', title: '5-Sterren Ervaring', desc: 'Familie De Jong: "Binnen 2 minuten opzetten, heerlijk geslapen!"', time: '27 min geleden' },
+        { icon: '🚙', title: 'Daklast Check Uitgevoerd', desc: 'Klant berekent geschikte daktent voor Volkswagen ID.4.', time: '52 min geleden' }
+      ]
+    };
+
+    const items = dataMap[clientType] || dataMap.bitblox;
+    let currentIndex = 0;
+    let toastInterval;
+
+    function showNextToast() {
+      const item = items[currentIndex];
+      if (iconEl) iconEl.textContent = item.icon;
+      if (titleEl) titleEl.textContent = item.title;
+      if (descEl) descEl.textContent = item.desc;
+      if (timeEl) timeEl.textContent = item.time;
+
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 5000);
+
+      currentIndex = (currentIndex + 1) % items.length;
+    }
+
+    // First appearance after 4 seconds, then repeat every 18 seconds
+    setTimeout(() => {
+      showNextToast();
+      toastInterval = setInterval(showNextToast, 18000);
+    }, 4000);
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        toast.classList.remove('show');
+        if (toastInterval) clearInterval(toastInterval);
+      });
+    }
+  });
+</script>
