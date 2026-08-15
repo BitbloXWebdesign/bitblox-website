@@ -1978,7 +1978,9 @@ ${storyVal}
         const initials = nameVal.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
         const jsonObj = {
+          id: Date.now(),
           name: nameVal,
+          author: nameVal,
           location: displayLoc,
           rating: Number(ratingVal),
           text: textVal,
@@ -1988,37 +1990,91 @@ ${storyVal}
 
         const reviewJsonString = JSON.stringify(jsonObj, null, 2);
 
-        saveReviewBtn.textContent = '⏳ Opslaan...';
+        saveReviewBtn.textContent = '⏳ Opslaan & Publiceren...';
         saveReviewBtn.disabled = true;
 
-        try {
-          const res = await fetch('/api/save-review', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              name: nameVal,
-              company: compVal,
-              city: cityVal,
-              rating: ratingVal,
-              text: textVal,
-              date: 'Google Beoordeling',
-              client: currentSelectedClient
-            })
-          });
-          const resData = await res.json();
-          if (resData.success) {
-            if (saveReviewStatus) saveReviewStatus.textContent = `✅ Review toegevoegd! (Totaal: ${resData.total})`;
-            saveReviewBtn.textContent = '✅ Gepubliceerd!';
-          } else {
-            throw new Error();
+        let ghPushed = false;
+        const targetRepo = clientGithubRepoMap[currentSelectedClient];
+        if (targetRepo) {
+          try {
+            const token = localStorage.getItem('bitblox_gh_token') || AUTO_GH_TOKEN;
+            const apiUrl = `https://api.github.com/repos/${targetRepo}/contents/src/data/reviews.json`;
+            let currentReviews = [];
+            let sha = null;
+            const getRes = await fetch(apiUrl, {
+              headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+            });
+            if (getRes.ok) {
+              const getData = await getRes.json();
+              sha = getData.sha;
+              try {
+                const decoded = decodeURIComponent(escape(atob(getData.content.replace(/\s/g, ''))));
+                currentReviews = JSON.parse(decoded);
+              } catch (e) {}
+            }
+
+            currentReviews.unshift(jsonObj);
+
+            ghPushed = await pushDirectToGitHub(
+              targetRepo,
+              'src/data/reviews.json',
+              JSON.stringify(currentReviews, null, 2),
+              `Google Review toegevoegd van ${nameVal}`
+            );
+
+            if (ghPushed) {
+              const starStr = '★'.repeat(Number(ratingVal)) + '☆'.repeat(Math.max(0, 5 - Number(ratingVal)));
+              if (!clientConfigs[currentSelectedClient].reviews) clientConfigs[currentSelectedClient].reviews = [];
+              clientConfigs[currentSelectedClient].reviews.unshift({ name: nameVal, rating: starStr });
+              updateClientUI(currentSelectedClient);
+
+              reviewName.value = '';
+              reviewText.value = '';
+              if (reviewCompany) reviewCompany.value = '';
+              if (reviewCity) reviewCity.value = '';
+
+              if (saveReviewStatus) saveReviewStatus.textContent = `✅ Review van ${nameVal} direct opgeslagen & gepubliceerd! (Cloudflare bouwt nu)`;
+              saveReviewBtn.textContent = '✅ Review Live Gepubliceerd!';
+              setTimeout(() => {
+                saveReviewBtn.textContent = '⭐ Review Direct Opslaan & Publiceren';
+              }, 4000);
+            }
+          } catch (err) {
+            console.warn('Review save error:', err);
           }
-        } catch (e) {
-          navigator.clipboard.writeText(reviewJsonString);
-          if (saveReviewStatus) saveReviewStatus.textContent = `📋 Review JSON gekopieerd naar klembord!`;
-          saveReviewBtn.textContent = '📋 Review Gekopieerd!';
-        } finally {
-          saveReviewBtn.disabled = false;
         }
+
+        if (!ghPushed) {
+          // Local fallback
+          try {
+            const res = await fetch('/api/save-review', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                name: nameVal,
+                company: compVal,
+                city: cityVal,
+                rating: ratingVal,
+                text: textVal,
+                date: 'Google Beoordeling',
+                client: currentSelectedClient
+              })
+            });
+            const resData = await res.json();
+            if (resData.success) {
+              if (saveReviewStatus) saveReviewStatus.textContent = `✅ Review toegevoegd!`;
+              saveReviewBtn.textContent = '✅ Gepubliceerd!';
+            } else {
+              throw new Error();
+            }
+          } catch (e) {
+            navigator.clipboard.writeText(reviewJsonString);
+            if (saveReviewStatus) saveReviewStatus.textContent = `📋 Review JSON gekopieerd naar klembord!`;
+            saveReviewBtn.textContent = '📋 Review Gekopieerd!';
+          }
+        }
+
+        saveReviewBtn.disabled = false;
       });
     }
 
