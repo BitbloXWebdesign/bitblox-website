@@ -1,9 +1,9 @@
 {
   "site": "BitbloX Webdesign & Hosting",
   "domain": "bitblox.nl",
-  "updatedAt": "2026-08-15T09:52:41.525Z",
+  "updatedAt": "2026-08-15T10:34:27.519Z",
   "modules": {
-    "blog": true,
+    "blog": false,
     "seo": true,
     "geo": true,
     "whatsapp": true,
@@ -20,15 +20,15 @@
     "cookies": true,
     "announcement": true,
     "socialProof": true,
-    "callback": true,
+    "callback": false,
     "cookieBanner": true,
     "announcementBar": true,
-    "callBack": true,
+    "callBack": false,
     "accessibility": true
   },
   "announcement": {
     "badge": "UPDATE",
     "text": "🚀 Nieuwe AI-Vindbaarheid (GEO) modules nu live voor ZZP & MKB websites!",
-    "link": "/diensten"
+    "link": "/diensten/"
   }
 }
