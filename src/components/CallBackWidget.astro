@@ -44,9 +44,9 @@ const {
 <style>
   .callback-widget {
     position: fixed;
-    bottom: 24px;
-    right: 96px;
-    z-index: 997;
+    bottom: 28px;
+    right: 195px;
+    z-index: 998;
   }
 
   .callback-trigger-btn {
@@ -56,20 +56,32 @@ const {
     background: #111522;
     border: 1px solid rgba(222, 193, 72, 0.4);
     color: #dec148;
-    padding: 10px 16px;
+    padding: 12px 18px;
     border-radius: 999px;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 14px rgba(222, 193, 72, 0.12);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 16px rgba(222, 193, 72, 0.15);
     transition: all 0.25s ease;
+    white-space: nowrap;
   }
 
   .callback-trigger-btn:hover {
     background: #dec148;
     color: #06070a;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(222, 193, 72, 0.35);
+    box-shadow: 0 12px 30px rgba(222, 193, 72, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .callback-widget {
+      bottom: 84px;
+      right: 20px;
+    }
+    .callback-trigger-btn {
+      padding: 10px 14px;
+      font-size: 0.8rem;
+    }
   }
 
   .callback-modal {
