@@ -1,8 +1,8 @@
 {
   "blog": true,
   "seo": true,
-  "geo": false,
-  "whatsapp": false,
+  "geo": true,
+  "whatsapp": true,
   "microsites": true,
   "reviews": true,
   "faq": true,
