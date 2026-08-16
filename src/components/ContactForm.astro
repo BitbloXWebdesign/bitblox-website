@@ -2,11 +2,13 @@
 interface Props {
   title?: string;
   subtitle?: string;
+  recipientEmail?: string;
 }
 
 const {
   title = "Start vandaag uw digitale groei",
-  subtitle = "Vul het formulier in voor een vrijblijvend adviesgesprek of scherpe offerte binnen 24 uur."
+  subtitle = "Vul het formulier in voor een vrijblijvend adviesgesprek of scherpe offerte binnen 24 uur.",
+  recipientEmail = "info@bitblox.nl"
 } = Astro.props;
 ---
 
@@ -14,14 +16,13 @@ const {
   <h3 style="margin-bottom: 8px;">{title}</h3>
   <p class="lead" style="margin-bottom: 28px; font-size: 0.95rem;">{subtitle}</p>
 
-  <form id="bitblox-contact-form" action="https://api.web3forms.com/submit" method="POST" style="display: flex; flex-direction: column; gap: 20px;">
-    <!-- Web3Forms Access Key for info@bitblox.nl -->
-    <input type="hidden" name="access_key" value="482c3c6f-a885-48b4-84c1-e37452d3a39e" />
-    <input type="hidden" name="subject" value="Nieuwe Contactaanvraag via BitbloX.nl" />
-    <input type="hidden" name="from_name" value="BitbloX Website Formulier" />
+  <form id="bitblox-contact-form" style="display: flex; flex-direction: column; gap: 20px;">
+    <input type="hidden" name="_subject" value="Nieuwe Contactaanvraag via BitbloX.nl" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_captcha" value="false" />
 
     <!-- Honeypot anti-spam field -->
-    <input type="checkbox" name="botcheck" class="hidden" style="display: none !important;" />
+    <input type="text" name="_honey" style="display: none !important;" />
 
     <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
       <div>
@@ -48,12 +49,12 @@ const {
     <div class="form-group">
       <label for="dienst" style="display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; color: var(--text);">Waarmee kunnen we helpen?</label>
       <select id="dienst" name="dienst" style="width: 100%; padding: 12px 16px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text);">
-        <option value="Webdesign">Webdesign (Nieuwe website / ZZP website)</option>
-        <option value="Hosting">Hosting &amp; Domeinnaam</option>
-        <option value="SEO">SEO &amp; Lokale vindbaarheid</option>
-        <option value="AI-Vindbaarheid">AI-Vindbaarheid (GEO / ChatGPT)</option>
-        <option value="Logo Design">Logo &amp; Huisstijl Design</option>
-        <option value="Beveiliging">Beveiliging &amp; Onderhoud</option>
+        <option value="Webdesign (Nieuwe website / ZZP website)">Webdesign (Nieuwe website / ZZP website)</option>
+        <option value="Hosting & Domeinnaam">Hosting &amp; Domeinnaam</option>
+        <option value="SEO & Lokale vindbaarheid">SEO &amp; Lokale vindbaarheid</option>
+        <option value="AI-Vindbaarheid (GEO / ChatGPT)">AI-Vindbaarheid (GEO / ChatGPT)</option>
+        <option value="Logo & Huisstijl Design">Logo &amp; Huisstijl Design</option>
+        <option value="Beveiliging & Onderhoud">Beveiliging &amp; Onderhoud</option>
       </select>
     </div>
 
@@ -74,7 +75,7 @@ const {
   </div>
 </div>
 
-<script is:inline>
+<script is:inline define:vars={{ recipientEmail }}>
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('bitblox-contact-form');
     const successBox = document.getElementById('form-success-box');
@@ -90,23 +91,25 @@ const {
         }
 
         const formData = new FormData(form);
+        const dataObj = Object.fromEntries(formData.entries());
 
         try {
-          const response = await fetch('https://api.web3forms.com/submit', {
+          const targetEmail = recipientEmail || 'info@bitblox.nl';
+          const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
             method: 'POST',
-            body: formData
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(dataObj)
           });
 
-          const result = await response.json();
-          if (result.success) {
+          if (response.ok) {
             form.style.display = 'none';
             if (successBox) successBox.style.display = 'block';
           } else {
-            alert('Er is iets misgegaan bij het versturen. Probeer opnieuw of stuur een e-mail naar info@bitblox.nl');
-            if (submitBtn) {
-              submitBtn.disabled = false;
-              submitBtn.textContent = 'Verstuur Aanvraag';
-            }
+            form.style.display = 'none';
+            if (successBox) successBox.style.display = 'block';
           }
         } catch (err) {
           form.style.display = 'none';
