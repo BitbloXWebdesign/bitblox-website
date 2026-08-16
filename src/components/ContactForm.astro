@@ -2,13 +2,13 @@
 interface Props {
   title?: string;
   subtitle?: string;
-  recipientEmail?: string;
+  accessKey?: string;
 }
 
 const {
   title = "Start vandaag uw digitale groei",
   subtitle = "Vul het formulier in voor een vrijblijvend adviesgesprek of scherpe offerte binnen 24 uur.",
-  recipientEmail = "info@bitblox.nl"
+  accessKey = "19097563-42e8-438f-b0d5-a56c3b2c17d1"
 } = Astro.props;
 ---
 
@@ -17,12 +17,12 @@ const {
   <p class="lead" style="margin-bottom: 28px; font-size: 0.95rem;">{subtitle}</p>
 
   <form id="bitblox-contact-form" style="display: flex; flex-direction: column; gap: 20px;">
-    <input type="hidden" name="_subject" value="Nieuwe Contactaanvraag via BitbloX.nl" />
-    <input type="hidden" name="_template" value="table" />
-    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="access_key" value={accessKey} />
+    <input type="hidden" name="subject" value="Nieuwe Contactaanvraag via BitbloX.nl" />
+    <input type="hidden" name="from_name" value="BitbloX Website Formulier" />
 
     <!-- Honeypot anti-spam field -->
-    <input type="text" name="_honey" style="display: none !important;" />
+    <input type="checkbox" name="botcheck" class="hidden" style="display: none !important;" />
 
     <div class="form-row-2">
       <div>
@@ -93,7 +93,7 @@ const {
   }
 </style>
 
-<script is:inline define:vars={{ recipientEmail }}>
+<script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('bitblox-contact-form');
     const successBox = document.getElementById('form-success-box');
@@ -109,20 +109,15 @@ const {
         }
 
         const formData = new FormData(form);
-        const dataObj = Object.fromEntries(formData.entries());
 
         try {
-          const targetEmail = recipientEmail || 'info@bitblox.nl';
-          const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
+          const response = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify(dataObj)
+            body: formData
           });
 
-          if (response.ok) {
+          const result = await response.json();
+          if (result.success) {
             form.style.display = 'none';
             if (successBox) successBox.style.display = 'block';
           } else {
