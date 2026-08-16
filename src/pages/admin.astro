@@ -54,8 +54,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div style="position: relative;">
             <select id="clientSelectDropdown" style="background: #151824; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 8px; color: #fff; padding: 7px 32px 7px 14px; font-size: 0.92rem; font-weight: 700; cursor: pointer; appearance: none; -webkit-appearance: none;">
               <option value="bitblox" selected>🌐 BitbloX Webdesign (bitblox.nl)</option>
-              <option value="autokampeerder">🚐 De Autokampeerder (deautokampeerder.nl)</option>
+              <option value="massagestudio">💆 Massage Studio Eelde (massagestudioeelde.nl)</option>
               <option value="voetreflextherapeut">🌿 Voetreflextherapeut Groningen (voetreflextherapeutgroningen.nl)</option>
+              <option value="autokampeerder">🚐 De Autokampeerder (deautokampeerder.nl)</option>
             </select>
             <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #38bdf8; font-size: 0.75rem;">▼</span>
           </div>
@@ -1160,6 +1161,64 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { name: "Marloes & Sven", rating: "★★★★★" },
           { name: "Karin B.", rating: "★★★★★" }
         ]
+      },
+      massagestudio: {
+        name: "Massage Studio Eelde",
+        domain: "massagestudioeelde.nl",
+        pagesUrl: "https://massagestudioeelde.pages.dev",
+        metrics: { 
+          mobile: "100", 
+          mobileTime: "0.18s", 
+          desktop: "100", 
+          desktopTime: "0.08s", 
+          geo: "99", 
+          geoLabel: "#1 Positie", 
+          edgeCache: "99.4%",
+          totalVisitors: "54",
+          totalPageviews: "210"
+        },
+        wave: {
+          blueWave: "M 0,115 L 440,115 Q 470,110 500,28 L 500,120 L 0,120 Z",
+          blueLine: "M 0,115 L 440,115 Q 470,110 500,28",
+          goldWave: "M 0,118 L 440,118 Q 470,115 500,60 L 500,120 L 0,120 Z",
+          goldLine: "M 0,118 L 440,118 Q 470,115 500,60"
+        },
+        sources: [
+          { label: "Google (Massage Eelde / Paterswolde)", pct: 68, count: "37 bezoekers" },
+          { label: "Direct Verkeer & Vaste Klanten", pct: 21, count: "11 hits" },
+          { label: "ChatGPT & AI Search", pct: 11, count: "6 zoekers" }
+        ],
+        dailyData: [
+          { date: "10 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "11 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "12 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "13 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "14 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "15 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "16 Aug (Vandaag Live)", google: 16, ai: 4, blueY: 28, goldY: 60 }
+        ],
+        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true, cookies: true, announcement: false, accessibility: true, callback: true },
+        announcement: {
+          badge: "AFSPRAAK",
+          text: "💆 Welkom bij Massage Studio Eelde! Boek eenvoudig online je ontspanningsmassage.",
+          link: "/contact/"
+        },
+        microsites: [
+          { name: "Eelde", url: "/regio/eelde/", slug: "eelde" },
+          { name: "Paterswolde", url: "/regio/paterswolde/", slug: "paterswolde" },
+          { name: "Haren", url: "/regio/haren/", slug: "haren" },
+          { name: "Groningen", url: "/regio/groningen/", slug: "groningen" },
+          { name: "Vries", url: "/regio/vries/", slug: "vries" },
+          { name: "Yde", url: "/regio/yde/", slug: "yde" },
+          { name: "Zuidlaren", url: "/regio/zuidlaren/", slug: "zuidlaren" },
+          { name: "Eelderwolde", url: "/regio/eelderwolde/", slug: "eelderwolde" }
+        ],
+        blogs: [],
+        reviews: [
+          { id: 1, name: "Monique V.", location: "Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Alianne geeft fantastische massages. Ze voelt precies aan waar de spanning zit. Na afloop voel ik me altijd helemaal ontspannen en opgeladen!" },
+          { id: 2, name: "Sander de Boer", location: "Paterswolde", rating: 5, ratingDisplay: "★★★★★", text: "Professionele praktijk met een hele rustige, fijne sfeer. De sportmassage heeft mijn rugklachten enorm verlicht. Zeker een aanrader!" },
+          { id: 3, name: "Ellen K.", location: "Haren", rating: 5, ratingDisplay: "★★★★★", text: "Heerlijke ontspanningsmassage gehad. Alianne neemt echt de tijd voor je en straalt zoveel rust uit. Ik kom hier zeker maandelijks terug." }
+        ]
       }
     };
 
@@ -1615,8 +1674,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
     const clientGithubRepoMap = {
       bitblox: "BitbloXWebdesign/bitblox-website",
-      autokampeerder: "BitbloXWebdesign/deautokampeerder",
-      voetreflextherapeut: "BitbloXWebdesign/voetreflextherapeut-groningen"
+      massagestudio: "BitbloXWebdesign/massagestudioeelde",
+      voetreflextherapeut: "BitbloXWebdesign/voetreflextherapeut-groningen",
+      autokampeerder: "BitbloXWebdesign/deautokampeerder"
     };
 
     async function pushDirectToGitHub(repo, filePath, contentString, commitMsg) {
