@@ -495,15 +495,27 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
                 </div>
               </div>
 
-              <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px;">
-                <div style="flex: 1; min-width: 240px;">
-                  <label style="display: block; font-size: 0.72rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">Alarm Seintje Ontvanger (E-mail of Webhook bij downtime / homepage storing):</label>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px; margin-bottom: 12px;">
+                <div>
+                  <label style="display: block; font-size: 0.72rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">📲 WhatsApp Alarm Nummer (Directe Push):</label>
+                  <input type="text" id="watchdogAlertPhone" value="06 30523907" placeholder="Bijv. 06 30523907" style="width: 100%; padding: 8px 12px; background: #151824; border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; color: #fff; font-size: 0.85rem;" />
+                </div>
+                <div>
+                  <label style="display: block; font-size: 0.72rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">📧 E-mail Alarm Ontvanger:</label>
                   <input type="email" id="watchdogAlertEmail" value="info@bitblox.nl" style="width: 100%; padding: 8px 12px; background: #151824; border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; color: #fff; font-size: 0.85rem;" />
                 </div>
-                <div style="display: flex; gap: 8px; align-items: flex-end;">
-                  <button id="testAlertBtn" class="btn btn--ghost btn--sm" style="padding: 8px 14px; font-size: 0.8rem; border-color: rgba(56, 189, 248, 0.3); color: #38bdf8;">🔔 Test Alarm Seintje</button>
-                  <button id="runInstantScanBtn" class="btn btn--gold btn--sm" style="padding: 8px 16px; font-size: 0.8rem; font-weight: 700;">🔍 Scan Nu Live</button>
-                </div>
+              </div>
+
+              <div style="display: flex; gap: 8px; align-items: center; justify-content: flex-end; flex-wrap: wrap;">
+                <button id="testWhatsappAlertBtn" class="btn btn--ghost btn--sm" style="padding: 8px 14px; font-size: 0.8rem; border-color: rgba(34, 197, 94, 0.4); color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">
+                  <span>📲 Test WhatsApp Seintje</span>
+                </button>
+                <button id="testAlertBtn" class="btn btn--ghost btn--sm" style="padding: 8px 14px; font-size: 0.8rem; border-color: rgba(56, 189, 248, 0.3); color: #38bdf8;">
+                  <span>📧 Test E-mail Seintje</span>
+                </button>
+                <button id="runInstantScanBtn" class="btn btn--gold btn--sm" style="padding: 8px 16px; font-size: 0.8rem; font-weight: 700;">
+                  <span>🔍 Scan Nu Live</span>
+                </button>
               </div>
               <div id="watchdogScanStatus" style="font-size: 0.8rem; color: #4ade80; font-weight: 700; margin-top: 8px; min-height: 18px;"></div>
             </div>
@@ -1001,7 +1013,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const watchdogHashStatus = document.getElementById('watchdogHashStatus');
     const watchdogResponseTime = document.getElementById('watchdogResponseTime');
     const watchdogLastCheck = document.getElementById('watchdogLastCheck');
+    const watchdogAlertPhone = document.getElementById('watchdogAlertPhone');
     const watchdogAlertEmail = document.getElementById('watchdogAlertEmail');
+    const testWhatsappAlertBtn = document.getElementById('testWhatsappAlertBtn');
     const testAlertBtn = document.getElementById('testAlertBtn');
     const runInstantScanBtn = document.getElementById('runInstantScanBtn');
     const watchdogScanStatus = document.getElementById('watchdogScanStatus');
@@ -1811,8 +1825,36 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
         setTimeout(() => {
           testAlertBtn.disabled = false;
-          testAlertBtn.textContent = '🔔 Test Alarm Seintje';
+          testAlertBtn.textContent = '📧 Test E-mail Seintje';
         }, 3500);
+      });
+    }
+
+    if (testWhatsappAlertBtn) {
+      testWhatsappAlertBtn.addEventListener('click', () => {
+        const conf = clientConfigs[currentSelectedClient] || clientConfigs.bitblox;
+        let phone = (watchdogAlertPhone && watchdogAlertPhone.value.trim()) ? watchdogAlertPhone.value.trim() : '31630523907';
+        phone = phone.replace(/[^0-9]/g, '');
+        if (phone.startsWith('06')) phone = '31' + phone.substring(1);
+        if (!phone) phone = '31630523907';
+
+        const msg = `🚨 *[BITBLOX WATCHDOG ALARM]*\n\n` +
+                    `🌐 *Klant:* ${conf.name}\n` +
+                    `🔗 *Website:* ${conf.pagesUrl}\n` +
+                    `🟢 *Status:* 100% Uptime • HTTP 200 OK\n` +
+                    `🔒 *Integriteit:* Homepage Hash Onveranderd & Veilig\n` +
+                    `⚡ *Edge Responstijd:* 118ms (Cloudflare)\n` +
+                    `🕒 *Tijd:* ${new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}\n\n` +
+                    `✅ Dit is een automatisch test-alarmseintje via BitbloX 24/7 Watchdog.`;
+
+        const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+        window.open(waUrl, '_blank');
+
+        testWhatsappAlertBtn.textContent = '✅ WhatsApp Geopend!';
+        if (watchdogScanStatus) watchdogScanStatus.innerHTML = `📲 WhatsApp noodmelding geopend voor <strong>+${phone}</strong>!`;
+        setTimeout(() => {
+          testWhatsappAlertBtn.textContent = '📲 Test WhatsApp Seintje';
+        }, 3000);
       });
     }
 
