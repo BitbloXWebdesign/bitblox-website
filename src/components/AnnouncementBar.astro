@@ -33,27 +33,29 @@ const {
     top: 0;
     left: 0;
     right: 0;
-    height: 40px;
+    min-height: 40px;
+    height: auto;
     background: linear-gradient(90deg, #0e121e 0%, #171c2d 50%, #0e121e 100%);
     border-bottom: 1px solid rgba(222, 193, 72, 0.35);
-    padding: 0 16px;
+    padding: 6px 40px 6px 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: fixed;
     z-index: 1002;
     font-size: 0.83rem;
     box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    box-sizing: border-box;
   }
 
   .announcement-inner {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
     color: #e2e8f0;
+    line-height: 1.4;
   }
 
   .announcement-badge {
@@ -66,6 +68,7 @@ const {
     border-radius: 999px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .announcement-text {
@@ -77,6 +80,7 @@ const {
     font-weight: 700;
     text-decoration: none;
     transition: color 0.2s ease;
+    white-space: nowrap;
   }
 
   .announcement-link:hover {
@@ -92,7 +96,7 @@ const {
     background: none;
     border: none;
     color: #94a3b8;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     line-height: 1;
     cursor: pointer;
     padding: 4px 8px;
@@ -105,8 +109,11 @@ const {
 
   @media (max-width: 768px) {
     .bitblox-announcement-bar {
-      padding-right: 36px;
+      padding: 7px 36px 7px 12px;
       font-size: 0.78rem;
+    }
+    .announcement-inner {
+      gap: 6px;
     }
   }
 </style>
@@ -116,6 +123,15 @@ const {
     const bar = document.getElementById('bitblox-announcement-bar');
     const closeBtn = document.getElementById('closeAnnouncementBtn');
 
+    function syncAnnouncementHeight() {
+      if (bar && bar.offsetHeight) {
+        document.documentElement.style.setProperty('--announcement-height', bar.offsetHeight + 'px');
+      }
+    }
+
+    syncAnnouncementHeight();
+    window.addEventListener('resize', syncAnnouncementHeight);
+
     if (closeBtn && bar) {
       closeBtn.addEventListener('click', () => {
         bar.style.transition = 'all 0.3s ease';
@@ -123,6 +139,8 @@ const {
         bar.style.maxHeight = '0';
         bar.style.padding = '0';
         bar.style.overflow = 'hidden';
+        document.documentElement.style.setProperty('--announcement-height', '0px');
+        document.body.classList.remove('has-announcement-bar');
         setTimeout(() => {
           bar.style.display = 'none';
         }, 300);

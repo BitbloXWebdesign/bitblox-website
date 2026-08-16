@@ -20,8 +20,8 @@ import switches from '../data/switches.json';
 
   <section class="section">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: start;">
-        <div class="card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
+      <div class="contact-page-grid">
+        <div class="card contact-info-card" style="padding: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);">
           <h3 style="margin-bottom: 20px;">Contactgegevens</h3>
           <ul style="display: flex; flex-direction: column; gap: 16px; font-size: 0.95rem;">
             <li style="display: flex; gap: 12px; align-items: center;">
@@ -81,3 +81,22 @@ import switches from '../data/switches.json';
     </div>
   </section>
 </Layout>
+
+<style>
+  .contact-page-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .contact-page-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .contact-info-card {
+      padding: 24px 20px !important;
+    }
+  }
+</style>

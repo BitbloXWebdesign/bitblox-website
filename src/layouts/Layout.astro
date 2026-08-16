@@ -104,14 +104,17 @@ const canonicalURL = canonical || Astro.url.href;
   )}
 
   <style is:global>
+    :root {
+      --announcement-height: 40px;
+    }
     body.has-announcement-bar .site-header {
-      top: 40px !important;
+      top: var(--announcement-height, 40px) !important;
     }
     body.has-announcement-bar .main-nav {
-      top: 40px !important;
+      top: var(--announcement-height, 40px) !important;
     }
     body.has-announcement-bar {
-      padding-top: 40px !important;
+      padding-top: var(--announcement-height, 40px) !important;
     }
 
     .floating-actions-dock {
@@ -131,13 +134,13 @@ const canonicalURL = canonical || Astro.url.href;
     }
     @media (max-width: 768px) {
       body.has-announcement-bar .site-header {
-        top: 44px !important;
+        top: var(--announcement-height, 44px) !important;
       }
       body.has-announcement-bar .main-nav {
         top: 0 !important;
       }
       body.has-announcement-bar {
-        padding-top: 44px !important;
+        padding-top: var(--announcement-height, 44px) !important;
       }
       .floating-actions-dock {
         flex-direction: column-reverse;
