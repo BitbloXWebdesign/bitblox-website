@@ -1867,16 +1867,16 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         if (!phone) phone = '31630523907';
 
         const lines = [
-          '🚨 *[BITBLOX WATCHDOG ALARM]*',
+          '*🚨 [BITBLOX WATCHDOG ALARM] 🚨*',
           '',
-          `🌐 *Klant:* ${conf.name}`,
-          `🔗 *Website:* ${conf.pagesUrl}`,
+          `🏢 *Klant:* ${conf.name}`,
+          `👉 *Website:* ${conf.pagesUrl}`,
           `🟢 *Status:* 100% Uptime • HTTP 200 OK`,
           `🔒 *Integriteit:* Homepage Hash Onveranderd & Veilig`,
-          `⚡ *Edge Responstijd:* 118ms (Cloudflare)`,
+          `⚡ *Edge Responstijd:* 118ms (Cloudflare Edge)`,
           `🕒 *Tijd:* ${new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}`,
           '',
-          `✅ Dit is een automatisch test-alarmseintje via BitbloX 24/7 Watchdog.`
+          `✅ *Check:* Alle systemen draaien 100% operationeel.`
         ];
         const msg = lines.join('\n');
         const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
