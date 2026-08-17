@@ -527,15 +527,16 @@ h3 { font-size: 1.3rem; }
 .answer-capsule {
   position: relative;
   margin-top: 30px;
-  padding: 24px 28px 24px 32px;
-  background: rgba(222, 193, 72, 0.06);
+  padding: 24px 28px 24px 28px;
+  background: rgba(222, 193, 72, 0.05);
   border: 1px solid var(--border-gold);
-  border-left: 4px solid var(--gold);
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   font-size: 1.02rem;
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--text);
-  max-width: 720px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .answer-capsule::before {
   content: "Kort antwoord";

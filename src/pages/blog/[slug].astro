@@ -6,12 +6,14 @@ export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
     params: { slug: post.id },
-    props: { post },
+    props: { post, allPosts: posts },
   }));
 }
 
-const { post } = Astro.props;
+const { post, allPosts = [] } = Astro.props;
 const { Content } = await render(post);
+
+const relatedPosts = allPosts.filter((p: any) => p.id !== post.id).slice(0, 2);
 
 const formattedDate = post.data.pubDate.toLocaleDateString('nl-NL', { 
   year: 'numeric', 
@@ -34,9 +36,9 @@ const articleSchema = {
 
 <Layout title={`${post.data.title} | BitbloX Blog`} description={post.data.description} schema={articleSchema}>
   <!-- ============ Page Hero ============ -->
-  <section class="page-hero" style="padding: 120px 0 60px;">
+  <section class="page-hero" style="padding: 120px 0 40px;">
     <div class="hero-grid-bg"></div>
-    <div class="container page-hero-inner" style="max-width: 820px; text-align: left;">
+    <div class="container page-hero-inner" style="max-width: 820px; width: 100%; text-align: left; box-sizing: border-box;">
       <nav class="breadcrumb" aria-label="Kruimelpad">
         <a href="/">Home</a> <span>/</span> <a href="/blog/">Blog</a> <span>/</span> <span>Artikel</span>
       </nav>
@@ -51,7 +53,7 @@ const articleSchema = {
         {post.data.title}
       </h1>
 
-      <div style="display: flex; align-items: center; gap: 16px; font-size: 0.9rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 16px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: center; gap: 16px; font-size: 0.9rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 16px; margin-bottom: 24px; flex-wrap: wrap;">
         <span style="display: flex; align-items: center; gap: 6px;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           {formattedDate}
@@ -62,24 +64,73 @@ const articleSchema = {
           3 min leestijd
         </span>
         <span>•</span>
-        <span>Door {post.data.author || 'BitbloX'}</span>
+        <span>Door {post.data.author || 'BitbloX Team'}</span>
       </div>
 
-      <!-- AI GEO Answer Capsule (Samenvatting bovenaan voor ChatGPT & AI-crawlers) -->
-      <div class="answer-capsule" style="margin-top: 24px;">
-        <strong>AI-Samenvatting:</strong> {post.data.description}
+      <!-- GEO Answer Capsule (Korte samenvatting bovenaan - exact passend op breedte) -->
+      <div class="answer-capsule">
+        <strong>Korte samenvatting:</strong> {post.data.description}
       </div>
     </div>
   </section>
 
   <!-- ============ Artikel Inhoud ============ -->
   <section class="section" style="padding-top: 20px;">
-    <div class="container" style="max-width: 820px;">
+    <div class="container" style="max-width: 820px; width: 100%; box-sizing: border-box;">
       <article class="artikel-card">
         <div class="artikel-inhoud">
           <Content />
         </div>
       </article>
+
+      <!-- ============ Gerelateerde Artikelen (Topic Siloing) ============ -->
+      {relatedPosts.length > 0 && (
+        <div style="margin-top: 48px;">
+          <h3 style="font-size: 1.25rem; color: #fff; margin-bottom: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+            📚 Gerelateerde artikelen &amp; advies
+          </h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            {relatedPosts.map((rel: any) => (
+              <a href={`/blog/${rel.id}/`} class="card blog-rel-card" style="padding: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; transition: all var(--transition);">
+                <div>
+                  {rel.data.category && (
+                    <span style="display: inline-block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--gold); background: rgba(222,193,72,0.1); border: 1px solid var(--border-gold); padding: 2px 10px; border-radius: 999px; margin-bottom: 10px;">
+                      {rel.data.category}
+                    </span>
+                  )}
+                  <h4 style="font-size: 1.02rem; color: #fff; margin: 0 0 8px 0; line-height: 1.35;">{rel.data.title}</h4>
+                  <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.5; margin: 0;">{rel.data.description}</p>
+                </div>
+                <span style="color: var(--gold); font-size: 0.85rem; font-weight: 600; margin-top: 14px; display: inline-flex; align-items: center; gap: 4px;">
+                  Lees artikel →
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- ============ Regionale Microsites & Diensten Hub (SEO Interlinking) ============ -->
+      <div style="margin-top: 36px; padding: 24px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius);">
+        <h4 style="font-size: 0.95rem; color: #fff; margin: 0 0 12px 0; font-weight: 700;">
+          📍 Lokale webdesign diensten &amp; werkgebieden:
+        </h4>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <a href="/webdesign-assen/" class="region-pill">Webdesign Assen</a>
+          <a href="/webdesign-groningen/" class="region-pill">Webdesign Groningen</a>
+          <a href="/webdesign-haren/" class="region-pill">Webdesign Haren</a>
+          <a href="/webdesign-eelde/" class="region-pill">Webdesign Eelde</a>
+          <a href="/webdesign-hoogeveen/" class="region-pill">Webdesign Hoogeveen</a>
+          <a href="/webdesign-meppel/" class="region-pill">Webdesign Meppel</a>
+          <a href="/webdesign-beilen/" class="region-pill">Webdesign Beilen</a>
+          <a href="/webdesign-rolde/" class="region-pill">Webdesign Rolde</a>
+          <a href="/webdesign-norg/" class="region-pill">Webdesign Norg</a>
+          <a href="/ai-vindbaarheid/" class="region-pill">AI-Vindbaarheid (GEO)</a>
+          <a href="/website-kosten/" class="region-pill">Website Kosten</a>
+          <a href="/prijzen/" class="region-pill">Prijzen &amp; Tarieven</a>
+          <a href="/diensten/" class="region-pill">Alle Diensten</a>
+        </div>
+      </div>
 
       <!-- CTA Box -->
       <div class="card reveal" style="margin-top: 48px; padding: 40px; background: linear-gradient(160deg, rgba(222,193,72,.15), var(--surface) 60%); border: 1px solid var(--border-gold); border-radius: var(--radius); text-align: center;">
@@ -98,3 +149,28 @@ const articleSchema = {
     </div>
   </section>
 </Layout>
+
+<style>
+  .region-pill {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: all var(--transition);
+  }
+  .region-pill:hover {
+    color: var(--gold);
+    border-color: var(--border-gold);
+    background: rgba(222, 193, 72, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .blog-rel-card:hover {
+    border-color: var(--border-gold) !important;
+    transform: translateY(-2px);
+  }
+</style>
