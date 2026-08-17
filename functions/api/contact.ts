@@ -51,22 +51,64 @@ export const onRequestPost = async ({ request }: { request: Request }) => {
       });
       result = await w3Res.json();
     } else {
-      // 2. Automated delivery for client mailboxes (FormSubmit AJAX)
-      const fsRes = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
-          _subject: `📩 Nieuw contactbericht via ${siteLabel}`,
-          Naam: name,
-          "E-mailadres": email,
-          Telefoonnummer: phone || "Niet opgegeven",
-          "Onderwerp / Dienst": service || "Algemeen",
-          Bericht: message,
-          _replyto: email,
-          _template: "table"
-        })
-      });
-      result = await fsRes.json();
+      // 2. Direct Cloudflare MailChannels delivery for Client Sites (Zero Activation Required)
+      const htmlContent = `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #2d232a; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px;">
+          <h2 style="color: #9d467e; margin-top: 0; font-size: 1.3rem;">📩 Nieuw contactbericht via ${siteLabel}</h2>
+          <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem;">
+            <tr style="background: #fbf4f8;"><td style="padding: 10px 12px; font-weight: bold; width: 140px; border-bottom: 1px solid #eee;">Naam:</td><td style="padding: 10px 12px; border-bottom: 1px solid #eee;">${name}</td></tr>
+            <tr><td style="padding: 10px 12px; font-weight: bold; border-bottom: 1px solid #eee;">E-mailadres:</td><td style="padding: 10px 12px; border-bottom: 1px solid #eee;"><a href="mailto:${email}" style="color: #9d467e;">${email}</a></td></tr>
+            <tr style="background: #fbf4f8;"><td style="padding: 10px 12px; font-weight: bold; border-bottom: 1px solid #eee;">Telefoonnummer:</td><td style="padding: 10px 12px; border-bottom: 1px solid #eee;">${phone || "Niet opgegeven"}</td></tr>
+            <tr><td style="padding: 10px 12px; font-weight: bold; border-bottom: 1px solid #eee;">Onderwerp / Dienst:</td><td style="padding: 10px 12px; border-bottom: 1px solid #eee;">${service || "Algemene vraag / Afspraak"}</td></tr>
+          </table>
+          <div style="background: #fcf9f7; padding: 16px; border-radius: 8px; border-left: 4px solid #9d467e; margin: 16px 0;">
+            <strong style="font-size: 0.9rem; color: #685b63; display: block; margin-bottom: 6px;">Bericht van bezoeker:</strong>
+            <p style="margin: 0; white-space: pre-wrap; font-size: 0.95rem;">${message}</p>
+          </div>
+          <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 12px;">
+            Verzonden vanaf de website <a href="https://${domain || 'bitblox.nl'}" style="color: #94a3b8;">${domain || siteLabel}</a> • Beheerd via BitbloX Webdesign
+          </p>
+        </div>
+      `;
+
+      try {
+        const mcRes = await fetch("https://api.mailchannels.net/tx/v1/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            personalizations: [
+              { to: [{ email: targetEmail, name: clientName || siteLabel }] }
+            ],
+            from: { email: "contact@bitblox.nl", name: `${siteLabel} Website` },
+            reply_to: { email: email, name: name },
+            subject: `📩 Nieuw contactbericht via ${siteLabel} van ${name}`,
+            content: [{ type: "text/html", value: htmlContent }]
+          })
+        });
+
+        if (mcRes.ok || mcRes.status === 202) {
+          result = { success: true, provider: "mailchannels" };
+        } else {
+          throw new Error("MailChannels fallback");
+        }
+      } catch (mcErr) {
+        // Fallback to FormSubmit AJAX
+        const fsRes = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({
+            _subject: `📩 Nieuw contactbericht via ${siteLabel}`,
+            Naam: name,
+            "E-mailadres": email,
+            Telefoonnummer: phone || "Niet opgegeven",
+            "Onderwerp / Dienst": service || "Algemeen",
+            Bericht: message,
+            _replyto: email,
+            _template: "table"
+          })
+        });
+        result = await fsRes.json();
+      }
     }
 
     return new Response(JSON.stringify({ success: true, result }), {
