@@ -37,7 +37,7 @@ export const pricing = {
       features: [
         "Tot 3 pagina's (Home, Diensten, Contact)",
         "Routemap & Google Maps integratie",
-        "WhatsApp directe klantcontact knop",
+        "Directe bel- en e-mailkoppelingen",
         "Mobiel en tablet geoptimaliseerd",
         "Basis zoekmachine optimalisatie (SEO)",
         "SSL & Veilige formulierkoppeling"
@@ -56,7 +56,7 @@ export const pricing = {
         "Inclusief Blog / Kennisbank module",
         "Veelgestelde Vragen (FAQ) accordions",
         "Google Reviews & ervaringen showcase",
-        "WhatsApp interactieve contactknop",
+        "Schema.org gestructureerde data",
         "SEO-fundament & basis AI-vindbaarheid (GEO)"
       ]
     },
@@ -70,7 +70,7 @@ export const pricing = {
       features: [
         "7+ Pagina's of complete E-Commerce Webshop",
         "Inclusief 2 extra steden (Microsites) óf Productshop",
-        "iDEAL, Bancontact & WhatsApp directe checkout",
+        "iDEAL & Bancontact veilige online checkout",
         "Volledige Blog & Kennisbank integratie",
         "Schema.org LocalBusiness & Product structured data",
         "AI-kennisbestand (llms.txt) voor ChatGPT & Perplexity"
