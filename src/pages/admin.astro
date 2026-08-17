@@ -1403,22 +1403,31 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       const conf = clientConfigs[clientId];
       if (!conf) return;
 
-      // 1. Direct Live Runtime Fetch of the Real site-config.json file (Zero Cache)
-      try {
-        const fetchUrl = (clientId === 'bitblox') 
-          ? '/site-config.json?t=' + Date.now() 
-          : `${conf.pagesUrl}/site-config.json?t=${Date.now()}`;
-        const res = await fetch(fetchUrl, { cache: 'no-store' });
-        if (res.ok) {
-          const liveConfig = await res.json();
-          if (liveConfig.modules) {
-            conf.switches = { ...conf.switches, ...liveConfig.modules };
+      // 1. Direct Instant Fetch from GitHub REST API (Instant 0s, Zero Cache, Full CORS)
+      const token = localStorage.getItem('bitblox_gh_token') || AUTO_GH_TOKEN;
+      const targetRepo = clientGithubRepoMap[clientId];
+      if (targetRepo && token) {
+        try {
+          const apiUrl = `https://api.github.com/repos/${targetRepo}/contents/public/site-config.json?t=${Date.now()}`;
+          const getRes = await fetch(apiUrl, {
+            headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' },
+            cache: 'no-store'
+          });
+          if (getRes.ok) {
+            const getData = await getRes.json();
+            const decoded = decodeURIComponent(escape(atob(getData.content.replace(/\s/g, ''))));
+            const liveConfig = JSON.parse(decoded);
+            if (liveConfig.modules) {
+              conf.switches = { ...conf.switches, ...liveConfig.modules };
+            }
+            if (liveConfig.announcement) {
+              conf.announcement = { ...conf.announcement, ...liveConfig.announcement };
+            }
           }
-          if (liveConfig.announcement) {
-            conf.announcement = { ...conf.announcement, ...liveConfig.announcement };
-          }
+        } catch(e) {
+          console.warn('GitHub live fetch error:', e);
         }
-      } catch(e) {}
+      }
 
       if (switchesClientName) switchesClientName.textContent = conf.name;
       if (clientLiveLink) clientLiveLink.href = conf.pagesUrl;
