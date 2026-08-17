@@ -1403,6 +1403,14 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       const conf = clientConfigs[clientId];
       if (!conf) return;
 
+      try {
+        const saved = localStorage.getItem('bitblox_client_switches_' + clientId);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          conf.switches = { ...conf.switches, ...parsed };
+        }
+      } catch(e) {}
+
       if (switchesClientName) switchesClientName.textContent = conf.name;
       if (clientLiveLink) clientLiveLink.href = conf.pagesUrl;
       if (clientLiveDomainText) clientLiveDomainText.textContent = `(${conf.domain})`;
@@ -2141,6 +2149,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         conf.announcement.badge = announcementBadgeInput ? announcementBadgeInput.value.trim() : 'UPDATE';
         conf.announcement.text = announcementTextInput ? announcementTextInput.value.trim() : '';
         conf.announcement.link = announcementLinkInput ? announcementLinkInput.value.trim() : '';
+
+        try {
+          localStorage.setItem('bitblox_client_switches_' + currentSelectedClient, JSON.stringify(conf.switches));
+        } catch(e) {}
 
         saveSwitchesBtn.textContent = '⏳ Opslaan...';
         saveSwitchesBtn.disabled = true;
