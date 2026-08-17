@@ -63,7 +63,7 @@ export const onRequestPost = async ({ request }: { request: Request }) => {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            from: `${name} (via ${siteLabel}) <contact@bitblox.nl>`,
+            from: `${siteLabel} <noreply@bitblox.nl>`,
             to: [targetEmail],
             reply_to: email,
             subject: `📩 Nieuw contactbericht via ${siteLabel} van ${name}`,
