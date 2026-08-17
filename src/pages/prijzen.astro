@@ -1,22 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ContactForm from '../components/ContactForm.astro';
 import FAQ from '../components/FAQ.astro';
+import ContactForm from '../components/ContactForm.astro';
 import { pricing } from '../data/pricing';
 ---
 
 <Layout 
-  title="Duidelijke tarieven & pakketten — Webdesign & Beheer | BitbloX Assen"
-  description="Transparante tarieven voor webdesign (Starter €295, Compleet €495, Pro €850), zorgeloos beheer & hosting (€149 - €245/jr) en SEO-onderhoud bij BitbloX."
+  title="Tarieven & Prijzen 2026 — Webdesign, Beheer & SEO | BitbloX"
+  description="Transparante tarieven voor webdesign (Brons €100, Zilver €250, Goud €450, Platina €650+), beheer & hosting (€149 - €245/jr) en SEO-onderhoud bij BitbloX. Prijzen excl. btw, 2 maanden opzegtermijn."
 >
   <!-- ============ Page hero ============ -->
   <section class="page-hero">
     <div class="hero-grid-bg"></div>
     <div class="container page-hero-inner">
       <nav class="breadcrumb" aria-label="Kruimelpad"><a href="/">Home</a> <span>/</span> <span>Prijzen</span></nav>
-      <span class="kicker">Transparante tarieven</span>
+      <span class="kicker">Transparante tarieven • Excl. BTW</span>
       <h1>Duidelijke prijzen, <span class="text-gradient">geen verrassingen</span></h1>
-      <p class="lead">Van een converterende one-pager tot een complete website met meerdere stedenpagina's en actieve leadfuncties. Kies het pakket dat past bij uw doelen en budget.</p>
+      <p class="lead">Van een converterende one-pager tot een complete website met meerdere stedenpagina's en actieve leadfuncties. Alle tarieven zijn exclusief btw. Doorlopende beheer- en onderhoudsdiensten hebben een heldere opzegtermijn van 2 maanden.</p>
     </div>
   </section>
 
@@ -24,7 +24,7 @@ import { pricing } from '../data/pricing';
   <section class="section--tight" id="webdesign-prijzen">
     <div class="container">
       <div class="section-head reveal" style="margin-bottom: 48px;">
-        <span class="kicker">Pijler 1 — Eenmalige Realisatie</span>
+        <span class="kicker">Pijler 1 — Eenmalige Realisatie (Excl. BTW)</span>
         <h2>Website <span class="gold">ontwerp &amp; bouw</span></h2>
         <p class="lead">Eenmalige investering voor het professioneel ontwerpen, bouwen en inrichten van uw nieuwe website.</p>
       </div>
@@ -40,7 +40,7 @@ import { pricing } from '../data/pricing';
             <div class="price-amount">
               <span class="currency">€</span>
               <span class="amount">{item.amount}</span>
-              <span class="per">{item.unit}</span>
+              <span class="per">{item.unit} <br/><small style="font-size: 0.72rem; color: var(--muted);">(excl. btw)</small></span>
             </div>
             <ul class="price-features">
               {item.features.map((feat) => (
@@ -58,18 +58,18 @@ import { pricing } from '../data/pricing';
     </div>
   </section>
 
-  <!-- ============ 2. Beheer & Zorgeloos Online (Jaarlijks) ============ -->
-  <section class="section section--alt" id="beheer-prijzen">
+  <!-- ============ 2. Jaarlijkse Beheerdiensten & Hosting ============ -->
+  <section class="section section--alt" id="hosting-prijzen">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="kicker">Pijler 2 — Beheer &amp; Beveiliging</span>
-        <h2>Zorgeloos online <span class="gold">beheerdiensten</span></h2>
-        <p class="lead">Geen zorgen over trage servers, hacks of technische updates. Wij beheren uw platform proactief op de achtergrond.</p>
+      <div class="section-head reveal" style="margin-bottom: 48px;">
+        <span class="kicker">Pijler 2 — Jaarlijkse Beheerdiensten (Excl. BTW)</span>
+        <h2>Beheer, hosting &amp; <span class="gold">beveiliging</span></h2>
+        <p class="lead">Jaarlijkse hosting, enterprise beveiliging en actieve conversietools. Prijzen excl. btw, per jaar gefactureerd met 2 maanden opzegtermijn.</p>
       </div>
 
-      <div class="grid grid--2" style="max-width: 860px; margin: 0 auto;">
+      <div class="grid grid--2" style="max-width: 900px; margin: 0 auto;">
         {pricing.hosting.map((item, index) => (
-          <article class={`price-card reveal ${item.featured ? 'featured' : ''} ${index > 0 ? 'reveal-delay-1' : ''}`}>
+          <article class={`price-card reveal ${item.featured ? 'featured' : ''} ${index > 0 ? 'reveal-delay-' + index : ''}`}>
             {item.featured && (
               <span class="price-badge">Aanrader</span>
             )}
@@ -78,7 +78,7 @@ import { pricing } from '../data/pricing';
             <div class="price-amount">
               <span class="currency">€</span>
               <span class="amount">{item.amount}</span>
-              <span class="per">{item.unit}</span>
+              <span class="per">{item.unit} <br/><small style="font-size: 0.72rem; color: var(--muted);">(excl. btw • 2 mnd opzegtermijn)</small></span>
             </div>
             <ul class="price-features">
               {item.features.map((feat) => (
@@ -89,7 +89,7 @@ import { pricing } from '../data/pricing';
               ))}
             </ul>
             {item.roi && <p class="price-roi">{item.roi}</p>}
-            <a href="#contact" class={`btn ${item.featured ? 'btn--gold' : 'btn--ghost'} btn--block`}>Kies dit beheer</a>
+            <a href="#contact" class={`btn ${item.featured ? 'btn--gold' : 'btn--ghost'} btn--block`}>Kies beheer</a>
           </article>
         ))}
       </div>
@@ -99,10 +99,10 @@ import { pricing } from '../data/pricing';
   <!-- ============ 3. SEO & Vindbaarheid Onderhoud ============ -->
   <section class="section" id="seo-prijzen">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="kicker">Pijler 3 — Vindbaarheid &amp; AI-Groei</span>
-        <h2>SEO &amp; AI-vindbaarheid <span class="gold">onderhoud</span></h2>
-        <p class="lead">Flexibele onderhoudschecks om uw posities in Google en aanbevelingen door ChatGPT en AI-zoekmachines structureel te behouden.</p>
+      <div class="section-head reveal" style="margin-bottom: 48px;">
+        <span class="kicker">Pijler 3 — SEO Onderhoud &amp; Frequenties (Excl. BTW)</span>
+        <h2>Vindbaarheid <span class="gold">onderhoud &amp; groei</span></h2>
+        <p class="lead">Laat uw zoekmachine- en AI-posities periodiek bijsturen en optimaliseren. Prijzen excl. btw, per jaar gefactureerd met 2 maanden opzegtermijn.</p>
       </div>
 
       <div class="grid grid--3">
@@ -116,7 +116,7 @@ import { pricing } from '../data/pricing';
             <div class="price-amount">
               <span class="currency">€</span>
               <span class="amount">{item.amount}</span>
-              <span class="per">{item.unit}</span>
+              <span class="per">{item.unit} <br/><small style="font-size: 0.72rem; color: var(--muted);">(excl. btw • 2 mnd opzegtermijn)</small></span>
             </div>
             <ul class="price-features">
               {item.features.map((feat) => (
@@ -134,11 +134,11 @@ import { pricing } from '../data/pricing';
     </div>
   </section>
 
-  <!-- ============ 4. Uitbreidingen & Content (Microsites & Blog) ============ -->
+  <!-- ============ 4. Microsites & Uitbreidingen ============ -->
   <section class="section section--alt" id="uitbreidingen">
     <div class="container">
       <div class="section-head reveal">
-        <span class="kicker">Pijler 4 — Uitbreidingen</span>
+        <span class="kicker">Pijler 4 — Uitbreidingen (Excl. BTW)</span>
         <h2>Microsites &amp; <span class="gold">content modules</span></h2>
         <p class="lead">Breid uw website uit met extra lokale stedenpagina's of professioneel geschreven artikelen.</p>
       </div>
@@ -151,7 +151,7 @@ import { pricing } from '../data/pricing';
             <div class="price-amount">
               <span class="currency">€</span>
               <span class="amount">{item.amount}</span>
-              <span class="per">{item.unit}</span>
+              <span class="per">{item.unit} <br/><small style="font-size: 0.72rem; color: var(--muted);">(excl. btw)</small></span>
             </div>
             <ul class="price-features">
               {item.features.map((feat) => (
@@ -164,6 +164,13 @@ import { pricing } from '../data/pricing';
             <a href="#contact" class="btn btn--ghost btn--block">Informatie aanvragen</a>
           </article>
         ))}
+      </div>
+
+      <!-- Transparante Voorwaarden Melding -->
+      <div class="pricing-note reveal" style="margin-top: 48px; max-width: 900px; margin-left: auto; margin-right: auto; text-align: center;">
+        <div>
+          <strong>Transparante voorwaarden:</strong> Alle genoemde tarieven zijn <strong>exclusief 21% btw</strong>. Jaarlijkse hosting-, beheer- en onderhoudsdiensten worden vooraf per jaar gefactureerd en zijn flexibel opzegbaar met een <strong>opzegtermijn van 2 maanden</strong> voor de jaarlijkse verlengingsdatum.
+        </div>
       </div>
     </div>
   </section>
