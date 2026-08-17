@@ -126,7 +126,7 @@ export const pricing = {
         "2x per jaar technische zoekmachine- & snelheidsscan",
         "Google Search Console indexering & XML-sitemap controle",
         "Bijwerken van zoektermen, openingstijden of teksten",
-        "Tot 15 minuten persoonlijke ondersteuning per beurt"
+        "Tot 15 minuten persoonlijke support per onderhoudsronde"
       ]
     },
     {
@@ -141,7 +141,7 @@ export const pricing = {
         "4x per jaar complete zoekmachine- en prestatie-audit",
         "Seizoensgebonden zoekwoorden & pagina-inhoud bijsturen",
         "AI-kennisindex (llms.txt) actualiseren voor ChatGPT",
-        "Tot 30 minuten persoonlijke ondersteuning per beurt"
+        "Tot 30 minuten persoonlijke support per kwartaal"
       ]
     },
     {
