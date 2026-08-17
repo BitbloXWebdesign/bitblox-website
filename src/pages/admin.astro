@@ -1397,17 +1397,26 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (reviewsToolSection) reviewsToolSection.style.display = reviewsActive ? 'block' : 'none';
     }
 
-    function updateClientUI(clientId) {
+    async function updateClientUI(clientId) {
       if (!clientId || !clientConfigs[clientId]) clientId = 'bitblox';
       currentSelectedClient = clientId;
       const conf = clientConfigs[clientId];
       if (!conf) return;
 
+      // 1. Direct Live Runtime Fetch of the Real site-config.json file (Zero Cache)
       try {
-        const saved = localStorage.getItem('bitblox_client_switches_' + clientId);
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          conf.switches = { ...conf.switches, ...parsed };
+        const fetchUrl = (clientId === 'bitblox') 
+          ? '/site-config.json?t=' + Date.now() 
+          : `${conf.pagesUrl}/site-config.json?t=${Date.now()}`;
+        const res = await fetch(fetchUrl, { cache: 'no-store' });
+        if (res.ok) {
+          const liveConfig = await res.json();
+          if (liveConfig.modules) {
+            conf.switches = { ...conf.switches, ...liveConfig.modules };
+          }
+          if (liveConfig.announcement) {
+            conf.announcement = { ...conf.announcement, ...liveConfig.announcement };
+          }
         }
       } catch(e) {}
 
