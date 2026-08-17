@@ -1,17 +1,17 @@
 {
   "site": "BitbloX Webdesign & Hosting",
   "domain": "bitblox.nl",
-  "updatedAt": "2026-08-15T10:45:01.048Z",
+  "updatedAt": "2026-08-17T15:45:20.981Z",
   "modules": {
     "blog": true,
     "seo": true,
     "geo": true,
-    "whatsapp": true,
+    "whatsapp": false,
     "microsites": true,
     "reviews": true,
     "faq": true,
     "form": true,
-    "whatsappWidget": true,
+    "whatsappWidget": false,
     "geoAiVindbaarheid": true,
     "stedenMicrosites": true,
     "googleReviews": true,
@@ -24,7 +24,8 @@
     "cookieBanner": true,
     "announcementBar": true,
     "callBack": true,
-    "accessibility": true
+    "accessibility": true,
+    "monitoring": true
   },
   "announcement": {
     "badge": "UPDATE",
