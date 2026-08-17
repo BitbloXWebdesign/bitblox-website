@@ -108,22 +108,45 @@ const {
           submitBtn.textContent = '⏳ Bezig met verzenden...';
         }
 
-        const formData = new FormData(form);
+        const payload = {
+          to: 'info@bitblox.nl',
+          name: document.getElementById('naam')?.value || '',
+          company: document.getElementById('bedrijfsnaam')?.value || '',
+          email: document.getElementById('email')?.value || '',
+          phone: document.getElementById('telefoon')?.value || '',
+          service: document.getElementById('dienst')?.value || '',
+          message: document.getElementById('bericht')?.value || '',
+          domain: 'bitblox.nl',
+          clientName: 'BitbloX Webdesign'
+        };
 
         try {
-          const response = await fetch('https://api.web3forms.com/submit', {
+          let response = await fetch('/api/contact', {
             method: 'POST',
-            body: formData
-          });
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(payload)
+          }).catch(() => null);
 
-          const result = await response.json();
-          if (result.success) {
-            form.style.display = 'none';
-            if (successBox) successBox.style.display = 'block';
-          } else {
-            form.style.display = 'none';
-            if (successBox) successBox.style.display = 'block';
+          if (!response || !response.ok) {
+            response = await fetch(`https://formsubmit.co/ajax/info@bitblox.nl`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({
+                _subject: '📩 Nieuwe Contactaanvraag via BitbloX.nl',
+                Naam: payload.name,
+                Bedrijfsnaam: payload.company,
+                'E-mailadres': payload.email,
+                Telefoonnummer: payload.phone,
+                Dienst: payload.service,
+                Bericht: payload.message,
+                _replyto: payload.email,
+                _template: 'table'
+              })
+            });
           }
+
+          form.style.display = 'none';
+          if (successBox) successBox.style.display = 'block';
         } catch (err) {
           form.style.display = 'none';
           if (successBox) successBox.style.display = 'block';
