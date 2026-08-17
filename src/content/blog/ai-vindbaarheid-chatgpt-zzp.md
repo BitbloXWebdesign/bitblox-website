@@ -10,8 +10,8 @@ tags: ["AI", "GEO", "SEO"]
 Steeds meer consumenten en bedrijven zoeken niet meer via de traditionele Google-zoekbalk, maar stellen hun vraag rechtstreeks aan **ChatGPT**, **Perplexity** of **Google AI Overviews**.
 
 Vragen zoals:
-> *"Wie is een betaalbare webdesigner voor een ZZP'er in [Assen](/webdesign-assen/)?"*  
-> *"Welk webdesign bureau in [Groningen](/webdesign-groningen/) bouwt de snelste websites?"*
+> *"Wie is een betrouwbare vakman voor een klus in de buurt?"*  
+> *"Welk lokaal bureau kan mij helpen met online zichtbaarheid?"*
 
 Als jouw bedrijf niet in dat AI-antwoord voorkomt, mis je een snelgroeiende groep potentiële klanten. Dit sluit nauw aan bij het voorkomen van de [5 grootste fouten op ZZP-websites](/blog/de-5-grootste-fouten-op-zzp-websites/).
 
@@ -23,14 +23,14 @@ AI-assistenten scannen het internet af op zoek naar duidelijke, feitelijke antwo
 
 ### 3 stappen om jouw bedrijf AI-proof te maken:
 
-1. **Een `llms.txt` bestand op je server**: Dit geeft AI-crawlers zoals GPTBot en ClaudeBot direct inzicht in jouw diensten, werkgebied (zoals [Haren](/webdesign-haren/) en [Eelde](/webdesign-eelde/)) en contactgegevens.
+1. **Een `llms.txt` bestand op je server**: Dit geeft AI-crawlers zoals GPTBot en ClaudeBot direct inzicht in jouw diensten, werkgebied en contactgegevens.
 2. **Beknopte antwoordblokken (Kort Antwoord)**: AI kiest voor zinnen die direct en helder antwoord geven op een specifieke vraag.
 3. **Structured LocalBusiness Data**: Onzichtbare schema-metadata waarmee AI-zoekmachines exact weten waar je gevestigd bent en wie je helpt.
 
 ## Combineer GEO met sterke regionale pagina's
 
-Wil je in meerdere steden tegelijk door AI en Google worden aanbevolen? Ontdek dan [de kracht van lokale microsites](/blog/de-kracht-van-microsites/) en combineer dit met een [blitzsnelle laadtijd](/blog/waarom-trage-website-klanten-kost/).
+Wil je in meerdere steden tegelijk door AI en Google worden aanbevolen? Ontdek dan [de kracht van lokale microsites](/blog/de-kracht-van-microsites/) om per regio optimaal te scoren.
 
 ## Hulp nodig bij AI-vindbaarheid?
 
-Bij BitbloX rusten we alle websites standaard uit met de nieuwste GEO-technieken en structured data. Bekijk onze [AI-Vindbaarheid (GEO) dienst](/ai-vindbaarheid/), bekijk onze [scherpe tarieven](/prijzen/) of neem direct [contact op voor vrijblijvend advies](/contact/)!
+Bij BitbloX rusten we alle websites standaard uit met de nieuwste GEO-technieken en structured data. Bekijk onze [AI-Vindbaarheid (GEO) dienst](/ai-vindbaarheid/) of neem gerust [contact met ons op](/contact/) voor vrijblijvend advies!

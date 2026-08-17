@@ -6,13 +6,13 @@ author: "BitbloX"
 tags: ["Snelheid", "Webdesign", "SEO"]
 ---
 
-Als ondernemer in [Assen](/webdesign-assen/) of [Groningen](/webdesign-groningen/) steek je veel tijd en energie in het binnenhalen van nieuwe klanten. Maar wist je dat een **trage website** ongemerkt tientallen offertes per maand kost? Dit is één van de [5 grootste fouten op ZZP-websites](/blog/de-5-grootste-fouten-op-zzp-websites/) die direct opgelost kan worden.
+Als ondernemer steek je veel tijd en energie in het binnenhalen van nieuwe klanten. Maar wist je dat een **trage website** ongemerkt tientallen offertes per maand kost? Dit is één van de [5 grootste fouten op ZZP-websites](/blog/de-5-grootste-fouten-op-zzp-websites/) die eenvoudig opgelost kan worden.
 
 ## De 3-seconden regel van Google
 
 Onderzoek van Google toont aan dat meer dan **53% van de mobiele bezoekers** de website verlaat wanneer het laden langer duurt dan 3 seconden. 
 
-Wanneer iemand in Google zoekt naar [webdesign Assen](/webdesign-assen/) of een lokale specialist in [Haren](/webdesign-haren/) of [Eelde](/webdesign-eelde/), klikt hij op jouw link. Duurt het scherm 4 seconden voordat er iets verschijnt? Dan klikt de bezoeker direct op de 'terug'-knop en gaat naar de concurrent.
+Wanneer iemand in Google zoekt naar jouw dienst en op je link klikt, maar het scherm duurt 4 seconden voordat er iets verschijnt, dan klikt de bezoeker direct op de 'terug'-knop en gaat naar de concurrent.
 
 ### Hoe laadsnelheid je SEO en Google Positie beïnvloedt
 
@@ -28,8 +28,8 @@ Sites met een score van 90 tot 100 worden door Google beloond met **hogere posit
 Bij BitbloX bouwen we websites niet op zware, verouderde systemen met tientallen trage plug-ins. Wij maken gebruik van moderne statische technologie en het wereldwijde Cloudflare netwerk:
 * **0.1 seconde laadtijd**: Pagina's staan vrijwel direct op het scherm van je bezoeker.
 * **100/100 Core Web Vitals score**: Optimale waardering door Google en zoekmachines.
-* **Geen trage server-vertragingen**: Razendsnelle responstijden op mobiel en desktop.
+* **Geen server-vertragingen**: Razendsnelle responstijden op mobiel en desktop.
 
 ### Benieuwd hoe snel jouw huidige site is?
 
-Bekijk onze [maatwerk webdesign diensten](/diensten/), bekijk wat een [professionele website kost](/website-kosten/) of neem direct [contact op voor een gratis snelheidsanalyse](/contact/). Wij laten je exact zien waar de knelpunten zitten!
+Wil je weten waar potentiële klanten afhaken? Neem direct [contact op voor een gratis snelheidsanalyse](/contact/) en ontdek direct waar jouw kansen liggen!
