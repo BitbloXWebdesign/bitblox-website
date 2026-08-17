@@ -63,17 +63,17 @@ export const pricing = {
     {
       id: "platina",
       name: "Platina",
-      subtitle: "Voor bedrijven die de regionale markt willen domineren",
+      subtitle: "Voor uitgebreide maatwerk websites, webshops & regionale dominantie",
       amount: "650+",
       unit: "eenmalig",
-      roi: "Gebouwd voor maximale lokale dominantie en omzet",
+      roi: "Gebouwd voor maximale online verkoop en regionale dominantie",
       features: [
-        "7+ Pagina's of meerdere diensten",
-        "Inclusief 2 extra steden (Regionale Microsites)",
-        "Uitgebreid maatwerk & iconen",
+        "7+ Pagina's of complete E-Commerce Webshop",
+        "Inclusief 2 extra steden (Microsites) óf Productshop",
+        "iDEAL, Bancontact & WhatsApp directe checkout",
         "Volledige Blog & Kennisbank integratie",
-        "Schema.org LocalBusiness zoekmachine data",
-        "AI-kennisbestand (llms.txt) voor ChatGPT ingericht"
+        "Schema.org LocalBusiness & Product structured data",
+        "AI-kennisbestand (llms.txt) voor ChatGPT & Perplexity"
       ]
     }
   ] as PricingPackage[],
