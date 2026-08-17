@@ -2,13 +2,11 @@
 interface Props {
   title?: string;
   subtitle?: string;
-  accessKey?: string;
 }
 
 const {
   title = "Start vandaag uw digitale groei",
-  subtitle = "Vul het formulier in voor een vrijblijvend adviesgesprek of scherpe offerte binnen 24 uur.",
-  accessKey = "19097563-42e8-438f-b0d5-a56c3b2c17d1"
+  subtitle = "Vul het formulier in voor een vrijblijvend adviesgesprek of scherpe offerte binnen 24 uur."
 } = Astro.props;
 ---
 
@@ -17,10 +15,6 @@ const {
   <p class="lead" style="margin-bottom: 28px; font-size: 0.95rem;">{subtitle}</p>
 
   <form id="bitblox-contact-form" style="display: flex; flex-direction: column; gap: 20px;">
-    <input type="hidden" name="access_key" value={accessKey} />
-    <input type="hidden" name="subject" value="Nieuwe Contactaanvraag via BitbloX.nl" />
-    <input type="hidden" name="from_name" value="BitbloX Website Formulier" />
-
     <!-- Honeypot anti-spam field -->
     <input type="checkbox" name="botcheck" class="hidden" style="display: none !important;" />
 
