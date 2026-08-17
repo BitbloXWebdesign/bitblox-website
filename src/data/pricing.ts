@@ -147,14 +147,17 @@ export const pricing = {
     {
       id: "maandelijks",
       name: "Maandelijks Actief Beheer",
-      subtitle: "Voor ondernemers die structureel topposities willen",
+      subtitle: "Volledige ontzorging, continue topposities & uw eigen vaste webmaster",
       amount: 600,
       unit: "per jaar (€50,- per maand)",
+      roi: "Maximale lokale zichtbaarheid & continue voorsprong op concurrenten",
       features: [
-        "Continue actieve bewaking van organische zoekposities",
-        "Directe doorvoering van alle gewenste wijzigingen in content",
-        "Doorlopende Schema.org en gestructureerde data updates",
-        "Voorrang bij ondersteuning (tot 30 minuten per maand)"
+        "Inclusief álles uit Kwartaal Onderhoud",
+        "Elk kwartaal 1 nieuw SEO/AI-artikel gepubliceerd",
+        "Continue ChatGPT & AI-Vindbaarheid (GEO)",
+        "Directe WhatsApp hulplijn & persoonlijk contact",
+        "Tot 30 minuten persoonlijke support per maand",
+        "Zeer hoge Google Core Web Vitals scores & laadsnelheid"
       ]
     }
   ] as PricingPackage[],
