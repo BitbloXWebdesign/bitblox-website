@@ -2,7 +2,7 @@
   "blog": true,
   "seo": true,
   "geo": true,
-  "whatsapp": true,
+  "whatsapp": false,
   "microsites": true,
   "reviews": true,
   "faq": true,
@@ -11,7 +11,7 @@
   "announcement": true,
   "accessibility": true,
   "callback": true,
-  "shop": false,
+  "monitoring": true,
   "announcementBadge": "UPDATE",
   "announcementText": "🚀 Nieuwe AI-Vindbaarheid (GEO) modules nu live voor ZZP & MKB websites!",
   "announcementLink": "/diensten/"
