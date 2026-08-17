@@ -54,6 +54,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div style="position: relative;">
             <select id="clientSelectDropdown" style="background: #151824; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 8px; color: #fff; padding: 7px 32px 7px 14px; font-size: 0.92rem; font-weight: 700; cursor: pointer; appearance: none; -webkit-appearance: none;">
               <option value="bitblox" selected>🌐 BitbloX Webdesign (bitblox.nl)</option>
+              <option value="maibeauty">🌸 Mai Beauty &amp; zo (maibeautyenzo.pages.dev)</option>
               <option value="massagestudio">💆 Massage Studio Eelde (massagestudioeelde.nl)</option>
               <option value="voetreflextherapeut">🌿 Voetreflextherapeut Groningen (voetreflextherapeutgroningen.nl)</option>
               <option value="autokampeerder">🚐 De Autokampeerder (deautokampeerder.nl)</option>
@@ -1321,6 +1322,63 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { id: 1, name: "Monique V.", location: "Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Alianne geeft fantastische massages. Ze voelt precies aan waar de spanning zit. Na afloop voel ik me altijd helemaal ontspannen en opgeladen!" },
           { id: 2, name: "Sander de Boer", location: "Paterswolde", rating: 5, ratingDisplay: "★★★★★", text: "Professionele praktijk met een hele rustige, fijne sfeer. De sportmassage heeft mijn rugklachten enorm verlicht. Zeker een aanrader!" },
           { id: 3, name: "Ellen K.", location: "Haren", rating: 5, ratingDisplay: "★★★★★", text: "Heerlijke ontspanningsmassage gehad. Alianne neemt echt de tijd voor je en straalt zoveel rust uit. Ik kom hier zeker maandelijks terug." }
+        ]
+      },
+      maibeauty: {
+        name: "Mai Beauty & zo",
+        domain: "maibeautyenzo.nl",
+        pagesUrl: "https://maibeautyenzo.pages.dev",
+        metrics: { 
+          mobile: "100", 
+          mobileTime: "0.19s", 
+          desktop: "100", 
+          desktopTime: "0.08s", 
+          geo: "99", 
+          geoLabel: "#1 Positie", 
+          edgeCache: "99.8%",
+          totalVisitors: "62",
+          totalPageviews: "248"
+        },
+        wave: {
+          blueWave: "M 0,115 L 440,115 Q 470,110 500,24 L 500,120 L 0,120 Z",
+          blueLine: "M 0,115 L 440,115 Q 470,110 500,24",
+          goldWave: "M 0,118 L 440,118 Q 470,115 500,55 L 500,120 L 0,120 Z",
+          goldLine: "M 0,118 L 440,118 Q 470,115 500,55"
+        },
+        sources: [
+          { label: "Google (Schoonheidssalon Paterswolde)", pct: 64, count: "40 bezoekers" },
+          { label: "Direct & Vaste Klanten", pct: 24, count: "15 hits" },
+          { label: "ChatGPT & AI Zoekopdrachten", pct: 12, count: "7 zoekers" }
+        ],
+        dailyData: [
+          { date: "11 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "12 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "13 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "14 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "15 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "16 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
+          { date: "17 Aug (Vandaag Live)", google: 18, ai: 5, blueY: 24, goldY: 55 }
+        ],
+        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true, cookies: true, announcement: true, accessibility: true, callback: true, shop: true },
+        announcement: {
+          badge: "ACTIE",
+          text: "🌸 Welkom bij Mai Beauty & zo! Boek online uw behandeling of ontdek Dr. Baumann skincare in de shop.",
+          link: "/behandelingen/"
+        },
+        microsites: [
+          { name: "Paterswolde", url: "https://maibeautyenzo.pages.dev/regio/paterswolde/", slug: "paterswolde" },
+          { name: "Eelde", url: "https://maibeautyenzo.pages.dev/regio/eelde/", slug: "eelde" },
+          { name: "Haren", url: "https://maibeautyenzo.pages.dev/regio/haren/", slug: "haren" },
+          { name: "Groningen", url: "https://maibeautyenzo.pages.dev/regio/groningen/", slug: "groningen" }
+        ],
+        blogs: [
+          { id: "dr-baumann-huidverzorging", title: "Waarom Bionome Huidverzorging van Dr. Baumann het verschil maakt", url: "https://maibeautyenzo.pages.dev/blog" },
+          { id: "stralende-huid-tips", title: "5 Tips voor een gezonde, stralende huid in elk seizoen", url: "https://maibeautyenzo.pages.dev/blog" }
+        ],
+        reviews: [
+          { id: 1, name: "Marloes van der Meer", location: "Paterswolde", rating: 5, ratingDisplay: "★★★★★", text: "Wat een oase van rust! Aileen weet precies wat mijn huid nodig heeft. De 90 minuten behandeling in het sfeervolle kerkje is echt een aanrader!" },
+          { id: 2, name: "Sandra Hoekstra", location: "Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Al jaren vaste klant voor pedicure en wenkbrauwen. Aileen werkt ontzettend vakkundig en hygiënisch." },
+          { id: 3, name: "Chantal de Vries", location: "Haren", rating: 5, ratingDisplay: "★★★★★", text: "Mijn bruidsmake-up laten doen bij Mai Beauty & zo. Het zat de hele dag prachtig en natuurlijk!" }
         ]
       }
     };
