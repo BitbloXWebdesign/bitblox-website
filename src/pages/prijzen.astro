@@ -29,7 +29,7 @@ import { pricing } from '../data/pricing';
         <p class="lead">Eenmalige investering voor het professioneel ontwerpen, bouwen en inrichten van uw nieuwe website.</p>
       </div>
 
-      <div class="grid grid--3">
+      <div class="grid grid--4">
         {pricing.webdesign.map((item, index) => (
           <article class={`price-card reveal ${item.featured ? 'featured' : ''} ${index > 0 ? 'reveal-delay-' + index : ''}`}>
             {item.featured && (

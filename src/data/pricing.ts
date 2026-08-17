@@ -12,14 +12,14 @@ export interface PricingPackage {
 export const pricing = {
   webdesign: [
     {
-      id: "starter",
-      name: "Starter",
-      subtitle: "Geschikt voor een krachtige landingspagina",
-      amount: 295,
+      id: "brons",
+      name: "Brons",
+      subtitle: "Geschikt voor een strakke 1-page landingpage",
+      amount: 100,
       unit: "eenmalig",
       roi: "1 extra klus en de investering is direct terugverdiend",
       features: [
-        "1 Strakke, converterende pagina (One-Pager)",
+        "1 Converterende pagina (One-Pager)",
         "Zeer snelle laadtijd via Cloudflare Edge",
         "1x Duidelijke Call-to-Action knop",
         "100% Mobiel- en tablet-geoptimaliseerd",
@@ -28,33 +28,49 @@ export const pricing = {
       ]
     },
     {
-      id: "compleet",
-      name: "Compleet",
-      featured: true,
-      subtitle: "Meest gekozen voor ZZP & MKB",
-      amount: 495,
+      id: "zilver",
+      name: "Zilver",
+      subtitle: "Geschikt voor een compacte bedrijfswebsite",
+      amount: 250,
       unit: "eenmalig",
-      roi: "2 tot 3 nieuwe klanten per jaar en u maakt pure winst",
+      roi: "2 tot 3 klanten per jaar en u maakt pure winst",
       features: [
-        "Tot 5 complete pagina's (Home, Diensten, Over ons, Contact)",
+        "Tot 3 pagina's (Home, Diensten, Contact)",
+        "Routemap & Google Maps integratie",
+        "WhatsApp directe klantcontact knop",
+        "Mobiel en tablet geoptimaliseerd",
+        "Basis zoekmachine optimalisatie (SEO)",
+        "SSL & Veilige formulierkoppeling"
+      ]
+    },
+    {
+      id: "goud",
+      name: "Goud",
+      featured: true,
+      subtitle: "Meest gekozen pakket voor ZZP & MKB",
+      amount: 450,
+      unit: "eenmalig",
+      roi: "Binnen 1 tot 2 maanden volledig terugverdiend",
+      features: [
+        "Tot 5 complete pagina's op maat",
         "Inclusief Blog / Kennisbank module",
         "Veelgestelde Vragen (FAQ) accordions",
-        "Google Reviews & klantbeoordelingen showcase",
-        "WhatsApp directe klantcontact knop",
+        "Google Reviews & ervaringen showcase",
+        "WhatsApp interactieve contactknop",
         "SEO-fundament & basis AI-vindbaarheid (GEO)"
       ]
     },
     {
-      id: "pro",
-      name: "Pro / Maatwerk",
+      id: "platina",
+      name: "Platina",
       subtitle: "Voor bedrijven die de regionale markt willen domineren",
-      amount: "850+",
+      amount: "650+",
       unit: "eenmalig",
-      roi: "Gebouwd voor structurele online groei en aanvragen",
+      roi: "Gebouwd voor maximale lokale dominantie en omzet",
       features: [
-        "7+ Pagina's of uitgebreide dienstenstructuur",
+        "7+ Pagina's of meerdere diensten",
         "Inclusief 2 extra steden (Regionale Microsites)",
-        "Uitgebreid maatwerk & interactieve componenten",
+        "Uitgebreid maatwerk & iconen",
         "Volledige Blog & Kennisbank integratie",
         "Schema.org LocalBusiness zoekmachine data",
         "AI-kennisbestand (llms.txt) voor ChatGPT ingericht"
@@ -149,12 +165,12 @@ export const pricing = {
       name: "Extra Stedenpagina (Microsite)",
       subtitle: "Bereik klanten in omliggende steden en dorpen",
       amount: 85,
-      unit: "eenmalig (of 3 steden voor €195,-)",
+      unit: "eenmalig (of 3 voor €195,-)",
       features: [
-        "Gerichte landingspagina per stad (bijv. Webdesign Haren of Groningen)",
+        "Gerichte landingspagina per stad (bijv. Webdesign Haren)",
         "Unieke lokale zoekwoorden & teksten",
         "Lokale Schema.org LocalBusiness data voor Google",
-        "Geen extra hostingkosten (draait binnen uw bestaande pakket)"
+        "Geen extra hostingkosten (binnen bestaand pakket)"
       ]
     },
     {
@@ -162,7 +178,7 @@ export const pricing = {
       name: "Blog / Kennisbank Module",
       subtitle: "Deel nieuws, advies en versterk uw SEO-autoriteit",
       amount: 95,
-      unit: "eenmalig (Inbegrepen bij Compleet & Pro)",
+      unit: "eenmalig (Inbegrepen bij Goud & Platina)",
       features: [
         "Complete blog-overzichtspagina met categorieën",
         "Mooie artikel-layout met 'Korte samenvatting' capsule",
