@@ -87,65 +87,64 @@ const {
   }
 </style>
 
-<script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('bitblox-contact-form');
-    const successBox = document.getElementById('form-success-box');
-    const submitBtn = document.getElementById('submitBtn');
+<script>
+  const form = document.getElementById('bitblox-contact-form') as HTMLFormElement;
+  const successBox = document.getElementById('form-success-box');
+  const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
 
-    if (form) {
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.textContent = '⏳ Bezig met verzenden...';
-        }
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ Bezig met verzenden...';
+      }
 
-        const payload = {
-          to: 'info@bitblox.nl',
-          name: document.getElementById('naam')?.value || '',
-          company: document.getElementById('bedrijfsnaam')?.value || '',
-          email: document.getElementById('email')?.value || '',
-          phone: document.getElementById('telefoon')?.value || '',
-          service: document.getElementById('dienst')?.value || '',
-          message: document.getElementById('bericht')?.value || '',
-          domain: 'bitblox.nl',
-          clientName: 'BitbloX Webdesign'
-        };
+      const payload = {
+        to: 'info@bitblox.nl',
+        name: (document.getElementById('naam') as HTMLInputElement)?.value || '',
+        company: (document.getElementById('bedrijfsnaam') as HTMLInputElement)?.value || '',
+        email: (document.getElementById('email') as HTMLInputElement)?.value || '',
+        phone: (document.getElementById('telefoon') as HTMLInputElement)?.value || '',
+        service: (document.getElementById('dienst') as HTMLSelectElement)?.value || '',
+        message: (document.getElementById('bericht') as HTMLTextAreaElement)?.value || '',
+        domain: 'bitblox.nl',
+        clientName: 'BitbloX Webdesign'
+      };
 
-        try {
-          let response = await fetch('/api/contact', {
+      try {
+        let response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(() => null);
+
+        if (!response || !response.ok) {
+          response = await fetch(`https://formsubmit.co/ajax/info@bitblox.nl`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify(payload)
-          }).catch(() => null);
-
-          if (!response || !response.ok) {
-            response = await fetch(`https://formsubmit.co/ajax/info@bitblox.nl`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-              body: JSON.stringify({
-                _subject: '📩 Nieuwe Contactaanvraag via BitbloX.nl',
-                Naam: payload.name,
-                Bedrijfsnaam: payload.company,
-                'E-mailadres': payload.email,
-                Telefoonnummer: payload.phone,
-                Dienst: payload.service,
-                Bericht: payload.message,
-                _replyto: payload.email,
-                _template: 'table'
-              })
-            });
-          }
-
-          form.style.display = 'none';
-          if (successBox) successBox.style.display = 'block';
-        } catch (err) {
-          form.style.display = 'none';
-          if (successBox) successBox.style.display = 'block';
+            body: JSON.stringify({
+              _subject: '📩 Nieuwe Contactaanvraag via BitbloX.nl',
+              Naam: payload.name,
+              Bedrijfsnaam: payload.company,
+              'E-mailadres': payload.email,
+              Telefoonnummer: payload.phone,
+              Dienst: payload.service,
+              Bericht: payload.message,
+              _replyto: payload.email,
+              _template: 'table'
+            })
+          });
         }
-      });
-    }
-  });
+
+        form.style.display = 'none';
+        if (successBox) successBox.style.display = 'block';
+      } catch (err) {
+        form.style.display = 'none';
+        if (successBox) successBox.style.display = 'block';
+      }
+    });
+  }
 </script>

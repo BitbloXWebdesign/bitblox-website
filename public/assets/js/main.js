@@ -112,51 +112,6 @@
     counters.forEach(function (el) { cio.observe(el); });
   }
 
-  /* ---------- Contactformulier ----------
-     Verzenden gebeurt server-side via admin-post.php + wp_mail()
-     (WP Mail SMTP / FluentSMTP neemt de daadwerkelijke verzending over).
-     Hier: alleen lichte client-side validatie + succesmelding na redirect. */
-  var form = document.querySelector('.contact-form form');
-  if (form) {
-    function setValid(input, valid) {
-      var group = input.closest('.form-group');
-      if (group) group.classList.toggle('invalid', !valid);
-      return valid;
-    }
-    function validateEmail(v) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
-    }
-
-    form.querySelectorAll('input, textarea').forEach(function (input) {
-      input.addEventListener('input', function () { setValid(input, true); });
-    });
-
-    form.addEventListener('submit', function (e) {
-      var ok = true;
-      var name = form.querySelector('#naam');
-      var email = form.querySelector('#email');
-      var phone = form.querySelector('#telefoon');
-      var msg = form.querySelector('#bericht');
-
-      if (name) ok = setValid(name, name.value.trim().length >= 2) && ok;
-      if (email) ok = setValid(email, validateEmail(email.value.trim())) && ok;
-      if (phone) ok = setValid(phone, phone.value.trim().length >= 8) && ok;
-      if (msg) ok = setValid(msg, msg.value.trim().length >= 10) && ok;
-
-      // Alleen blokkeren als de validatie faalt — anders normaal posten
-      if (!ok) e.preventDefault();
-    });
-
-    // Succesmelding na de server-side redirect (?verzonden=1)
-    if (window.location.search.indexOf('verzonden=1') !== -1) {
-      var successBox = document.querySelector('.form-success');
-      if (successBox) {
-        successBox.classList.add('show');
-        successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
-  }
-
   /* ---------- Jaartal in footer ---------- */
   var yearEl = document.querySelector('[data-year]');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
