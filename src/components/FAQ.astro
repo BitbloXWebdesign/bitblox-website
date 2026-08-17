@@ -13,7 +13,7 @@ interface Props {
 const defaultItems: FAQItem[] = [
   {
     q: "Wat kost een website laten maken bij BitbloX?",
-    a: "Onze prijzen zijn transparant en eenmalig: Brons (€100) voor een simpele landingpage, Zilver (€250) voor een compacte website van 3 pagina's, Goud (€450 - Meest Gekozen) voor 5 pagina's met maatwerk, en Platina vanaf €650 voor grotere sites en webshops."
+    a: "Onze prijzen zijn transparant en eenmalig: Brons (€100) voor een strakke 1-page landingpage, Zilver (€250) voor een compacte website van 3 pagina's, Goud (€450 - Meest Gekozen) voor 5 pagina's met maatwerk en blog, en Platina vanaf €650 voor grotere maatwerk sites en regionale microsites."
   },
   {
     q: "Hoe snel staat mijn nieuwe website live?",
@@ -21,15 +21,15 @@ const defaultItems: FAQItem[] = [
   },
   {
     q: "Zit ik vast aan maandelijkse abonnementskosten?",
-    a: "Nee, de bouwkosten zijn 100% eenmalig. Als u er voor kiest om ook de hosting en updates door BitbloX te laten verzorgen, betaalt u slechts €72 per jaar (Basis) of €120 per jaar (Extra)."
+    a: "Nee, de bouwkosten zijn 100% eenmalig. Als u er voor kiest om ook de hosting, beveiliging en het beheer door BitbloX te laten verzorgen, betaalt u slechts €149 per jaar (Basis) of €245 per jaar (Zorgeloos met alle interactieve functies en 24/7 Watchdog)."
   },
   {
     q: "Wordt mijn website goed gevonden in Google én AI (ChatGPT)?",
-    a: "Ja! Alle websites worden standaard geleverd met sterke technische SEO (snelle laadtijd, mobiele responsiviteit, SSL). Daarnaast kunt u kiezen voor optionele uitbreidingen: zoals complete SEO-tekstoptimalisatie (inclusief alt-teksten voor afbeeldingen, zoekwoorden en geoptimaliseerde teksten) én onze AI-vindbaarheid (GEO) module voor ChatGPT."
+    a: "Ja! Alle websites worden standaard geleverd met sterke technische SEO (snelle laadtijd, mobiele responsiviteit, SSL). Daarnaast kunt u kiezen voor periodiek zoekmachine-onderhoud en onze AI-vindbaarheid (GEO) module voor ChatGPT en Perplexity."
   },
   {
     q: "Kan ik later mijn website uitbreiden met meer pagina's of functionaliteiten?",
-    a: "Ja, al onze websites worden modulair gebouwd. U kunt op elk moment uitbreiden met extra pagina's, een blog, een webshop of extra talen."
+    a: "Ja, al onze websites worden modulair gebouwd. U kunt op elk moment uitbreiden met extra stedenpagina's (microsites), een blog, of extra functies."
   }
 ];
 
@@ -59,8 +59,8 @@ const faqSchema = {
   <div class="container">
     <div class="section-head reveal">
       <span class="kicker">FAQ</span>
-      <h2>{title}</h2>
-      {subtitle && <p class="lead">{subtitle}</p>}
+      <h2 set:html={title} />
+      {subtitle && <p class="lead" set:html={subtitle} />}
     </div>
 
     <div class="faq-list">
