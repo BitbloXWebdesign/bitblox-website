@@ -12,210 +12,175 @@ export interface PricingPackage {
 export const pricing = {
   webdesign: [
     {
-      id: "brons",
-      name: "Brons",
-      subtitle: "Geschikt voor een landingpage",
-      amount: 100,
+      id: "starter",
+      name: "Starter",
+      subtitle: "Geschikt voor een krachtige landingspagina",
+      amount: 295,
       unit: "eenmalig",
-      roi: "1 extra klus en dit is terugverdiend",
+      roi: "1 extra klus en de investering is direct terugverdiend",
       features: [
-        "1 pagina",
-        "Maillink",
-        "SSL-certificaat",
-        "1× call-to-action",
-        "Contactgedeelte"
+        "1 Strakke, converterende pagina (One-Pager)",
+        "Zeer snelle laadtijd via Cloudflare Edge",
+        "1x Duidelijke Call-to-Action knop",
+        "100% Mobiel- en tablet-geoptimaliseerd",
+        "Direct contact- en offerteformulier",
+        "SSL-beveiligingscertificaat inbegrepen"
       ]
     },
     {
-      id: "zilver",
-      name: "Zilver",
-      subtitle: "Geschikt voor een kleine website",
-      amount: 250,
-      unit: "eenmalig",
-      roi: "2–3 extra klanten per jaar en dit is terugverdiend",
-      features: [
-        "3 pagina's",
-        "Maillink & SSL-certificaat",
-        "1× call-to-action",
-        "Contactgedeelte",
-        "Routemap",
-        "Licht maatwerk"
-      ]
-    },
-    {
-      id: "goud",
-      name: "Goud",
+      id: "compleet",
+      name: "Compleet",
       featured: true,
-      subtitle: "Geschikt voor middelgrote websites",
-      amount: 450,
+      subtitle: "Meest gekozen voor ZZP & MKB",
+      amount: 495,
       unit: "eenmalig",
-      roi: "1 extra klant per maand en binnen 2 maanden terugverdiend",
+      roi: "2 tot 3 nieuwe klanten per jaar en u maakt pure winst",
       features: [
-        "5 pagina's",
-        "Maillink & SSL-certificaat",
-        "1× call-to-action",
-        "Contactgedeelte & Routemap",
-        "Beperkt maatwerk",
-        "1 social media integratie",
-        "Prijslijst & Contactformulier"
+        "Tot 5 complete pagina's (Home, Diensten, Over ons, Contact)",
+        "Inclusief Blog / Kennisbank module",
+        "Veelgestelde Vragen (FAQ) accordions",
+        "Google Reviews & klantbeoordelingen showcase",
+        "WhatsApp directe klantcontact knop",
+        "SEO-fundament & basis AI-vindbaarheid (GEO)"
       ]
     },
     {
-      id: "platina",
-      name: "Platina",
-      subtitle: "Grote websites of webshops",
-      amount: "650+",
+      id: "pro",
+      name: "Pro / Maatwerk",
+      subtitle: "Voor bedrijven die de regionale markt willen domineren",
+      amount: "850+",
       unit: "eenmalig",
-      roi: "Gebouwd voor omzet — elke verkoop is winst",
+      roi: "Gebouwd voor structurele online groei en aanvragen",
       features: [
-        "7+ pagina's",
-        "Maillink & SSL-certificaat",
-        "5× call-to-action",
-        "Routemap & Maatwerk",
-        "3 social media integraties",
-        "Webshop & Blog integratie"
-      ]
-    }
-  ] as PricingPackage[],
-
-  geo: [
-    {
-      id: "geo-basis",
-      name: "GEO-basis",
-      subtitle: "De fundamenten voor AI-vindbaarheid",
-      amount: 250,
-      unit: "eenmalig",
-      roi: "1 extra klant via AI-zoeken en dit is terugverdiend",
-      features: [
-        "Structured data (schema's) op orde",
-        "Citeerbare antwoordblokken",
-        "llms.txt + AI-crawler-toegang",
-        "Strakke GEO-optimalisatie & structuur"
-      ]
-    },
-    {
-      id: "geo-compleet",
-      name: "GEO-compleet",
-      featured: true,
-      subtitle: "Volledige optimalisatie voor AI-zoekmachines",
-      amount: 450,
-      unit: "eenmalig",
-      roi: "Maximale AI-zichtbaarheid voor uw onderneming",
-      features: [
-        "Alles uit GEO-basis",
-        "FAQ-content op maat geschreven",
-        "Entiteits-consistentie (KVK, GBP, socials)",
-        "Uitgebreide AI-antwoordstructuur"
+        "7+ Pagina's of uitgebreide dienstenstructuur",
+        "Inclusief 2 extra steden (Regionale Microsites)",
+        "Uitgebreid maatwerk & interactieve componenten",
+        "Volledige Blog & Kennisbank integratie",
+        "Schema.org LocalBusiness zoekmachine data",
+        "AI-kennisbestand (llms.txt) voor ChatGPT ingericht"
       ]
     }
   ] as PricingPackage[],
 
   hosting: [
     {
-      id: "basis",
-      name: "Basis Hosting",
-      subtitle: "Ideale start voor uw website",
-      amount: 72,
-      unit: "per jaar",
+      id: "basis-hosting",
+      name: "Basis Hosting & Domein",
+      subtitle: "Betrouwbare en snelle online fundering",
+      amount: 149,
+      unit: "per jaar (slechts €12,40 p/m)",
       features: [
-        "SSL-certificaat inbegrepen",
-        "Supersnelle Cloudflare CDN hosting",
-        "3 e-mailaccounts",
-        "5 GB opslag"
+        "Zeer snelle Cloudflare Edge hosting (onder 0,2s)",
+        "Jaarlijkse .NL domeinnaam registratie & DNS-beheer",
+        "Tot 3 zakelijke e-mailaccounts (5 GB opslag)",
+        "Automatisch SSL-beveiligingscertificaat (HTTPS)",
+        "Dagelijkse automatische cloud-backups",
+        "Basis contact- en offerteformulier"
       ]
     },
     {
-      id: "extra",
-      name: "Extra Hosting",
-      subtitle: "Voor websites die meer nodig hebben",
-      amount: 120,
-      unit: "per jaar",
+      id: "zorgeloos-beheer",
+      name: "Zorgeloos Beveiliging & Conversie",
+      featured: true,
+      subtitle: "Volledig ontzorgd, beveiligd en voorzien van actieve lead-functies",
+      amount: 245,
+      unit: "per jaar (slechts €20,40 p/m)",
+      roi: "De favoriete keuze voor 80% van onze klanten",
       features: [
-        "SSL-certificaat inbegrepen",
-        "Supersnelle Cloudflare CDN hosting",
-        "10 e-mailaccounts",
-        "15 GB opslag"
+        "Alles uit Basis Hosting & Domein",
+        "24/7 Watchdog actieve uptime- & storingsbewaking",
+        "Enterprise Web Application Firewall & Cyberbeveiliging",
+        "Bel-Me-Terug interactieve widget met WhatsApp-notificatie",
+        "WhatsApp directe chatfunctionaliteit op mobiel & desktop",
+        "Slimme mededelingen- en topbanner voor acties",
+        "Toegankelijkheidstoolbar (tekstvergroting & hoog contrast)",
+        "Inbegrepen support bij tekst- of fotowijzigingen (30 min/kwartaal)"
       ]
     }
   ] as PricingPackage[],
 
-  extra: [
+  seo: [
     {
-      id: "update-service",
-      name: "Update service",
-      subtitle: "Uw website blijft up-to-date",
-      amount: 40,
-      unit: "per jaar",
-      features: [
-        "SSL-certificaat",
-        "PHP- & beveiligings-updates",
-        "5 GB opslag"
-      ]
-    },
-    {
-      id: "beveiliging",
-      name: "Beveiligingspakket",
-      subtitle: "Veilig online, zorgeloos ondernemen",
-      amount: "5,99",
-      unit: "per maand",
-      features: [
-        "SSL-certificaat",
-        "Firewall & DDoS-bescherming",
-        "Malware- & virusscans",
-        "Snel herstel bij aanvallen"
-      ]
-    },
-    {
-      id: "seo-maand",
-      name: "SEO Op Maat",
-      subtitle: "Continue groei in zoekresultaten",
-      amount: 50,
-      unit: "per maand",
-      features: [
-        "SEO-tekstoptimalisatie & zoekwoorden",
-        "Alt-teksten voor alle afbeeldingen",
-        "Techniek, content & autoriteit",
-        "Maandelijkse rapportage"
-      ]
-    },
-    {
-      id: "microsites-pakket",
-      name: "Steden-Microsites Pakket",
-      subtitle: "Regio-dominantie in omliggende dorpen",
-      amount: 250,
-      unit: "eenmalig (5 steden)",
-      roi: "Trek klanten uit de hele regio naar uw praktijk",
-      features: [
-        "5 unieke regio-landingspagina's op maat",
-        "Lokale SEO & zoekwoorden per plaats",
-        "Geïntegreerd in BitbloX Dashboard",
-        "Losse extra steden uit te breiden voor € 45/stad"
-      ]
-    },
-    {
-      id: "blog-kennisbank",
-      name: "Kennisbank & Blog Module",
-      subtitle: "Autoriteit in uw vakgebied",
-      amount: 195,
-      unit: "eenmalig",
-      roi: "Inclusief 3 geschreven artikelen door BitbloX",
-      features: [
-        "Inrichting van de Kennisbank module op uw site",
-        "Inclusief 3 complete geschreven SEO-artikelen",
-        "U mag onderwerpen aandragen, wij schrijven ze uit",
-        "Losse extra artikelen uit te breiden voor € 45/blog"
-      ]
-    },
-    {
-      id: "logo-design",
-      name: "Logo & Huisstijl",
-      subtitle: "Het gezicht van uw merk",
+      id: "halfjaarlijks",
+      name: "Halfjaarlijks Onderhoud",
+      subtitle: "Laagdrempelige periodieke check voor ZZP'ers",
       amount: 150,
-      unit: "eenmalig",
+      unit: "per jaar (2x per jaar check-up)",
       features: [
-        "Uniek logo-ontwerp op maat",
-        "Afgestemd op uw branche & kleuren",
-        "PNG-bestanden in hoge resolutie"
+        "2x per jaar technische zoekmachine- & snelheidsscan",
+        "Google Search Console indexering & XML-sitemap controle",
+        "Bijwerken van zoektermen, openingstijden of teksten",
+        "Tot 15 minuten persoonlijke ondersteuning per beurt"
+      ]
+    },
+    {
+      id: "kwartaal",
+      name: "Kwartaal Onderhoud",
+      featured: true,
+      subtitle: "De ideale balans voor actieve ondernemers",
+      amount: 275,
+      unit: "per jaar (4x per jaar onderhoud)",
+      roi: "Houdt uw website elk seizoen scherp en up-to-date",
+      features: [
+        "4x per jaar complete zoekmachine- en prestatie-audit",
+        "Seizoensgebonden zoekwoorden & pagina-inhoud bijsturen",
+        "AI-kennisindex (llms.txt) actualiseren voor ChatGPT",
+        "Tot 30 minuten persoonlijke ondersteuning per beurt"
+      ]
+    },
+    {
+      id: "maandelijks",
+      name: "Maandelijks Actief Beheer",
+      subtitle: "Voor ondernemers die structureel topposities willen",
+      amount: 600,
+      unit: "per jaar (€50,- per maand)",
+      features: [
+        "Continue actieve bewaking van organische zoekposities",
+        "Directe doorvoering van alle gewenste wijzigingen in content",
+        "Doorlopende Schema.org en gestructureerde data updates",
+        "Voorrang bij ondersteuning (tot 30 minuten per maand)"
+      ]
+    }
+  ] as PricingPackage[],
+
+  addons: [
+    {
+      id: "microsite",
+      name: "Extra Stedenpagina (Microsite)",
+      subtitle: "Bereik klanten in omliggende steden en dorpen",
+      amount: 85,
+      unit: "eenmalig (of 3 steden voor €195,-)",
+      features: [
+        "Gerichte landingspagina per stad (bijv. Webdesign Haren of Groningen)",
+        "Unieke lokale zoekwoorden & teksten",
+        "Lokale Schema.org LocalBusiness data voor Google",
+        "Geen extra hostingkosten (draait binnen uw bestaande pakket)"
+      ]
+    },
+    {
+      id: "blog-module",
+      name: "Blog / Kennisbank Module",
+      subtitle: "Deel nieuws, advies en versterk uw SEO-autoriteit",
+      amount: 95,
+      unit: "eenmalig (Inbegrepen bij Compleet & Pro)",
+      features: [
+        "Complete blog-overzichtspagina met categorieën",
+        "Mooie artikel-layout met 'Korte samenvatting' capsule",
+        "Automatische zoekmachine-schema's (BlogPosting)",
+        "Volledig mobielvriendelijk en snel"
+      ]
+    },
+    {
+      id: "blog-artikel",
+      name: "SEO / GEO Blogartikel Schrijven",
+      subtitle: "Kant-en-klaar geoptimaliseerd artikel door BitbloX",
+      amount: 55,
+      unit: "per artikel",
+      features: [
+        "Professioneel artikel (400 - 600 woorden) over uw vakgebied",
+        "Geoptimaliseerd voor Google en ChatGPT AI-zoekmachines",
+        "Inclusief passende afbeelding, tussenkopjes en interne links",
+        "Direct gepubliceerd op uw website"
       ]
     }
   ] as PricingPackage[]

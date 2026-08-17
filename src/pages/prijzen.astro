@@ -6,8 +6,8 @@ import { pricing } from '../data/pricing';
 ---
 
 <Layout 
-  title="Duidelijke prijzen, geen verrassingen — Webdesign & Hosting | BitbloX"
-  description="Transparante tarieven voor webdesign (Brons €100, Zilver €250, Goud €450, Platina €650+), hosting (€72/jr) en AI-vindbaarheid (€250) bij BitbloX."
+  title="Duidelijke tarieven & pakketten — Webdesign & Beheer | BitbloX Assen"
+  description="Transparante tarieven voor webdesign (Starter €295, Compleet €495, Pro €850), zorgeloos beheer & hosting (€149 - €245/jr) en SEO-onderhoud bij BitbloX."
 >
   <!-- ============ Page hero ============ -->
   <section class="page-hero">
@@ -16,20 +16,20 @@ import { pricing } from '../data/pricing';
       <nav class="breadcrumb" aria-label="Kruimelpad"><a href="/">Home</a> <span>/</span> <span>Prijzen</span></nav>
       <span class="kicker">Transparante tarieven</span>
       <h1>Duidelijke prijzen, <span class="text-gradient">geen verrassingen</span></h1>
-      <p class="lead">Van een compacte landingpage tot een complete webshop — kies het pakket dat past bij uw ambities. Verkeerd ingeschat? Ook geen probleem, we passen het gewoon aan.</p>
+      <p class="lead">Van een converterende one-pager tot een complete website met meerdere stedenpagina's en actieve leadfuncties. Kies het pakket dat past bij uw doelen en budget.</p>
     </div>
   </section>
 
-  <!-- ============ Webdesign pakketten ============ -->
+  <!-- ============ 1. Webdesign Realisatie (Eenmalige Bouw) ============ -->
   <section class="section--tight" id="webdesign-prijzen">
     <div class="container">
-      <div class="section-head reveal" style="margin-bottom:56px;">
-        <span class="kicker">Webdesign</span>
-        <h2>Webdesign <span class="gold">pakketten</span></h2>
-        <p class="lead">Eenmalige kosten voor het ontwerp en de bouw van uw website.</p>
+      <div class="section-head reveal" style="margin-bottom: 48px;">
+        <span class="kicker">Pijler 1 — Eenmalige Realisatie</span>
+        <h2>Website <span class="gold">ontwerp &amp; bouw</span></h2>
+        <p class="lead">Eenmalige investering voor het professioneel ontwerpen, bouwen en inrichten van uw nieuwe website.</p>
       </div>
 
-      <div class="grid grid--4">
+      <div class="grid grid--3">
         {pricing.webdesign.map((item, index) => (
           <article class={`price-card reveal ${item.featured ? 'featured' : ''} ${index > 0 ? 'reveal-delay-' + index : ''}`}>
             {item.featured && (
@@ -40,6 +40,7 @@ import { pricing } from '../data/pricing';
             <div class="price-amount">
               <span class="currency">€</span>
               <span class="amount">{item.amount}</span>
+              <span class="per">{item.unit}</span>
             </div>
             <ul class="price-features">
               {item.features.map((feat) => (
@@ -50,25 +51,25 @@ import { pricing } from '../data/pricing';
               ))}
             </ul>
             {item.roi && <p class="price-roi">{item.roi}</p>}
-            <a href="#contact" class={`btn ${item.featured ? 'btn--gold' : 'btn--ghost'} btn--block`}>Contact</a>
+            <a href="#contact" class={`btn ${item.featured ? 'btn--gold' : 'btn--ghost'} btn--block`}>Offerte aanvragen</a>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ============ AI-vindbaarheid (GEO) ============ -->
-  <section class="section section--alt" id="geo-prijzen">
+  <!-- ============ 2. Beheer & Zorgeloos Online (Jaarlijks) ============ -->
+  <section class="section section--alt" id="beheer-prijzen">
     <div class="container">
       <div class="section-head reveal">
-        <span class="kicker">Nieuw — AI-vindbaarheid (GEO)</span>
-        <h2>Gevonden worden door <span class="gold">ChatGPT &amp; Google AI</span></h2>
-        <p class="lead">Wij optimaliseren uw website zodat AI-zoekmachines uw bedrijf noemen en citeren. Gratis bij elke nieuwe website van BitbloX: GEO-basis inbegrepen.</p>
+        <span class="kicker">Pijler 2 — Beheer &amp; Beveiliging</span>
+        <h2>Zorgeloos online <span class="gold">beheerdiensten</span></h2>
+        <p class="lead">Geen zorgen over trage servers, hacks of technische updates. Wij beheren uw platform proactief op de achtergrond.</p>
       </div>
 
-      <div class="grid grid--2" style="max-width:820px; margin:0 auto;">
-        {pricing.geo.map((item, index) => (
-          <article class={`price-card reveal ${item.featured ? 'featured' : ''} ${index > 0 ? 'reveal-delay-' + index : ''}`}>
+      <div class="grid grid--2" style="max-width: 860px; margin: 0 auto;">
+        {pricing.hosting.map((item, index) => (
+          <article class={`price-card reveal ${item.featured ? 'featured' : ''} ${index > 0 ? 'reveal-delay-1' : ''}`}>
             {item.featured && (
               <span class="price-badge">Aanrader</span>
             )}
@@ -88,25 +89,28 @@ import { pricing } from '../data/pricing';
               ))}
             </ul>
             {item.roi && <p class="price-roi">{item.roi}</p>}
-            <a href="/ai-vindbaarheid/" class={`btn ${item.featured ? 'btn--gold' : 'btn--ghost'} btn--block`}>Meer info</a>
+            <a href="#contact" class={`btn ${item.featured ? 'btn--gold' : 'btn--ghost'} btn--block`}>Kies dit beheer</a>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ============ Hosting pakketten ============ -->
-  <section class="section" id="hosting-prijzen">
+  <!-- ============ 3. SEO & Vindbaarheid Onderhoud ============ -->
+  <section class="section" id="seo-prijzen">
     <div class="container">
       <div class="section-head reveal">
-        <span class="kicker">Hosting</span>
-        <h2>Hosting <span class="gold">pakketten</span></h2>
-        <p class="lead">Snelle schijven, goede cache en altijd een gratis SSL-certificaat.</p>
+        <span class="kicker">Pijler 3 — Vindbaarheid &amp; AI-Groei</span>
+        <h2>SEO &amp; AI-vindbaarheid <span class="gold">onderhoud</span></h2>
+        <p class="lead">Flexibele onderhoudschecks om uw posities in Google en aanbevelingen door ChatGPT en AI-zoekmachines structureel te behouden.</p>
       </div>
 
-      <div class="grid grid--2" style="max-width:820px; margin:0 auto;">
-        {pricing.hosting.map((item, index) => (
-          <article class={`price-card reveal ${index > 0 ? 'reveal-delay-1' : ''}`}>
+      <div class="grid grid--3">
+        {pricing.seo.map((item, index) => (
+          <article class={`price-card reveal ${item.featured ? 'featured' : ''} ${index > 0 ? 'reveal-delay-' + index : ''}`}>
+            {item.featured && (
+              <span class="price-badge">Populaire keuze</span>
+            )}
             <div class="price-name">{item.name}</div>
             <div class="price-for">{item.subtitle}</div>
             <div class="price-amount">
@@ -122,25 +126,26 @@ import { pricing } from '../data/pricing';
                 </li>
               ))}
             </ul>
-            <a href="#contact" class="btn btn--ghost btn--block">Contact</a>
+            {item.roi && <p class="price-roi">{item.roi}</p>}
+            <a href="#contact" class={`btn ${item.featured ? 'btn--gold' : 'btn--ghost'} btn--block`}>Kies frequentie</a>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ============ Extra pakketten (v1.5) ============ -->
-  <section class="section section--alt" id="extra-prijzen">
+  <!-- ============ 4. Uitbreidingen & Content (Microsites & Blog) ============ -->
+  <section class="section section--alt" id="uitbreidingen">
     <div class="container">
       <div class="section-head reveal">
-        <span class="kicker">Aanvullend</span>
-        <h2>Extra <span class="gold">pakketten &amp; diensten</span></h2>
-        <p class="lead">Breid uw website uit met onderhoud, beveiliging, logo design of een complete SEO-aanpak.</p>
+        <span class="kicker">Pijler 4 — Uitbreidingen</span>
+        <h2>Microsites &amp; <span class="gold">content modules</span></h2>
+        <p class="lead">Breid uw website uit met extra lokale stedenpagina's of professioneel geschreven artikelen.</p>
       </div>
 
-      <div class="grid grid--4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
-        {pricing.extra.map((item, index) => (
-          <article class={`price-card reveal ${index > 0 ? 'reveal-delay-' + (index % 3) : ''}`}>
+      <div class="grid grid--3">
+        {pricing.addons.map((item, index) => (
+          <article class={`price-card reveal ${index > 0 ? 'reveal-delay-' + index : ''}`}>
             <div class="price-name">{item.name}</div>
             <div class="price-for">{item.subtitle}</div>
             <div class="price-amount">
@@ -156,7 +161,7 @@ import { pricing } from '../data/pricing';
                 </li>
               ))}
             </ul>
-            <a href="#contact" class="btn btn--ghost btn--block">Contact</a>
+            <a href="#contact" class="btn btn--ghost btn--block">Informatie aanvragen</a>
           </article>
         ))}
       </div>
