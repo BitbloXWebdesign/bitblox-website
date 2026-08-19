@@ -33,7 +33,6 @@ export const onRequestPost = async ({ request }: { request: Request }) => {
 
     let result = null;
 
-    // Direct Resend API Delivery for All Sites & BitbloX (100% Guaranteed Inbox Delivery)
     const RESEND_API_KEY = ['r','e','_','7CNP5X7w','_DxTGCume','TDwBEV2o','7f9GbPKv'].join('');
 
     const htmlContent = `
@@ -55,63 +54,62 @@ export const onRequestPost = async ({ request }: { request: Request }) => {
       </div>
     `;
 
-      try {
-        let resendRes = await fetch("https://api.resend.com/emails", {
+    try {
+      let resendRes = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${RESEND_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          from: `${siteLabel} <noreply@bitblox.nl>`,
+          to: [targetEmail],
+          reply_to: email,
+          subject: `📩 Nieuw contactbericht via ${siteLabel} van ${name}`,
+          html: htmlContent
+        })
+      });
+
+      // Fallback naar onboarding@resend.dev als noreply@bitblox.nl niet werkt
+      if (!resendRes.ok) {
+        resendRes = await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${RESEND_API_KEY}`,
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            from: `${siteLabel} <noreply@bitblox.nl>`,
+            from: `${name} (via ${siteLabel}) <onboarding@resend.dev>`,
             to: [targetEmail],
             reply_to: email,
             subject: `📩 Nieuw contactbericht via ${siteLabel} van ${name}`,
             html: htmlContent
           })
         });
-
-        // If custom domain is pending DNS verification, fallback to onboarding@resend.dev
-        if (!resendRes.ok) {
-          resendRes = await fetch("https://api.resend.com/emails", {
-            method: "POST",
-            headers: {
-              "Authorization": `Bearer ${RESEND_API_KEY}`,
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              from: `${name} (via ${siteLabel}) <onboarding@resend.dev>`,
-              to: [targetEmail],
-              reply_to: email,
-              subject: `📩 Nieuw contactbericht via ${siteLabel} van ${name}`,
-              html: htmlContent
-            })
-          });
-        }
-
-        if (resendRes.ok) {
-          result = await resendRes.json();
-        } else {
-          throw new Error("Resend fallback");
-        }
-      } catch (rErr) {
-        // Fallback to FormSubmit AJAX
-        const fsRes = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify({
-            _subject: `📩 Nieuw contactbericht via ${siteLabel}`,
-            Naam: name,
-            "E-mailadres": email,
-            Telefoonnummer: phone || "Niet opgegeven",
-            "Onderwerp / Dienst": service || "Algemeen",
-            Bericht: message,
-            _replyto: email,
-            _template: "table"
-          })
-        });
-        result = await fsRes.json();
       }
+
+      if (resendRes.ok) {
+        result = await resendRes.json();
+      } else {
+        throw new Error("Resend niet beschikbaar");
+      }
+    } catch (rErr) {
+      // Fallback naar FormSubmit AJAX
+      const fsRes = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: `📩 Nieuw contactbericht via ${siteLabel}`,
+          Naam: name,
+          "E-mailadres": email,
+          Telefoonnummer: phone || "Niet opgegeven",
+          "Onderwerp / Dienst": service || "Algemeen",
+          Bericht: message,
+          _replyto: email,
+          _template: "table"
+        })
+      });
+      result = await fsRes.json();
     }
 
     return new Response(JSON.stringify({ success: true, result }), {
