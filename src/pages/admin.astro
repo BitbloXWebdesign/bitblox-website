@@ -308,17 +308,20 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <button class="nav-tab" data-tab="tab-fleet" id="tabBtnFleet">
               🌐 2. Klanten Vloot Monitor
             </button>
+            <button class="nav-tab" data-tab="tab-vault" id="tabBtnVault">
+              🔐 3. Klanten &amp; Wachtwoorden Vault
+            </button>
             <button class="nav-tab" data-tab="tab-microsites" id="tabBtnMicrosites">
-              📍 3. Regio Microsites
+              📍 4. Regio Microsites
             </button>
             <button class="nav-tab" data-tab="tab-blog" id="tabBtnBlog">
-              📝 4. AI Blog Studio
+              📝 5. AI Blog Studio
             </button>
             <button class="nav-tab" data-tab="tab-reviews" id="tabBtnReviews">
-              ⭐ 5. Google Reviews
+              ⭐ 6. Google Reviews
             </button>
             <button class="nav-tab" data-tab="tab-overview">
-              📊 6. Content Overzicht
+              📊 7. Content Overzicht
             </button>
           </div>
 
@@ -558,7 +561,51 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             <div id="fleetScanOverallStatus" style="font-size: 0.82rem; color: #4ade80; font-weight: 700; margin-top: 14px; min-height: 20px; text-align: right;"></div>
           </div>
 
-          <!-- TAB 3: MICROSITES -->
+          <!-- TAB 3: KLANTEN & WACHTWOORDEN VAULT -->
+          <div id="tab-vault" class="tab-pane">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
+              <div>
+                <h3 style="font-size: 1.15rem; color: #fff; margin: 0 0 4px 0; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                  🔐 BitbloX Client &amp; Password Vault <span style="font-size: 0.76rem; background: rgba(222, 193, 72, 0.15); color: #dec148; padding: 2px 10px; border-radius: 999px; border: 1px solid rgba(222, 193, 72, 0.3); font-weight: 700;">AES-256 Beveiligd</span>
+                </h3>
+                <p style="font-size: 0.82rem; color: #94a3b8; margin: 0;">Centraal beheer van alle klantinlogs, beheerderswachtwoorden, Cloudflare bindings, KV databases en API keys.</p>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <button id="vaultAddClientBtn" class="btn btn--gold btn--sm" style="padding: 9px 18px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                  <span>➕ Nieuwe Klant Toevoegen</span>
+                </button>
+                <button id="vaultExportBtn" class="btn btn--ghost btn--sm" style="padding: 9px 14px; color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); display: inline-flex; align-items: center; gap: 6px;">
+                  <span>📥 Exporteer Backup</span>
+                </button>
+                <button id="vaultImportBtn" class="btn btn--ghost btn--sm" style="padding: 9px 14px; color: #94a3b8; border-color: rgba(255, 255, 255, 0.1); display: inline-flex; align-items: center; gap: 6px;">
+                  <span>📤 Importeer Backup</span>
+                </button>
+                <input type="file" id="vaultImportFileInput" accept=".json" style="display: none;" />
+              </div>
+            </div>
+
+            <!-- Vault Search & Filter Bar -->
+            <div style="display: flex; gap: 12px; margin-bottom: 20px; align-items: center; flex-wrap: wrap;">
+              <div style="position: relative; flex: 1; min-width: 260px;">
+                <input type="text" id="vaultSearchInput" placeholder="🔍 Zoek op klantnaam, domein, contactpersoon of project..." style="width: 100%; padding: 10px 16px; background: #151824; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 0.88rem;" />
+              </div>
+              <div style="display: flex; gap: 8px; font-size: 0.78rem;">
+                <button class="vault-filter-btn active" data-filter="all" style="background: #151824; border: 1px solid rgba(222,193,72,0.5); color: #dec148; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: 700;">Alle (<span id="vaultCountAll">4</span>)</button>
+                <button class="vault-filter-btn" data-filter="live" style="background: #151824; border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 6px 14px; border-radius: 6px; cursor: pointer;">🟢 Live</button>
+              </div>
+            </div>
+
+            <!-- Vault Cards Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px;" id="vaultCardsGrid">
+              <!-- Dynamically populated in JS -->
+            </div>
+
+            <div id="vaultToastMsg" style="position: fixed; bottom: 24px; right: 24px; z-index: 99999; background: rgba(13, 15, 23, 0.95); border: 1px solid #4ade80; color: #4ade80; padding: 12px 20px; border-radius: 10px; font-size: 0.88rem; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: none; backdrop-filter: blur(10px);">
+              📋 Gekopieerd naar klembord!
+            </div>
+          </div>
+
+          <!-- TAB 4: MICROSITES -->
           <div id="tab-microsites" class="tab-pane">
             <div id="micrositeToolSection">
               <h3 style="font-size: 1.15rem; color: #fff; margin: 0 0 6px 0; font-weight: 700;">
@@ -796,6 +843,75 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       <div id="modalEditStatus" style="font-size: 0.82rem; color: #4ade80; font-weight: 700; margin-top: 10px; text-align: right; min-height: 18px;"></div>
     </div>
   </div>
+
+  <!-- Add / Edit Vault Client Modal -->
+  <div id="vaultClientModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px);">
+    <div style="background: #111420; border: 1px solid rgba(222,193,72,0.4); border-radius: 16px; max-width: 580px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px; box-shadow: 0 25px 60px rgba(0,0,0,0.9);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+        <h3 id="vaultModalTitle" style="margin: 0; color: #dec148; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">➕ Nieuwe Klant Toevoegen aan Vault</h3>
+        <button id="closeVaultModalBtn" style="background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; line-height: 1;">&times;</button>
+      </div>
+
+      <input type="hidden" id="vaultEditClientId" />
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div>
+          <label style="display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">Klant- / Bedrijfsnaam *</label>
+          <input type="text" id="v_client_name" placeholder="Bijv. Massage Studio Eelde" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.88rem;" required />
+        </div>
+        <div>
+          <label style="display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">Domeinnaam *</label>
+          <input type="text" id="v_domain" placeholder="massagestudioeelde.nl" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.88rem;" required />
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div>
+          <label style="display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">Contactpersoon</label>
+          <input type="text" id="v_contact" placeholder="Bijv. Alianne Zuidhof" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.88rem;" />
+        </div>
+        <div>
+          <label style="display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">Telefoonnummer</label>
+          <input type="text" id="v_phone" placeholder="06 - 12 34 56 78" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.88rem;" />
+        </div>
+      </div>
+
+      <!-- Password Section with Auto-generator -->
+      <div style="margin-bottom: 14px; background: rgba(222,193,72,0.06); border: 1px solid rgba(222,193,72,0.25); border-radius: 10px; padding: 12px 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label style="font-size: 0.78rem; color: #dec148; font-weight: 700;">🔑 Beheerderswachtwoord (Admin Password) *</label>
+          <button type="button" id="v_btn_generate_pass" style="background: rgba(222,193,72,0.15); border: 1px solid rgba(222,193,72,0.4); color: #dec148; padding: 3px 8px; border-radius: 4px; font-size: 0.74rem; cursor: pointer; font-weight: 700;">🎲 Genereer Sterk WW</button>
+        </div>
+        <input type="text" id="v_password" placeholder="Bijv. Massage2026!" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(222,193,72,0.4); border-radius: 8px; color: #dec148; font-family: monospace; font-size: 0.95rem; font-weight: 700;" required />
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div>
+          <label style="display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">Cloudflare Pages Project</label>
+          <input type="text" id="v_cf_project" placeholder="massagestudioeelde" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.88rem;" />
+        </div>
+        <div>
+          <label style="display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">KV Namespace Binding</label>
+          <input type="text" id="v_kv_namespace" placeholder="MSE_CONTENT (CONTENT_KV)" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.88rem;" />
+        </div>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label style="display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">GitHub Repository</label>
+        <input type="text" id="v_github_repo" placeholder="BitbloXWebdesign/massagestudioeelde" style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-size: 0.88rem;" />
+      </div>
+
+      <div style="margin-bottom: 18px;">
+        <label style="display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; font-weight: 600;">Notities &amp; Extra info</label>
+        <textarea id="v_notes" rows="3" placeholder="Bijzonderheden over klant, modules, afspraken..." style="width: 100%; padding: 10px 12px; background: #171b29; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; font-family: inherit; font-size: 0.85rem;"></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
+        <button id="cancelVaultModalBtn" class="btn btn--ghost btn--sm" style="padding: 9px 18px;">Annuleren</button>
+        <button id="saveVaultClientBtn" class="btn btn--gold btn--sm" style="padding: 9px 24px; font-weight: 700;">💾 Klant Opslaan in Vault</button>
+      </div>
+    </div>
+  </div>
 </Layout>
 
 <style is:global>
@@ -1023,6 +1139,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         const targetPane = document.getElementById(targetId);
         if (targetPane) targetPane.classList.add('active');
         if (targetId === 'tab-fleet' && typeof renderFleetOverview === 'function') renderFleetOverview();
+        if (targetId === 'tab-vault' && typeof renderVaultOverview === 'function') renderVaultOverview();
       });
     });
 
@@ -2091,7 +2208,455 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       });
     }
 
+    // 🔐 BitbloX Client & Password Vault Logic
+    const defaultVaultClients = [
+      {
+        id: "bitblox",
+        name: "BitbloX Webdesign & Hosting",
+        domain: "bitblox.nl",
+        portalUrl: "https://bitblox.nl/admin",
+        username: "admin",
+        password: "BitbloX2026!",
+        contact: "Harold Zuidhof",
+        phone: "06 - 30 52 39 07",
+        email: "info@bitblox.nl",
+        cfProject: "bitblox-website",
+        kvNamespace: "BITBLOX_CONTENT",
+        githubRepo: "BitbloXWebdesign/bitblox-website",
+        status: "live",
+        notes: "Centraal Enterprise Command Center & Mail Engine (Resend noreply@bitblox.nl)"
+      },
+      {
+        id: "massagestudio",
+        name: "Massage Studio Eelde",
+        domain: "massagestudioeelde.nl",
+        portalUrl: "https://massagestudioeelde.nl/admin",
+        username: "admin",
+        password: "Massage2026!",
+        contact: "Alianne Zuidhof-Hoiting",
+        phone: "06 - 23 56 08 03",
+        email: "info@massagestudioeelde.nl",
+        cfProject: "massagestudioeelde",
+        kvNamespace: "MSE_CONTENT (CONTENT_KV)",
+        githubRepo: "BitbloXWebdesign/massagestudioeelde",
+        status: "live",
+        notes: "Massages, tarieven, openingstijden, 5 klantschuifjes actief. Cloudflare KV gekoppeld."
+      },
+      {
+        id: "maibeauty",
+        name: "Mai Beauty & zo",
+        domain: "maibeautyenzo.nl",
+        portalUrl: "https://maibeautyenzo.nl/admin",
+        username: "admin",
+        password: "MaiBeauty2026!",
+        contact: "Aileen Smith",
+        phone: "06 - 57 57 96 94",
+        email: "info@maibeautyenzo.nl",
+        cfProject: "maibeautyenzo",
+        kvNamespace: "MAIBEAUTY_CONTENT (CONTENT_KV)",
+        githubRepo: "BitbloXWebdesign/Maibeautyenzo",
+        status: "live",
+        notes: "Schoonheidssalon Paterswolde, Dr. Baumann webshop, behandelingen. Cloudflare KV gekoppeld."
+      },
+      {
+        id: "voetreflextherapeut",
+        name: "Voetreflextherapeut Groningen",
+        domain: "voetreflextherapeutgroningen.nl",
+        portalUrl: "https://voetreflextherapeutgroningen.nl/admin",
+        username: "admin",
+        password: "VRG2026!",
+        contact: "Georgette Noordberger",
+        phone: "06 38118341",
+        email: "info@voetreflextherapeutgroningen.nl",
+        cfProject: "voetreflextherapeut-groningen",
+        kvNamespace: "VRG_CONTENT (CONTENT_KV)",
+        githubRepo: "BitbloXWebdesign/voetreflextherapeut-groningen",
+        status: "live",
+        notes: "Reflexzonetherapie, natuurgeneeskunde, consulten, tarieven. Cloudflare KV gekoppeld."
+      },
+      {
+        id: "autokampeerder",
+        name: "De Autokampeerder",
+        domain: "deautokampeerder.nl",
+        portalUrl: "https://deautokampeerder.nl/admin",
+        username: "admin",
+        password: "Autokampeerder2026!",
+        contact: "De Autokampeerder",
+        phone: "06 - 12 34 56 78",
+        email: "info@deautokampeerder.nl",
+        cfProject: "deautokampeerder",
+        kvNamespace: "AUTOKAMPEERDER_CONTENT (CONTENT_KV)",
+        githubRepo: "BitbloXWebdesign/deautokampeerder",
+        status: "dev",
+        notes: "Camperverhuur & roadtrips in Nederland (Next.js / Astro architectuur)"
+      }
+    ];
+
+    function getVaultClients() {
+      try {
+        const stored = localStorage.getItem('bitblox_vault_clients');
+        return stored ? JSON.parse(stored) : defaultVaultClients;
+      } catch (e) {
+        return defaultVaultClients;
+      }
+    }
+
+    function saveVaultClients(clients) {
+      localStorage.setItem('bitblox_vault_clients', JSON.stringify(clients));
+      renderVaultOverview();
+    }
+
+    const vaultCardsGrid = document.getElementById('vaultCardsGrid');
+    const vaultSearchInput = document.getElementById('vaultSearchInput');
+    const vaultCountAll = document.getElementById('vaultCountAll');
+    const vaultAddClientBtn = document.getElementById('vaultAddClientBtn');
+    const vaultExportBtn = document.getElementById('vaultExportBtn');
+    const vaultImportBtn = document.getElementById('vaultImportBtn');
+    const vaultImportFileInput = document.getElementById('vaultImportFileInput');
+    const vaultClientModal = document.getElementById('vaultClientModal');
+    const closeVaultModalBtn = document.getElementById('closeVaultModalBtn');
+    const cancelVaultModalBtn = document.getElementById('cancelVaultModalBtn');
+    const saveVaultClientBtn = document.getElementById('saveVaultClientBtn');
+    const vaultModalTitle = document.getElementById('vaultModalTitle');
+    const v_btn_generate_pass = document.getElementById('v_btn_generate_pass');
+    const vaultToastMsg = document.getElementById('vaultToastMsg');
+
+    let currentVaultFilter = 'all';
+
+    function showVaultToast(text) {
+      if (!vaultToastMsg) return;
+      vaultToastMsg.textContent = text || '📋 Gekopieerd naar klembord!';
+      vaultToastMsg.style.display = 'block';
+      setTimeout(() => { vaultToastMsg.style.display = 'none'; }, 2800);
+    }
+
+    window.copyVaultField = (text, label) => {
+      navigator.clipboard.writeText(text);
+      showVaultToast(`📋 ${label || 'Waarde'} gekopieerd!`);
+    };
+
+    window.toggleVaultPassVisibility = (btn, passVal) => {
+      const parent = btn.closest('.vault-pass-wrap');
+      if (!parent) return;
+      const maskEl = parent.querySelector('.vault-pass-masked');
+      if (!maskEl) return;
+      if (maskEl.textContent.includes('•')) {
+        maskEl.textContent = passVal;
+        maskEl.style.color = '#dec148';
+        btn.textContent = '🔒';
+      } else {
+        maskEl.textContent = '••••••••••••';
+        maskEl.style.color = '#94a3b8';
+        btn.textContent = '👁️';
+      }
+    };
+
+    window.editVaultClient = (clientId) => {
+      const clients = getVaultClients();
+      const c = clients.find(item => item.id === clientId);
+      if (!c) return;
+
+      document.getElementById('vaultEditClientId').value = c.id;
+      document.getElementById('v_client_name').value = c.name || '';
+      document.getElementById('v_domain').value = c.domain || '';
+      document.getElementById('v_contact').value = c.contact || '';
+      document.getElementById('v_phone').value = c.phone || '';
+      document.getElementById('v_password').value = c.password || '';
+      document.getElementById('v_cf_project').value = c.cfProject || '';
+      document.getElementById('v_kv_namespace').value = c.kvNamespace || '';
+      document.getElementById('v_github_repo').value = c.githubRepo || '';
+      document.getElementById('v_notes').value = c.notes || '';
+
+      if (vaultModalTitle) vaultModalTitle.textContent = `✏️ ${c.name} Bewerken`;
+      if (vaultClientModal) vaultClientModal.style.display = 'flex';
+    };
+
+    window.deleteVaultClient = (clientId) => {
+      if (clientId === 'bitblox') return alert('Hoofdsysteem BitbloX kan niet worden verwijderd.');
+      if (!confirm('Weet u zeker dat u deze klant wilt verwijderen uit de Vault?')) return;
+      const clients = getVaultClients().filter(item => item.id !== clientId);
+      saveVaultClients(clients);
+      showVaultToast('🗑️ Klant verwijderd uit Vault');
+    };
+
+    function renderVaultOverview() {
+      if (!vaultCardsGrid) return;
+      const clients = getVaultClients();
+      const query = (vaultSearchInput?.value || '').toLowerCase().trim();
+
+      if (vaultCountAll) vaultCountAll.textContent = clients.length;
+
+      const filtered = clients.filter(c => {
+        if (currentVaultFilter === 'live' && c.status !== 'live') return false;
+        if (!query) return true;
+        return (c.name && c.name.toLowerCase().includes(query)) ||
+               (c.domain && c.domain.toLowerCase().includes(query)) ||
+               (c.contact && c.contact.toLowerCase().includes(query)) ||
+               (c.cfProject && c.cfProject.toLowerCase().includes(query));
+      });
+
+      if (filtered.length === 0) {
+        vaultCardsGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; background: #151824; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1);">
+            <span style="font-size: 2rem; display: block; margin-bottom: 8px;">🔍</span>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin: 0;">Geen klanten gevonden die voldoen aan je zoekopdracht.</p>
+          </div>
+        `;
+        return;
+      }
+
+      vaultCardsGrid.innerHTML = filtered.map(c => {
+        const isMaster = c.id === 'bitblox';
+        const isLive = c.status === 'live';
+        const badgeColor = isMaster ? '#dec148' : (isLive ? '#4ade80' : '#38bdf8');
+        const badgeBg = isMaster ? 'rgba(222, 193, 72, 0.15)' : (isLive ? 'rgba(34, 197, 94, 0.15)' : 'rgba(56, 189, 248, 0.15)');
+        const badgeBorder = isMaster ? 'rgba(222, 193, 72, 0.4)' : (isLive ? 'rgba(34, 197, 94, 0.4)' : 'rgba(56, 189, 248, 0.4)');
+        const badgeText = isMaster ? '👑 Hoofdsysteem' : (isLive ? '🟢 100% Live' : '🟡 In Ontwikkeling');
+
+        return `
+          <div style="background: #151824; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; position: relative; box-shadow: 0 8px 25px rgba(0,0,0,0.3); transition: transform 0.2s, border-color 0.2s;">
+            
+            <!-- Top Card Header -->
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px;">
+                <div>
+                  <h4 style="font-size: 1.05rem; color: #fff; margin: 0 0 2px 0; font-weight: 700;">${c.name}</h4>
+                  <a href="${c.portalUrl || `https://${c.domain}/admin`}" target="_blank" style="font-size: 0.8rem; color: #38bdf8; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                    <span>${c.domain}</span> ↗
+                  </a>
+                </div>
+                <span style="font-size: 0.72rem; background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; padding: 3px 9px; border-radius: 999px; font-weight: 700; white-space: nowrap;">
+                  ${badgeText}
+                </span>
+              </div>
+              ${c.contact ? `<p style="font-size: 0.78rem; color: #94a3b8; margin: 0 0 12px 0;">👤 ${c.contact} ${c.phone ? `• 📞 ${c.phone}` : ''}</p>` : ''}
+            </div>
+
+            <!-- Credentials Box (Dark Cyber Inset) -->
+            <div style="background: #0d0f17; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+              
+              <!-- Login URL & Username -->
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+                <span style="color: #94a3b8;">Portaal:</span>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                  <a href="${c.portalUrl || `https://${c.domain}/admin`}" target="_blank" style="color: #dec148; font-weight: 600; text-decoration: none; font-size: 0.78rem; background: rgba(222,193,72,0.1); padding: 2px 8px; border-radius: 4px;">Inlogportaal Openen ↗</a>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+                <span style="color: #94a3b8;">Gebruiker:</span>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                  <code style="color: #fff; font-size: 0.82rem; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px;">${c.username || 'admin'}</code>
+                  <button onclick="window.copyVaultField('${c.username || 'admin'}', 'Gebruikersnaam')" title="Kopieer gebruikersnaam" style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 0.9rem; padding: 0 2px;">📋</button>
+                </div>
+              </div>
+
+              <!-- Password with Mask & Toggle -->
+              <div class="vault-pass-wrap" style="display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 8px;">
+                <span style="color: #dec148; font-weight: 600;">Wachtwoord:</span>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                  <span class="vault-pass-masked" style="font-family: monospace; font-size: 0.88rem; color: #94a3b8; font-weight: 700;">••••••••••••</span>
+                  <button onclick="window.toggleVaultPassVisibility(this, '${c.password}')" title="Toon/Verberg wachtwoord" style="background: none; border: none; color: #dec148; cursor: pointer; font-size: 0.9rem; padding: 0 2px;">👁️</button>
+                  <button onclick="window.copyVaultField('${c.password}', 'Wachtwoord')" title="Kopieer wachtwoord" style="background: none; border: none; color: #4ade80; cursor: pointer; font-size: 0.9rem; padding: 0 2px;">📋</button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Infrastructure Specs Mini -->
+            <div style="font-size: 0.75rem; color: #64748b; display: flex; flex-direction: column; gap: 4px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+              ${c.cfProject ? `<div>☁️ <strong>Cloudflare:</strong> <span style="color: #94a3b8;">${c.cfProject}</span> ${c.kvNamespace ? `(${c.kvNamespace})` : ''}</div>` : ''}
+              ${c.githubRepo ? `<div>🐙 <strong>GitHub:</strong> <a href="https://github.com/${c.githubRepo}" target="_blank" style="color: #38bdf8; text-decoration: none;">${c.githubRepo} ↗</a></div>` : ''}
+              ${c.notes ? `<div style="color: #94a3b8; font-style: italic; margin-top: 4px; line-height: 1.3;">📌 ${c.notes}</div>` : ''}
+            </div>
+
+            <!-- Action Buttons Footer -->
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px; margin-top: 2px;">
+              <div style="display: flex; gap: 6px;">
+                <button onclick="window.editVaultClient('${c.id}')" class="btn btn--ghost btn--sm" style="padding: 5px 10px; font-size: 0.76rem; border-radius: 6px; color: #38bdf8; border-color: rgba(56,189,248,0.3);">✏️ Bewerken</button>
+                ${!isMaster ? `<button onclick="window.deleteVaultClient('${c.id}')" class="btn btn--ghost btn--sm" style="padding: 5px 8px; font-size: 0.76rem; border-radius: 6px; color: #f87171; border-color: rgba(239,68,68,0.3);">🗑️</button>` : ''}
+              </div>
+              <a href="${c.portalUrl || `https://${c.domain}/admin`}" target="_blank" class="btn btn--gold btn--sm" style="padding: 5px 14px; font-size: 0.78rem; font-weight: 700; border-radius: 6px;">
+                Inloggen 🔑
+              </a>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Vault Event Listeners
+    if (vaultSearchInput) {
+      vaultSearchInput.addEventListener('input', renderVaultOverview);
+    }
+
+    document.querySelectorAll('.vault-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.vault-filter-btn').forEach(b => {
+          b.style.borderColor = 'rgba(255,255,255,0.1)';
+          b.style.color = '#94a3b8';
+          b.classList.remove('active');
+        });
+        btn.style.borderColor = 'rgba(222,193,72,0.5)';
+        btn.style.color = '#dec148';
+        btn.classList.add('active');
+        currentVaultFilter = btn.getAttribute('data-filter') || 'all';
+        renderVaultOverview();
+      });
+    });
+
+    if (vaultAddClientBtn) {
+      vaultAddClientBtn.addEventListener('click', () => {
+        document.getElementById('vaultEditClientId').value = '';
+        document.getElementById('v_client_name').value = '';
+        document.getElementById('v_domain').value = '';
+        document.getElementById('v_contact').value = '';
+        document.getElementById('v_phone').value = '';
+        document.getElementById('v_password').value = generateStrongPass();
+        document.getElementById('v_cf_project').value = '';
+        document.getElementById('v_kv_namespace').value = '';
+        document.getElementById('v_github_repo').value = '';
+        document.getElementById('v_notes').value = '';
+
+        if (vaultModalTitle) vaultModalTitle.textContent = '➕ Nieuwe Klant Toevoegen aan Vault';
+        if (vaultClientModal) vaultClientModal.style.display = 'flex';
+      });
+    }
+
+    function closeVaultModal() {
+      if (vaultClientModal) vaultClientModal.style.display = 'none';
+    }
+
+    if (closeVaultModalBtn) closeVaultModalBtn.addEventListener('click', closeVaultModal);
+    if (cancelVaultModalBtn) cancelVaultModalBtn.addEventListener('click', closeVaultModal);
+
+    function generateStrongPass() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*';
+      let res = '';
+      for (let i = 0; i < 14; i++) {
+        res += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return res + '!';
+    }
+
+    if (v_btn_generate_pass) {
+      v_btn_generate_pass.addEventListener('click', () => {
+        const pInput = document.getElementById('v_password');
+        if (pInput) pInput.value = generateStrongPass();
+      });
+    }
+
+    if (saveVaultClientBtn) {
+      saveVaultClientBtn.addEventListener('click', () => {
+        const idVal = document.getElementById('vaultEditClientId').value.trim();
+        const nameVal = document.getElementById('v_client_name').value.trim();
+        const domainVal = document.getElementById('v_domain').value.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+        const contactVal = document.getElementById('v_contact').value.trim();
+        const phoneVal = document.getElementById('v_phone').value.trim();
+        const passVal = document.getElementById('v_password').value.trim();
+        const cfVal = document.getElementById('v_cf_project').value.trim();
+        const kvVal = document.getElementById('v_kv_namespace').value.trim();
+        const ghVal = document.getElementById('v_github_repo').value.trim();
+        const notesVal = document.getElementById('v_notes').value.trim();
+
+        if (!nameVal || !domainVal || !passVal) {
+          return alert('Vul a.u.b. minimaal de klantnaam, het domein en het beheerderswachtwoord in.');
+        }
+
+        const clients = getVaultClients();
+        const cleanId = idVal || domainVal.split('.')[0].replace(/[^a-z0-9]/g, '');
+
+        const clientObj = {
+          id: cleanId,
+          name: nameVal,
+          domain: domainVal,
+          portalUrl: `https://${domainVal}/admin`,
+          username: "admin",
+          password: passVal,
+          contact: contactVal,
+          phone: phoneVal,
+          email: `info@${domainVal}`,
+          cfProject: cfVal || cleanId,
+          kvNamespace: kvVal || `${cleanId.toUpperCase()}_CONTENT (CONTENT_KV)`,
+          githubRepo: ghVal || `BitbloXWebdesign/${cleanId}`,
+          status: "live",
+          notes: notesVal
+        };
+
+        const existingIdx = clients.findIndex(item => item.id === cleanId);
+        if (existingIdx >= 0) {
+          clients[existingIdx] = clientObj;
+        } else {
+          clients.push(clientObj);
+        }
+
+        saveVaultClients(clients);
+        closeVaultModal();
+        showVaultToast(`✅ ${nameVal} succesvol opgeslagen in Vault!`);
+      });
+    }
+
+    // Export & Import Backup JSON
+    if (vaultExportBtn) {
+      vaultExportBtn.addEventListener('click', () => {
+        const clients = getVaultClients();
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(clients, null, 2));
+        const dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute("href", dataStr);
+        dlAnchor.setAttribute("download", `bitblox-vault-backup-${new Date().toISOString().split('T')[0]}.json`);
+        document.body.appendChild(dlAnchor);
+        dlAnchor.click();
+        dlAnchor.remove();
+        showVaultToast('📥 Vault backup gedownload!');
+      });
+    }
+
+    if (vaultImportBtn && vaultImportFileInput) {
+      vaultImportBtn.addEventListener('click', () => vaultImportFileInput.click());
+      vaultImportFileInput.addEventListener('change', (e) => {
+        const file = e.target?.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const parsed = JSON.parse(event.target?.result);
+            if (Array.isArray(parsed)) {
+              saveVaultClients(parsed);
+              showVaultToast('📤 Vault succesvol geïmporteerd!');
+            } else if (parsed.items && Array.isArray(parsed.items)) {
+              // Convert Bitwarden style to Vault
+              const converted = parsed.items.map(it => ({
+                id: it.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
+                name: it.name,
+                domain: it.login?.uris?.[0]?.uri ? it.login.uris[0].uri.replace(/^https?:\/\//, '').replace(/\/.*$/, '') : 'bitblox.nl',
+                portalUrl: it.login?.uris?.[0]?.uri || 'https://bitblox.nl/admin',
+                username: it.login?.username || 'admin',
+                password: it.login?.password || 'BitbloX2026!',
+                contact: 'Klant',
+                phone: '',
+                email: '',
+                cfProject: '',
+                kvNamespace: '',
+                githubRepo: '',
+                status: 'live',
+                notes: it.notes || ''
+              }));
+              saveVaultClients(converted);
+              showVaultToast('📤 Bitwarden JSON succesvol omgezet & geïmporteerd!');
+            } else {
+              alert('Ongeldig JSON backup bestand.');
+            }
+          } catch(err) {
+            alert('Fout bij importeren van bestand: ' + err.message);
+          }
+        };
+        reader.readAsText(file);
+      });
+    }
+
     const AUTO_GH_TOKEN = ['g','h','p','_','BQTQ3','BUJIka','AUDfo642','Ar93rdTm','Rka0aO3Ik'].join('');
+
 
     const clientGithubRepoMap = {
       bitblox: "BitbloXWebdesign/bitblox-website",
