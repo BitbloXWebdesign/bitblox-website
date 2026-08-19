@@ -443,6 +443,14 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
               <div class="module-card">
                 <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.9rem; margin-bottom: 2px;">🛒 Webshop &amp; E-commerce</strong>
+                  <span style="font-size: 0.78rem; color: #94a3b8;">Online catalogus, winkelmandje &amp; checkout.</span>
+                </div>
+                <label class="switch"><input type="checkbox" id="toggleShop"><span class="slider"></span></label>
+              </div>
+
+              <div class="module-card">
+                <div style="flex: 1;">
                   <strong style="display: block; color: #fff; font-size: 0.9rem; margin-bottom: 2px;">🛡️ 24/7 Uptime &amp; Integriteit Watchdog</strong>
                   <span style="font-size: 0.78rem; color: #94a3b8;">Realtime uptime scans, homepage-hash check &amp; storingsalarm.</span>
                 </div>
@@ -1036,6 +1044,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const toggleAnnouncement = document.getElementById('toggleAnnouncement');
     const toggleAccessibility = document.getElementById('toggleAccessibility');
     const toggleCallback = document.getElementById('toggleCallback');
+    const toggleShop = document.getElementById('toggleShop');
     const toggleMonitoring = document.getElementById('toggleMonitoring');
     const monitoringStatusBox = document.getElementById('monitoringStatusBox');
     const watchdogHttpStatus = document.getElementById('watchdogHttpStatus');
@@ -1451,6 +1460,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (toggleAnnouncement) toggleAnnouncement.checked = conf.switches.announcement !== undefined ? conf.switches.announcement : false;
       if (toggleAccessibility) toggleAccessibility.checked = conf.switches.accessibility !== undefined ? conf.switches.accessibility : true;
       if (toggleCallback) toggleCallback.checked = conf.switches.callback !== undefined ? conf.switches.callback : false;
+      if (toggleShop) toggleShop.checked = conf.switches.shop !== undefined ? conf.switches.shop : false;
       if (toggleMonitoring) toggleMonitoring.checked = conf.switches.monitoring !== undefined ? conf.switches.monitoring : true;
       if (monitoringStatusBox) monitoringStatusBox.style.opacity = (conf.switches.monitoring !== false) ? '1' : '0.4';
 
@@ -2160,6 +2170,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         conf.switches.announcement = toggleAnnouncement ? toggleAnnouncement.checked : false;
         conf.switches.accessibility = toggleAccessibility ? toggleAccessibility.checked : false;
         conf.switches.callback = toggleCallback ? toggleCallback.checked : false;
+        conf.switches.shop = toggleShop ? toggleShop.checked : false;
         conf.switches.monitoring = toggleMonitoring ? toggleMonitoring.checked : true;
         conf.alertEmail = watchdogAlertEmail ? watchdogAlertEmail.value.trim() : 'info@bitblox.nl';
 
