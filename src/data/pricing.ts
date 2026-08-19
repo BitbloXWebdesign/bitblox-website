@@ -86,12 +86,12 @@ export const pricing = {
       amount: 149,
       unit: "per jaar (slechts € 12,40 p/m)",
       features: [
-        "Zeer snelle Cloudflare Edge Jamstack hosting (onder 0,2s)",
-        "Jaarlijkse .NL domeinnaam registratie & DNS-beheer",
+        "Supersnelle cloud hosting (onder 0,2s)",
+        "Jaarlijkse .NL domeinnaam registratie/verlenging & DNS-beheer",
         "Tot 3 zakelijke e-mailaccounts (bijv. info@)",
-        "3 GB veilige cloud-e-mailopslag",
+        "3 GB cloud-opslag",
         "Automatisch SSL-beveiligingscertificaat (HTTPS)",
-        "Dagelijkse automatische cloud-backups via Git"
+        "Dagelijkse automatische cloud-backups"
       ]
     },
     {
@@ -105,9 +105,9 @@ export const pricing = {
       features: [
         "Inclusief álles uit Basis Hosting & Domein",
         "Tot 5 zakelijke e-mailaccounts",
-        "10 GB royale zakelijke e-mailopslag",
-        "24/7 Watchdog actieve uptime- & storingsbewaking",
-        "Wijzigings- en storingscontrole",
+        "10 GB royale cloud-opslag",
+        "24/7 Website Watchdog: dag en nacht actieve bereikbaarheidsbewaking",
+        "Automatische controle op fouten & ongewenste wijzigingen",
         "Actieve spam- & hackbeveiliging",
         "Inbegrepen support bij tekst- of fotowijzigingen (30 min/kwartaal)"
       ]
