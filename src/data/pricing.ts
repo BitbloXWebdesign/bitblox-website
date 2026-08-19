@@ -105,8 +105,8 @@ export const pricing = {
       features: [
         "Inclusief álles uit Basis Hosting & Domein",
         "24/7 Watchdog actieve uptime- & storingsbewaking",
-        "Wijzigings- en homepage defacement scanner",
-        "Enterprise WAF firewall & botbescherming",
+        "Wijzigings- en storingscontrole",
+        "Actieve spam- & hackbeveiliging",
         "Prioritaire storingsafhandeling bij incidenten",
         "Inbegrepen support bij tekst- of fotowijzigingen (30 min/kwartaal)"
       ]
