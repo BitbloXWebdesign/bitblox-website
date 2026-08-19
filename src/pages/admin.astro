@@ -1074,7 +1074,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
   }
 </style>
 
-<script is:inline define:vars={{ defaultDeepSeekKey }}>
+<script is:inline define:vars={{ defaultDeepSeekKey, initialBitbloxReviews: reviewsData }}>
   document.addEventListener('DOMContentLoaded', () => {
     const loginGate = document.getElementById('loginGate');
     const adminContent = document.getElementById('adminContent');
@@ -1271,12 +1271,15 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { id: "de-kracht-van-microsites", title: "De kracht van microsites", url: "/blog/de-kracht-van-microsites/" },
           { id: "waarom-trage-website-klanten-kost", title: "Waarom trage website klanten kost", url: "/blog/waarom-trage-website-klanten-kost/" }
         ],
-        reviews: [
-          { id: 4, name: "Georgette Pots", location: "Voetreflextherapeut Groningen — Groningen", rating: 5, ratingDisplay: "★★★★★", text: "Al jaren ben ik klant bij BitbloX. Met een eigenzaak erg fijn dat hij mijn website onderhoud en meedenkt. Scheelt mij veel werk en ziet er piekfijn uit." },
-          { id: 1, name: "Jeroen Renkema", location: "Jeroen Renkema Boomverzorging — Noordbroek", rating: 5, ratingDisplay: "★★★★★", text: "Echt een topbedrijf! Heeft inmiddels 2 hele mooie websites voor ons gebouwd — sterkinbomenwerk.nl en boombehoud.nu. Snelle communicatie en super resultaat. Aanrader!!" },
-          { id: 2, name: "Alianne Zuidhof", location: "Massage Studio Eelde — Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Mijn website ziet er geweldig uit en als ik veranderingen wil is dat zo aangepast. Heldere communicatie en professioneel afgewerkt, erg trots !" },
-          { id: 3, name: "MC Scholts", location: "SheMotion — Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Fijne communicatie, Harold is kundig, denkt mee en reageert snel bij vragen of verzoeken." }
-        ]
+        reviews: (typeof initialBitbloxReviews !== 'undefined' && Array.isArray(initialBitbloxReviews) && initialBitbloxReviews.length > 0)
+          ? initialBitbloxReviews
+          : [
+              { id: 1787043931922, name: "Grietje Hofsteenge", author: "Grietje Hofsteenge", location: "StudioBM — Norg", rating: 4, ratingDisplay: "★★★★☆", text: "Zeer goede service; als ik een vraag heb wordt er zeer snel en adequaat gereageerd.", initials: "GH" },
+              { id: 4, name: "Georgette Pots", author: "Georgette Pots", location: "Voetreflextherapeut Groningen — Groningen", rating: 5, ratingDisplay: "★★★★★", text: "Al jaren ben ik klant bij BitbloX. Met een eigen zaak erg fijn dat hij mijn website onderhoud en meedenkt. Scheelt mij veel werk en ziet er piekfijn uit.", initials: "GP" },
+              { id: 1, name: "Jeroen Renkema", author: "Jeroen Renkema", location: "Jeroen Renkema Boomverzorging — Noordbroek", rating: 5, ratingDisplay: "★★★★★", text: "Echt een topbedrijf! Heeft inmiddels 2 hele mooie websites voor ons gebouwd — sterkinbomenwerk.nl en boombehoud.nu. Snelle communicatie en super resultaat. Aanrader!!", initials: "JR" },
+              { id: 2, name: "Alianne Zuidhof", author: "Alianne Zuidhof", location: "Massage Studio Eelde — Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Mijn website ziet er geweldig uit en als ik veranderingen wil is dat zo aangepast. Heldere communicatie en professioneel afgewerkt, erg trots !", initials: "AZ" },
+              { id: 3, name: "MC Scholts", author: "MC Scholts", location: "SheMotion — Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Fijne communicatie, Harold is kundig, denkt mee en reageert snel bij vragen of verzoeken.", initials: "MS" }
+            ]
       },
       autokampeerder: {
         name: "De Autokampeerder",
@@ -1387,9 +1390,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         microsites: [],
         blogs: [],
         reviews: [
-          { name: "Annelies de V.", rating: "★★★★★" },
-          { name: "Marloes & Sven", rating: "★★★★★" },
-          { name: "Karin B.", rating: "★★★★★" }
+          { id: 1, name: "Annelies de V.", author: "Annelies de V.", rating: 5, ratingDisplay: "★★★★★", date: "2 weken geleden", text: "Georgette is een fantastische therapeute! Na een aantal behandelingen zijn mijn langdurige rug- en hoofdpijnklachten aanzienlijk verminderd. Ze neemt echt de tijd voor je en geeft hele waardevolle adviezen." },
+          { id: 2, name: "Marloes & Sven", author: "Marloes & Sven", rating: 5, ratingDisplay: "★★★★★", date: "1 maand geleden", text: "Wij hebben het Integraal Kinderwens traject gevolgd bij Georgette. Haar rust, empathie en professionele aanpak gaven ons ontzettend veel steun. Inmiddels trots ouder van een gezonde zoon!" },
+          { id: 3, name: "Karin B.", author: "Karin B.", rating: 5, ratingDisplay: "★★★★★", date: "2 maanden geleden", text: "Tijdens mijn zwangerschap met 39 weken het NIBY'S protocol ontvangen. Dezelfde avond kwamen de weeën rustig op gang. Een absolute aanrader voor iedere zwangere vrouw die ontspannen de bevalling in wil!" },
+          { id: 4, name: "Peter H.", author: "Peter H.", rating: 5, ratingDisplay: "★★★★★", date: "3 maanden geleden", text: "Wegens darmklachten en stress bij Georgette terechtgekomen. De combinatie van Chinese en Westerse voetreflex heeft mijn spijsvertering en energielevel een enorme boost gegeven. Zeer kundig!" }
         ]
       },
       massagestudio: {
@@ -1445,9 +1449,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         ],
         blogs: [],
         reviews: [
-          { id: 1, name: "Monique V.", location: "Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Alianne geeft fantastische massages. Ze voelt precies aan waar de spanning zit. Na afloop voel ik me altijd helemaal ontspannen en opgeladen!" },
-          { id: 2, name: "Sander de Boer", location: "Paterswolde", rating: 5, ratingDisplay: "★★★★★", text: "Professionele praktijk met een hele rustige, fijne sfeer. De sportmassage heeft mijn rugklachten enorm verlicht. Zeker een aanrader!" },
-          { id: 3, name: "Ellen K.", location: "Haren", rating: 5, ratingDisplay: "★★★★★", text: "Heerlijke ontspanningsmassage gehad. Alianne neemt echt de tijd voor je en straalt zoveel rust uit. Ik kom hier zeker maandelijks terug." }
+          { id: 1, name: "Karin van der Veen", author: "Karin van der Veen", location: "Eelde", treatment: "Shiatsu & Massagetherapie", rating: 5, ratingDisplay: "★★★★★", date: "1 maand geleden", text: "Alianne heeft geweldige handen en voelt feilloos aan waar de spanning in mijn lichaam vastzit. Na een aantal behandelingen zijn mijn langdurige nek- en schouderklachten aanzienlijk verminderd. Een oase van rust!" },
+          { id: 2, name: "Jeroen de Vries", author: "Jeroen de Vries", location: "Groningen", treatment: "Dorn Methode & Massage", rating: 5, ratingDisplay: "★★★★★", date: "2 maanden geleden", text: "Vanwege rugklachten via de fysiotherapeut bij Alianne terechtgekomen voor de Dorn-methode. De zachte benadering en deskundigheid hebben me enorm geholpen. Zeer vakkundig en warm!" },
+          { id: 3, name: "Sandra Meijer", author: "Sandra Meijer", location: "Haren", treatment: "Voetreflexologie", rating: 5, ratingDisplay: "★★★★★", date: "3 maanden geleden", text: "De voetreflextherapie bij Massage Studio Eelde brengt me zoveel rust en nieuwe energie. Alianne luistert zonder oordeel en geeft waardevolle tips over leefstijl en de 5 natuurgerichte principes. Echt een aanrader!" },
+          { id: 4, name: "Monique Bouwman", author: "Monique Bouwman", location: "Paterswolde", treatment: "Bioslimming Kuur", rating: 5, ratingDisplay: "★★★★★", date: "Recent", text: "De Bioslimming behandelingen hebben mijn huid zichtbaar strakker en gladder gemaakt, en ik voel me veel lichter. De combinatie van detox en ontspanning is geweldig!" }
         ]
       },
       maibeauty: {
@@ -1502,11 +1507,20 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { id: "stralende-huid-tips", title: "5 Tips voor een gezonde, stralende huid in elk seizoen", url: "https://maibeautyenzo.pages.dev/blog" }
         ],
         reviews: [
-          { id: 1, name: "Marloes van der Meer", location: "Paterswolde", rating: 5, ratingDisplay: "★★★★★", text: "Wat een oase van rust! Aileen weet precies wat mijn huid nodig heeft. De 90 minuten behandeling in het sfeervolle kerkje is echt een aanrader!" },
-          { id: 2, name: "Sandra Hoekstra", location: "Eelde", rating: 5, ratingDisplay: "★★★★★", text: "Al jaren vaste klant voor pedicure en wenkbrauwen. Aileen werkt ontzettend vakkundig en hygiënisch." },
-          { id: 3, name: "Chantal de Vries", location: "Haren", rating: 5, ratingDisplay: "★★★★★", text: "Mijn bruidsmake-up laten doen bij Mai Beauty & zo. Het zat de hele dag prachtig en natuurlijk!" }
+          { id: 1, name: "Marloes van der Meer", author: "Marloes van der Meer", rating: 5, ratingDisplay: "★★★★★", date: "Recent", text: "Wat een oase van rust! Aileen weet precies wat mijn huid nodig heeft. De 90 minuten behandeling in het sfeervolle kerkje is echt een aanrader!", treatment: "Beauty Treatment 90 min" },
+          { id: 2, name: "Sandra Hoekstra", author: "Sandra Hoekstra", rating: 5, ratingDisplay: "★★★★★", date: "2 weken geleden", text: "Al jaren vaste klant voor pedicure en wenkbrauwen. Aileen werkt ontzettend vakkundig en hygiënisch. De Dr. Baumann producten hebben mijn gevoelige huid enorm geholpen.", treatment: "Pedicure & Wenkbrauwen" },
+          { id: 3, name: "Chantal de Vries", author: "Chantal de Vries", rating: 5, ratingDisplay: "★★★★★", date: "1 maand geleden", text: "Mijn bruidsmake-up laten doen bij Mai Beauty & zo. Het zat de hele dag prachtig en natuurlijk!", treatment: "Bruidsmake-up" },
+          { id: 4, name: "Ellen Brouwer", author: "Ellen Brouwer", rating: 5, ratingDisplay: "★★★★★", date: "2 maanden geleden", text: "Heerlijke gezichtsbehandeling gehad inclusief de massage met ijsbollen. Mijn huid straalde en voelde super zacht. Echt een kwaliteitszaak!", treatment: "Beauty Treatment & IJsbollen" }
         ]
       }
+    };
+
+    const clientPasswordMap = {
+      bitblox: "BitScorpio01!",
+      massagestudio: "Massage2026!",
+      voetreflextherapeut: "VRG2026!",
+      maibeauty: "MaiBeauty2026!",
+      autokampeerder: "Autokampeerder2026!"
     };
 
     function syncToolVisibility() {
@@ -1529,7 +1543,45 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       const conf = clientConfigs[clientId];
       if (!conf) return;
 
-      // 1. Direct Instant Fetch from GitHub REST API (Instant 0s, Zero Cache, Full CORS)
+      // 1. Direct Instant Live Fetch from Client Cloudflare KV API (Zero-Cache, Realtime CORS)
+      if (conf.pagesUrl) {
+        try {
+          const kvRes = await fetch(`${conf.pagesUrl}/api/content?all=true&_t=${Date.now()}`, { cache: 'no-store' });
+          if (kvRes.ok) {
+            const kvJson = await kvRes.json();
+            const data = kvJson.data || {};
+            if (data.reviews && Array.isArray(data.reviews)) {
+              conf.reviews = data.reviews;
+            }
+            if (data.announcement_text) {
+              conf.announcement = {
+                text: data.announcement_text,
+                badge: data.announcement_badge || 'ACTIE',
+                link: data.announcement_link || ''
+              };
+            }
+            if (data.module_whatsapp !== undefined) {
+              conf.switches.whatsapp = data.module_whatsapp === 'true' || data.module_whatsapp === true;
+            }
+            if (data.module_cookies !== undefined) {
+              conf.switches.cookies = data.module_cookies === 'true' || data.module_cookies === true;
+            }
+            if (data.module_callback !== undefined) {
+              conf.switches.callback = data.module_callback === 'true' || data.module_callback === true;
+            }
+            if (data.module_accessibility !== undefined) {
+              conf.switches.accessibility = data.module_accessibility === 'true' || data.module_accessibility === true;
+            }
+            if (data.announcement_enabled !== undefined) {
+              conf.switches.announcement = data.announcement_enabled === 'true' || data.announcement_enabled === true;
+            }
+          }
+        } catch(err) {
+          console.warn('Live client KV fetch error:', err);
+        }
+      }
+
+      // 2. Direct Instant Fetch from GitHub REST API (Fallback / Backup Sync)
       const token = localStorage.getItem('bitblox_gh_token') || AUTO_GH_TOKEN;
       const targetRepo = clientGithubRepoMap[clientId];
       if (targetRepo && token) {
@@ -1784,6 +1836,23 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         const initials = newName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
         r.initials = initials || 'G';
 
+        // Direct Cloudflare KV API Push
+        if (conf.pagesUrl && clientPasswordMap[currentSelectedClient]) {
+          try {
+            await fetch(`${conf.pagesUrl}/api/content`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                password: clientPasswordMap[currentSelectedClient],
+                key: 'reviews',
+                value: conf.reviews
+              })
+            });
+          } catch(e) {
+            console.warn('KV review edit sync error:', e);
+          }
+        }
+
         // Direct Cloud GitHub API Push
         const targetRepo = clientGithubRepoMap[currentSelectedClient];
         if (targetRepo) {
@@ -1878,6 +1947,21 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       const conf = clientConfigs[currentSelectedClient];
       conf.reviews.splice(index, 1);
       updateClientUI(currentSelectedClient);
+
+      // Direct Cloudflare KV API Delete / Update
+      if (conf.pagesUrl && clientPasswordMap[currentSelectedClient]) {
+        try {
+          await fetch(`${conf.pagesUrl}/api/content`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              password: clientPasswordMap[currentSelectedClient],
+              key: 'reviews',
+              value: conf.reviews
+            })
+          });
+        } catch (e) {}
+      }
 
       const targetRepo = clientGithubRepoMap[currentSelectedClient];
       if (targetRepo) {
@@ -2753,6 +2837,29 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
         syncToolVisibility();
 
+        // 0. Direct Cloudflare KV API Push (Realtime 0s Sync met Klantsite & Klant-Admin)
+        if (conf.pagesUrl && clientPasswordMap[currentSelectedClient]) {
+          try {
+            await fetch(`${conf.pagesUrl}/api/content`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                password: clientPasswordMap[currentSelectedClient],
+                bulk: {
+                  announcement_text: conf.announcement.text,
+                  announcement_badge: conf.announcement.badge,
+                  announcement_link: conf.announcement.link,
+                  announcement_enabled: conf.switches.announcement ? 'true' : 'false',
+                  module_whatsapp: conf.switches.whatsapp ? 'true' : 'false',
+                  module_cookies: conf.switches.cookies ? 'true' : 'false',
+                  module_callback: conf.switches.callback ? 'true' : 'false',
+                  module_accessibility: conf.switches.accessibility ? 'true' : 'false'
+                }
+              })
+            });
+          } catch(e) {}
+        }
+
         // 1. Direct Cloud GitHub API Push
         let ghPushed = false;
         const targetRepo = clientGithubRepoMap[currentSelectedClient];
@@ -3253,6 +3360,21 @@ ${storyVal}
             }
 
             currentReviews.unshift(jsonObj);
+
+            // Direct Cloudflare KV API Push
+            if (conf.pagesUrl && clientPasswordMap[currentSelectedClient]) {
+              try {
+                await fetch(`${conf.pagesUrl}/api/content`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    password: clientPasswordMap[currentSelectedClient],
+                    key: 'reviews',
+                    value: currentReviews
+                  })
+                });
+              } catch(e) {}
+            }
 
             ghPushed = await pushDirectToGitHub(
               targetRepo,
