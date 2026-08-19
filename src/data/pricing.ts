@@ -84,36 +84,54 @@ export const pricing = {
       name: "Basis Hosting & Domein",
       subtitle: "Betrouwbare en snelle online fundering",
       amount: 149,
-      unit: "per jaar (slechts €12,40 p/m)",
+      unit: "per jaar (slechts € 12,40 p/m)",
       features: [
-        "Zeer snelle Cloudflare Edge hosting (onder 0,2s)",
+        "Zeer snelle Cloudflare Edge Jamstack hosting (onder 0,2s)",
         "Jaarlijkse .NL domeinnaam registratie & DNS-beheer",
-        "Tot 3 zakelijke e-mailaccounts (5 GB opslag)",
+        "Zakelijke e-mailkoppeling & betrouwbare aflevering",
         "Automatisch SSL-beveiligingscertificaat (HTTPS)",
-        "Dagelijkse automatische cloud-backups",
-        "Basis contact- en offerteformulier"
+        "Dagelijkse automatische cloud-backups via Git",
+        "Basis contact- en offerteformulier (Resend Engine)"
       ]
     },
     {
       id: "zorgeloos-beheer",
-      name: "Zorgeloos Beveiliging & Conversie",
+      name: "Zorgeloos Bewaakt",
       featured: true,
-      subtitle: "Volledig ontzorgd, beveiligd en voorzien van actieve lead-functies",
-      amount: 245,
-      unit: "per jaar (slechts €20,40 p/m)",
-      roi: "De favoriete keuze voor 80% van onze klanten",
+      subtitle: "Actieve 24/7 bewaking, storingsalarm en inbegrepen support",
+      amount: 195,
+      unit: "per jaar (slechts € 16,25 p/m)",
+      roi: "De favoriete keuze voor 85% van onze klanten (slechts € 3,85 p/m extra)",
       features: [
-        "Alles uit Basis Hosting & Domein",
+        "Inclusief álles uit Basis Hosting & Domein",
         "24/7 Watchdog actieve uptime- & storingsbewaking",
-        "Enterprise Web Application Firewall & Cyberbeveiliging",
-        "Bel-Me-Terug interactieve widget met WhatsApp-notificatie",
-        "WhatsApp directe chatfunctionaliteit op mobiel & desktop",
-        "Slimme mededelingen- en topbanner voor acties",
-        "Toegankelijkheidstoolbar (tekstvergroting & hoog contrast)",
+        "Wijzigings- en homepage defacement scanner",
+        "Enterprise WAF firewall & botbescherming",
+        "Prioritaire storingsafhandeling bij incidenten",
         "Inbegrepen support bij tekst- of fotowijzigingen (30 min/kwartaal)"
       ]
     }
   ] as PricingPackage[],
+
+  conversion: {
+    id: "conversie-suite",
+    name: "Conversie & Interactie Suite",
+    subtitle: "Maakt van uw website een actieve klantenmagneet voor meer aanvragen en leads",
+    amount: 119,
+    unit: "per jaar (slechts € 9,95 p/m)",
+    featured: true,
+    roi: "1 extra afspraak of klant via WhatsApp en het pakket is voor het hele jaar terugverdiend",
+    features: [
+      "WhatsApp directe floating chat knop (mobiel & desktop)",
+      "Bel-Me-Terug interactieve quick widget (leads buiten kantoortijd)",
+      "Google Reviews carrousel met 1-klik klantbeheer",
+      "Slimme mededelingen- & actiebalk bovenaan (Top-Bar)",
+      "Veelgestelde vragen (FAQ) interactieve accordions",
+      "Toegankelijkheid & Dyslexie A11y toolbar (inclusief & compliant)",
+      "GEO Korte Samenvattingen (AI-answer capsules op pagina's)",
+      "Privacyvriendelijke live webstatistieken (zonder cookiewall)"
+    ]
+  } as PricingPackage,
 
   seo: [
     {
