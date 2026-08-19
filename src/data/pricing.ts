@@ -88,10 +88,9 @@ export const pricing = {
       features: [
         "Zeer snelle Cloudflare Edge Jamstack hosting (onder 0,2s)",
         "Jaarlijkse .NL domeinnaam registratie & DNS-beheer",
-        "Zakelijke e-mailkoppeling & betrouwbare aflevering",
+        "Tot 3 zakelijke e-mailaccounts (3 GB opslag)",
         "Automatisch SSL-beveiligingscertificaat (HTTPS)",
-        "Dagelijkse automatische cloud-backups via Git",
-        "Basis contact- en offerteformulier (Resend Engine)"
+        "Dagelijkse automatische cloud-backups via Git"
       ]
     },
     {
@@ -104,10 +103,10 @@ export const pricing = {
       roi: "De favoriete keuze voor 85% van onze klanten (slechts € 3,85 p/m extra)",
       features: [
         "Inclusief álles uit Basis Hosting & Domein",
+        "Tot 5 zakelijke e-mailaccounts (5 GB opslag)",
         "24/7 Watchdog actieve uptime- & storingsbewaking",
         "Wijzigings- en storingscontrole",
         "Actieve spam- & hackbeveiliging",
-        "Prioritaire storingsafhandeling bij incidenten",
         "Inbegrepen support bij tekst- of fotowijzigingen (30 min/kwartaal)"
       ]
     }
@@ -128,7 +127,7 @@ export const pricing = {
       "Slimme mededelingen- & actiebalk bovenaan (Top-Bar)",
       "Veelgestelde vragen (FAQ) interactieve accordions",
       "Toegankelijkheid & Dyslexie A11y toolbar (inclusief & compliant)",
-      "GEO Korte Samenvattingen (AI-answer capsules op pagina's)",
+      "Slimme cookiebanner & privacymelding (AVG-proof)",
       "Privacyvriendelijke live webstatistieken (zonder cookiewall)"
     ]
   } as PricingPackage,
