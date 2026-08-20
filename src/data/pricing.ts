@@ -107,6 +107,7 @@ export const pricing = {
         "Tot 5 zakelijke e-mailaccounts",
         "10 GB royale cloud-opslag",
         "24/7 Website Watchdog: dag en nacht actieve bereikbaarheidsbewaking",
+        "Actieve verkeers- & bezoekersmonitoring door BitbloX",
         "Automatische controle op fouten & ongewenste wijzigingen",
         "Actieve spam- & hackbeveiliging",
         "Inbegrepen support bij tekst- of fotowijzigingen (30 min/kwartaal)"
@@ -127,10 +128,11 @@ export const pricing = {
       "Bel-Me-Terug interactieve quick widget (leads buiten kantoortijd)",
       "Google Reviews carrousel met 1-klik klantbeheer",
       "Slimme mededelingen- & actiebalk bovenaan (Top-Bar)",
+      "Interactief contact- & offerteformulier (zonder irritante captcha's)",
+      "Interactieve Google Maps & directe routeplanner-koppeling",
       "Veelgestelde vragen (FAQ) interactieve accordions",
       "Toegankelijkheid & Dyslexie A11y toolbar (inclusief & compliant)",
-      "Slimme cookiebanner & privacymelding (AVG-proof)",
-      "Privacyvriendelijke live webstatistieken (zonder cookiewall)"
+      "Slimme AVG-cookiebanner & privacymelding (AVG-proof)"
     ]
   } as PricingPackage,
 
