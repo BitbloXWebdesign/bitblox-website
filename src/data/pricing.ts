@@ -188,12 +188,13 @@ export const pricing = {
       id: "microsite",
       name: "Extra Stedenpagina (Microsite)",
       subtitle: "Bereik klanten in omliggende steden en dorpen",
-      amount: 85,
-      unit: "eenmalig (of 3 voor €195,-)",
+      amount: 45,
+      unit: "eenmalig (3 voor € 95,- • 5 voor € 150,-)",
       features: [
-        "Gerichte landingspagina per stad (bijv. Webdesign Haren)",
-        "Unieke lokale zoekwoorden & teksten",
+        "Gerichte landingspagina per stad of dorp (bijv. Webdesign Haren)",
+        "Unieke lokale zoekwoorden, H1's & teksten",
         "Lokale Schema.org LocalBusiness data voor Google",
+        "Bundelvoordeel: 1 stad € 45,- • 3 steden € 95,- • 5 steden € 150,-",
         "Geen extra hostingkosten (binnen bestaand pakket)"
       ]
     },
