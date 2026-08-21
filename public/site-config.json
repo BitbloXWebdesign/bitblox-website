@@ -25,7 +25,10 @@
     "announcementBar": true,
     "callBack": true,
     "accessibility": true,
-    "monitoring": true
+    "monitoring": true,
+    "maps": true,
+    "googleMaps": true,
+    "shop": false
   },
   "announcement": {
     "badge": "UPDATE",

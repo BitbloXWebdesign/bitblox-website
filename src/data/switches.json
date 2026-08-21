@@ -22,6 +22,9 @@
   "announcementBar": true,
   "callBack": true,
   "monitoring": true,
+  "maps": true,
+  "googleMaps": true,
+  "shop": false,
   "announcementBadge": "UPDATE",
   "announcementText": "🚀 Nieuwe AI-Vindbaarheid (GEO) modules nu live voor ZZP & MKB websites!",
   "announcementLink": "/diensten/"
