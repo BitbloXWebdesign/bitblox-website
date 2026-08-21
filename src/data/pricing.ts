@@ -100,9 +100,9 @@ export const pricing = {
       name: "Zorgeloos Bewaakt",
       featured: true,
       subtitle: "Actieve 24/7 bewaking, storingsalarm en inbegrepen support",
-      amount: "16,25",
+      amount: "17,50",
       unit: "per maand",
-      roi: "De favoriete keuze voor 85% van onze klanten (slechts € 3,85 p/m extra)",
+      roi: "De favoriete keuze voor 85% van onze klanten (slechts € 5,10 p/m extra t.o.v. basis)",
       features: [
         "Inclusief álles uit Basis Hosting & Domein",
         "Tot 5 zakelijke e-mailaccounts",
