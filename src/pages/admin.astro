@@ -1611,7 +1611,41 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       const conf = clientConfigs[clientId];
       if (!conf) return;
 
-      // 1. Direct Instant Live Fetch from Client Cloudflare KV API (Zero-Cache, Realtime CORS)
+      // 1. Direct Instant Live Fetch from Client Static site-config.json (Zero-Cache, Public CDN)
+      const liveEndpoint = conf.pagesUrl || (conf.domain ? `https://${conf.domain}` : null);
+      if (liveEndpoint) {
+        try {
+          const cfgRes = await fetch(`${liveEndpoint}/site-config.json?_t=${Date.now()}`, { cache: 'no-store' });
+          if (cfgRes.ok) {
+            const liveConfig = await cfgRes.json();
+            if (liveConfig.modules) {
+              const m = liveConfig.modules;
+              conf.switches.blog = m.blog !== false;
+              conf.switches.seo = m.seo !== false;
+              conf.switches.geo = m.geo !== false && m.geoAiVindbaarheid !== false;
+              conf.switches.whatsapp = m.whatsapp !== false && m.whatsappWidget !== false;
+              conf.switches.microsites = m.microsites !== false && m.stedenMicrosites !== false;
+              conf.switches.reviews = m.reviews !== false && m.googleReviews !== false;
+              conf.switches.faq = m.faq !== false && m.faqSection !== false;
+              conf.switches.form = m.form !== false && m.contactForm !== false;
+              conf.switches.cookies = m.cookies !== false && m.cookieBanner !== false;
+              conf.switches.announcement = m.announcement === true || m.announcementBar === true;
+              conf.switches.accessibility = m.accessibility !== false;
+              conf.switches.callback = m.callback === true || m.callBack === true;
+              conf.switches.shop = m.shop === true;
+              conf.switches.maps = m.maps !== false && m.googleMaps !== false;
+              conf.switches.monitoring = m.monitoring !== false && m.watchdog !== false;
+            }
+            if (liveConfig.announcement) {
+              conf.announcement = { ...conf.announcement, ...liveConfig.announcement };
+            }
+          }
+        } catch(err) {
+          console.warn('Live site-config.json fetch notice:', err);
+        }
+      }
+
+      // 2. Direct Instant Live Fetch from Client Cloudflare KV API (Realtime Overrides)
       if (conf.pagesUrl) {
         try {
           const kvRes = await fetch(`${conf.pagesUrl}/api/content?all=true&_t=${Date.now()}`, { cache: 'no-store' });
@@ -1628,28 +1662,20 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
                 link: data.announcement_link || ''
               };
             }
-            if (data.module_whatsapp !== undefined) {
-              conf.switches.whatsapp = data.module_whatsapp === 'true' || data.module_whatsapp === true;
-            }
-            if (data.module_cookies !== undefined) {
-              conf.switches.cookies = data.module_cookies === 'true' || data.module_cookies === true;
-            }
-            if (data.module_callback !== undefined) {
-              conf.switches.callback = data.module_callback === 'true' || data.module_callback === true;
-            }
-            if (data.module_accessibility !== undefined) {
-              conf.switches.accessibility = data.module_accessibility === 'true' || data.module_accessibility === true;
-            }
-            if (data.announcement_enabled !== undefined) {
-              conf.switches.announcement = data.announcement_enabled === 'true' || data.announcement_enabled === true;
-            }
+            if (data.module_whatsapp !== undefined) conf.switches.whatsapp = data.module_whatsapp === 'true' || data.module_whatsapp === true;
+            if (data.module_cookies !== undefined) conf.switches.cookies = data.module_cookies === 'true' || data.module_cookies === true;
+            if (data.module_callback !== undefined) conf.switches.callback = data.module_callback === 'true' || data.module_callback === true;
+            if (data.module_accessibility !== undefined) conf.switches.accessibility = data.module_accessibility === 'true' || data.module_accessibility === true;
+            if (data.module_form !== undefined) conf.switches.form = data.module_form === 'true' || data.module_form === true;
+            if (data.module_maps !== undefined) conf.switches.maps = data.module_maps === 'true' || data.module_maps === true;
+            if (data.announcement_enabled !== undefined) conf.switches.announcement = data.announcement_enabled === 'true' || data.announcement_enabled === true;
           }
         } catch(err) {
-          console.warn('Live client KV fetch error:', err);
+          console.warn('Live client KV fetch notice:', err);
         }
       }
 
-      // 2. Direct Instant Fetch from GitHub REST API (Fallback / Backup Sync)
+      // 3. Direct Instant Fetch from GitHub REST API (Fallback / Backup Sync)
       const token = localStorage.getItem('bitblox_gh_token') || AUTO_GH_TOKEN;
       const targetRepo = clientGithubRepoMap[clientId];
       if (targetRepo && token) {
@@ -1664,14 +1690,20 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             const decoded = decodeURIComponent(escape(atob(getData.content.replace(/\s/g, ''))));
             const liveConfig = JSON.parse(decoded);
             if (liveConfig.modules) {
-              conf.switches = { ...conf.switches, ...liveConfig.modules };
+              const m = liveConfig.modules;
+              if (m.form !== undefined) conf.switches.form = m.form !== false && m.contactForm !== false;
+              if (m.maps !== undefined) conf.switches.maps = m.maps !== false && m.googleMaps !== false;
+              if (m.shop !== undefined) conf.switches.shop = m.shop === true;
+              if (m.whatsapp !== undefined) conf.switches.whatsapp = m.whatsapp !== false && m.whatsappWidget !== false;
+              if (m.callback !== undefined) conf.switches.callback = m.callback === true || m.callBack === true;
+              if (m.announcement !== undefined) conf.switches.announcement = m.announcement === true || m.announcementBar === true;
             }
             if (liveConfig.announcement) {
               conf.announcement = { ...conf.announcement, ...liveConfig.announcement };
             }
           }
         } catch(e) {
-          console.warn('GitHub live fetch error:', e);
+          console.warn('GitHub live fetch notice:', e);
         }
       }
 
