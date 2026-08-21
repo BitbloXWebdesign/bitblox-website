@@ -54,6 +54,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div style="position: relative;">
             <select id="clientSelectDropdown" style="background: #151824; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 8px; color: #fff; padding: 7px 32px 7px 14px; font-size: 0.92rem; font-weight: 700; cursor: pointer; appearance: none; -webkit-appearance: none;">
               <option value="bitblox" selected>🌐 BitbloX Webdesign (bitblox.nl)</option>
+              <option value="tuinstaalnoord">🛠️ Tuinstaal Noord (tuinstaalnoord.pages.dev)</option>
               <option value="maibeauty">🌸 Mai Beauty &amp; zo (maibeautyenzo.pages.dev)</option>
               <option value="massagestudio">💆 Massage Studio Eelde (massagestudioeelde.nl)</option>
               <option value="voetreflextherapeut">🌿 Voetreflextherapeut Groningen (voetreflextherapeutgroningen.nl)</option>
@@ -450,6 +451,14 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
                   <span style="font-size: 0.78rem; color: #94a3b8;">Online catalogus, winkelmandje &amp; checkout.</span>
                 </div>
                 <label class="switch"><input type="checkbox" id="toggleShop"><span class="slider"></span></label>
+              </div>
+
+              <div class="module-card">
+                <div style="flex: 1;">
+                  <strong style="display: block; color: #fff; font-size: 0.9rem; margin-bottom: 2px;">🗺️ Google Maps Locatiekaart</strong>
+                  <span style="font-size: 0.78rem; color: #94a3b8;">Interactieve route- en locatiekaart op contactpagina.</span>
+                </div>
+                <label class="switch"><input type="checkbox" id="toggleMaps" checked><span class="slider"></span></label>
               </div>
 
               <div class="module-card">
@@ -1162,6 +1171,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const toggleAccessibility = document.getElementById('toggleAccessibility');
     const toggleCallback = document.getElementById('toggleCallback');
     const toggleShop = document.getElementById('toggleShop');
+    const toggleMaps = document.getElementById('toggleMaps');
     const toggleMonitoring = document.getElementById('toggleMonitoring');
     const monitoringStatusBox = document.getElementById('monitoringStatusBox');
     const watchdogHttpStatus = document.getElementById('watchdogHttpStatus');
@@ -1490,7 +1500,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { date: "16 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 },
           { date: "17 Aug (Vandaag Live)", google: 18, ai: 5, blueY: 24, goldY: 55 }
         ],
-        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true, cookies: true, announcement: true, accessibility: true, callback: true, shop: true },
+        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: false, cookies: true, announcement: true, accessibility: true, callback: true, shop: true, maps: true, monitoring: true },
         announcement: {
           badge: "ACTIE",
           text: "🌸 Welkom bij Mai Beauty & zo! Boek online uw behandeling of ontdek Dr. Baumann skincare in de shop.",
@@ -1512,11 +1522,69 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           { id: 3, name: "Chantal de Vries", author: "Chantal de Vries", rating: 5, ratingDisplay: "★★★★★", date: "1 maand geleden", text: "Mijn bruidsmake-up laten doen bij Mai Beauty & zo. Het zat de hele dag prachtig en natuurlijk!", treatment: "Bruidsmake-up" },
           { id: 4, name: "Ellen Brouwer", author: "Ellen Brouwer", rating: 5, ratingDisplay: "★★★★★", date: "2 maanden geleden", text: "Heerlijke gezichtsbehandeling gehad inclusief de massage met ijsbollen. Mijn huid straalde en voelde super zacht. Echt een kwaliteitszaak!", treatment: "Beauty Treatment & IJsbollen" }
         ]
+      },
+      tuinstaalnoord: {
+        name: "Tuinstaal Noord",
+        domain: "tuinstaalnoord.nl",
+        pagesUrl: "https://tuinstaalnoord.pages.dev",
+        metrics: { 
+          mobile: "99", 
+          mobileTime: "0.22s", 
+          desktop: "100", 
+          desktopTime: "0.12s", 
+          geo: "96", 
+          geoLabel: "Actief", 
+          edgeCache: "98.1%",
+          totalVisitors: "245",
+          totalPageviews: "1.120"
+        },
+        wave: {
+          blueWave: "M 0,85 Q 50,35 100,55 T 200,28 T 300,45 T 400,18 T 500,40 L 500,120 L 0,120 Z",
+          blueLine: "M 0,85 Q 50,35 100,55 T 200,28 T 300,45 T 400,18 T 500,40",
+          goldWave: "M 0,108 Q 60,88 120,92 T 220,68 T 320,60 T 420,38 T 500,32 L 500,120 L 0,120 Z",
+          goldLine: "M 0,108 Q 60,88 120,92 T 220,68 T 320,60 T 420,38 T 500,32"
+        },
+        sources: [
+          { label: "Google (Stalen Tuinmeubelen)", pct: 72, count: "176 bezoekers" },
+          { label: "AI Search / Overkappingen", pct: 18, count: "44 zoekers" },
+          { label: "Direct Verkeer", pct: 10, count: "25 hits" }
+        ],
+        dailyData: [
+          { date: "1 Aug", google: 10, ai: 2, blueY: 85, goldY: 108 },
+          { date: "2 Aug", google: 14, ai: 3, blueY: 70, goldY: 100 },
+          { date: "3 Aug", google: 18, ai: 4, blueY: 60, goldY: 95 },
+          { date: "4 Aug", google: 22, ai: 5, blueY: 40, goldY: 88 },
+          { date: "5 Aug", google: 20, ai: 4, blueY: 50, goldY: 92 },
+          { date: "6 Aug", google: 25, ai: 6, blueY: 35, goldY: 82 },
+          { date: "7 Aug", google: 28, ai: 7, blueY: 28, goldY: 75 },
+          { date: "8 Aug", google: 26, ai: 6, blueY: 38, goldY: 72 },
+          { date: "9 Aug", google: 30, ai: 8, blueY: 30, goldY: 68 },
+          { date: "10 Aug", google: 32, ai: 9, blueY: 25, goldY: 60 },
+          { date: "11 Aug", google: 29, ai: 8, blueY: 32, goldY: 52 },
+          { date: "12 Aug", google: 35, ai: 10, blueY: 20, goldY: 44 },
+          { date: "13 Aug", google: 33, ai: 9, blueY: 24, goldY: 40 },
+          { date: "14 Aug (Vandaag)", google: 38, ai: 11, blueY: 16, goldY: 34 }
+        ],
+        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true, cookies: true, announcement: false, accessibility: true, callback: true, shop: false, maps: true, monitoring: true },
+        announcement: {
+          badge: "NIEUW",
+          text: "Welkom bij Tuinstaal Noord! Bekijk onze stalen tuinmeubelen en overkappingen.",
+          link: "/contact/"
+        },
+        microsites: [
+          { name: "Groningen", url: "https://tuinstaalnoord.pages.dev/regio/groningen/", slug: "groningen" },
+          { name: "Assen", url: "https://tuinstaalnoord.pages.dev/regio/assen/", slug: "assen" }
+        ],
+        blogs: [],
+        reviews: [
+          { id: 1, name: "Jan de Boer", author: "Jan de Boer", rating: 5, ratingDisplay: "★★★★★", date: "Recent", text: "Prachtige stalen tuintafel op maat laten maken. Vakmanschap en snelle levering!" }
+        ]
       }
     };
 
     const clientPasswordMap = {
       bitblox: "BitScorpio01!",
+      tuinstaalnoord: "Tuinstaal2026!",
       massagestudio: "Massage2026!",
       voetreflextherapeut: "VRG2026!",
       maibeauty: "MaiBeauty2026!",
@@ -1630,6 +1698,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       if (toggleAccessibility) toggleAccessibility.checked = conf.switches.accessibility !== undefined ? conf.switches.accessibility : true;
       if (toggleCallback) toggleCallback.checked = conf.switches.callback !== undefined ? conf.switches.callback : false;
       if (toggleShop) toggleShop.checked = conf.switches.shop !== undefined ? conf.switches.shop : false;
+      if (toggleMaps) toggleMaps.checked = conf.switches.maps !== undefined ? conf.switches.maps : true;
       if (toggleMonitoring) toggleMonitoring.checked = conf.switches.monitoring !== undefined ? conf.switches.monitoring : true;
       if (monitoringStatusBox) monitoringStatusBox.style.opacity = (conf.switches.monitoring !== false) ? '1' : '0.4';
 
@@ -2311,6 +2380,22 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         notes: "Centraal Enterprise Command Center & Mail Engine (Resend noreply@bitblox.nl)"
       },
       {
+        id: "tuinstaalnoord",
+        name: "Tuinstaal Noord",
+        domain: "tuinstaalnoord.nl",
+        portalUrl: "https://tuinstaalnoord.pages.dev/admin",
+        username: "admin",
+        password: "Tuinstaal2026!",
+        contact: "Tuinstaal Noord",
+        phone: "06 - 12 34 56 78",
+        email: "info@tuinstaalnoord.nl",
+        cfProject: "tuinstaalnoord",
+        kvNamespace: "TUINSTAALNOORD_CONTENT (CONTENT_KV)",
+        githubRepo: "BitbloXWebdesign/tuinstaalnoord",
+        status: "live",
+        notes: "Stalen tuinmeubelen, overkappingen en maatwerk staal."
+      },
+      {
         id: "massagestudio",
         name: "Massage Studio Eelde",
         domain: "massagestudioeelde.nl",
@@ -2744,6 +2829,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
     const clientGithubRepoMap = {
       bitblox: "BitbloXWebdesign/bitblox-website",
+      tuinstaalnoord: "BitbloXWebdesign/tuinstaalnoord",
       maibeauty: "BitbloXWebdesign/Maibeautyenzo",
       massagestudio: "BitbloXWebdesign/massagestudioeelde",
       voetreflextherapeut: "BitbloXWebdesign/voetreflextherapeut-groningen",
@@ -2820,6 +2906,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         conf.switches.accessibility = toggleAccessibility ? toggleAccessibility.checked : false;
         conf.switches.callback = toggleCallback ? toggleCallback.checked : false;
         conf.switches.shop = toggleShop ? toggleShop.checked : false;
+        conf.switches.maps = toggleMaps ? toggleMaps.checked : true;
         conf.switches.monitoring = toggleMonitoring ? toggleMonitoring.checked : true;
         conf.alertEmail = watchdogAlertEmail ? watchdogAlertEmail.value.trim() : 'info@bitblox.nl';
 
@@ -2853,7 +2940,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
                   module_whatsapp: conf.switches.whatsapp ? 'true' : 'false',
                   module_cookies: conf.switches.cookies ? 'true' : 'false',
                   module_callback: conf.switches.callback ? 'true' : 'false',
-                  module_accessibility: conf.switches.accessibility ? 'true' : 'false'
+                  module_accessibility: conf.switches.accessibility ? 'true' : 'false',
+                  module_form: conf.switches.form ? 'true' : 'false',
+                  module_maps: conf.switches.maps ? 'true' : 'false'
                 }
               })
             });
@@ -2871,6 +2960,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             announcement: conf.announcement,
             modules: {
               ...conf.switches,
+              maps: conf.switches.maps,
+              googleMaps: conf.switches.maps,
               whatsappWidget: conf.switches.whatsapp,
               geoAiVindbaarheid: conf.switches.geo,
               stedenMicrosites: conf.switches.microsites,
