@@ -77,6 +77,31 @@ import switches from '../data/switches.json';
             </div>
           </div>
         )}
+
+        {switches.maps !== false && (
+          <div style="grid-column: 1 / -1; margin-top: 20px;">
+            <div class="card" style="padding: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 10px 10px; border-bottom: 1px solid var(--border); margin-bottom: 10px;">
+                <span style="font-size: 0.88rem; color: #fff; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                  🗺️ Werkgebied &amp; Kantoor Assen
+                </span>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Assen,+Drenthe" target="_blank" rel="noopener noreferrer" style="font-size: 0.78rem; color: var(--gold); text-decoration: none;">
+                  Routebeschrijving ↗
+                </a>
+              </div>
+              <iframe
+                title="Google Maps BitbloX Webdesign Assen"
+                src="https://maps.google.com/maps?q=Assen%2C%20Drenthe&t=&z=12&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="320"
+                style="border:0; border-radius: 6px; display: block;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   </section>
