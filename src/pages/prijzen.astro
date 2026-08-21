@@ -85,7 +85,7 @@ import { pricing } from '../data/pricing';
               <div class="price-amount">
                 <span class="currency">€</span>
                 <span class="amount">{item.amount}</span>
-                <span class="per">{item.unit} <br/><small style="font-size: 0.72rem; color: var(--muted);">(excl. btw • 2 mnd opzegtermijn)</small></span>
+                <span class="per">{item.unit} <br/><small style="font-size: 0.72rem; color: var(--muted);">(jaarlijks gefactureerd • excl. btw)</small></span>
               </div>
               <ul class="price-features">
                 {item.features.map((feat) => (
@@ -120,7 +120,7 @@ import { pricing } from '../data/pricing';
             <div class="price-amount" style="margin: 0;">
               <span class="currency">€</span>
               <span class="amount">{pricing.conversion.amount}</span>
-              <span class="per">{pricing.conversion.unit} <br/><small style="font-size: 0.72rem; color: var(--muted);">(past op beide hostings)</small></span>
+              <span class="per">{pricing.conversion.unit} <br/><small style="font-size: 0.72rem; color: var(--muted);">(jaarlijks gefactureerd • excl. btw)</small></span>
             </div>
           </div>
 
@@ -151,30 +151,30 @@ import { pricing } from '../data/pricing';
             <thead>
               <tr style="border-bottom: 1px solid var(--border-gold); color: var(--gold);">
                 <th style="padding: 10px 12px;">Gekozen combinatie</th>
-                <th style="padding: 10px 12px;">Per maand (p/m)</th>
-                <th style="padding: 10px 12px; text-align: right;">Per jaar (excl. btw)</th>
+                <th style="padding: 10px 12px;">Tarief</th>
+                <th style="padding: 10px 12px; text-align: right;">Facturatie</th>
               </tr>
             </thead>
             <tbody>
               <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
                 <td style="padding: 12px;">Alleen Basis Hosting &amp; Domein</td>
-                <td style="padding: 12px; font-weight: 600; color: #fff;">€ 12,40 p/m</td>
-                <td style="padding: 12px; text-align: right; color: var(--muted);">€ 149,- / jaar</td>
+                <td style="padding: 12px; font-weight: 600; color: #fff;">€ 12,40 / mnd</td>
+                <td style="padding: 12px; text-align: right; color: var(--muted);">Jaarlijks gefactureerd</td>
               </tr>
               <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
                 <td style="padding: 12px;">Alleen Zorgeloos Bewaakt (incl. 24/7 Watchdog &amp; support)</td>
-                <td style="padding: 12px; font-weight: 600; color: #fff;">€ 16,25 p/m</td>
-                <td style="padding: 12px; text-align: right; color: var(--muted);">€ 195,- / jaar</td>
+                <td style="padding: 12px; font-weight: 600; color: #fff;">€ 16,25 / mnd</td>
+                <td style="padding: 12px; text-align: right; color: var(--muted);">Jaarlijks gefactureerd</td>
               </tr>
               <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
                 <td style="padding: 12px;">Basis Hosting + Conversie &amp; Interactie Suite</td>
-                <td style="padding: 12px; font-weight: 600; color: #fff;">€ 22,35 p/m</td>
-                <td style="padding: 12px; text-align: right; color: var(--muted);">€ 268,- / jaar</td>
+                <td style="padding: 12px; font-weight: 600; color: #fff;">€ 22,35 / mnd</td>
+                <td style="padding: 12px; text-align: right; color: var(--muted);">Jaarlijks gefactureerd</td>
               </tr>
               <tr style="background: rgba(222, 193, 72, 0.08); font-weight: 700;">
                 <td style="padding: 12px; color: var(--gold);">⭐ Zorgeloos Bewaakt + Conversie Suite (All-in Favoriet)</td>
-                <td style="padding: 12px; color: var(--gold);">€ 26,20 p/m</td>
-                <td style="padding: 12px; text-align: right; color: var(--gold);">€ 314,- / jaar</td>
+                <td style="padding: 12px; color: var(--gold);">€ 26,20 / mnd</td>
+                <td style="padding: 12px; text-align: right; color: var(--gold);">Jaarlijks gefactureerd</td>
               </tr>
             </tbody>
           </table>
@@ -190,7 +190,7 @@ import { pricing } from '../data/pricing';
       <div class="section-head reveal" style="margin-bottom: 48px;">
         <span class="kicker">Pijler 3 — SEO Onderhoud &amp; Frequenties (Excl. BTW)</span>
         <h2>Vindbaarheid <span class="gold">onderhoud &amp; groei</span></h2>
-        <p class="lead">Laat uw zoekmachine- en AI-posities periodiek bijsturen en optimaliseren. Prijzen excl. btw, per jaar gefactureerd met 2 maanden opzegtermijn.</p>
+        <p class="lead">Laat uw zoekmachine- en AI-posities periodiek bijsturen en optimaliseren. Prijzen excl. btw, per maand met jaarlijkse facturatie en 2 maanden opzegtermijn.</p>
       </div>
 
       <div class="grid grid--3">
@@ -204,7 +204,7 @@ import { pricing } from '../data/pricing';
             <div class="price-amount">
               <span class="currency">€</span>
               <span class="amount">{item.amount}</span>
-              <span class="per">{item.unit} <br/><small style="font-size: 0.72rem; color: var(--muted);">(excl. btw • 2 mnd opzegtermijn)</small></span>
+              <span class="per">{item.unit} <br/><small style="font-size: 0.72rem; color: var(--muted);">(jaarlijks gefactureerd • excl. btw)</small></span>
             </div>
             <ul class="price-features">
               {item.features.map((feat) => (
