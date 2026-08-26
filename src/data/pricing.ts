@@ -82,36 +82,36 @@ export const pricing = {
     {
       id: "basis-hosting",
       name: "Basis Hosting & Domein",
-      subtitle: "Betrouwbare en snelle online fundering",
+      subtitle: "De betrouwbare en snelle technische fundering",
       amount: "12,40",
       unit: "per maand",
       roi: "Volledige ontzorging van domeinnaam, cloud hosting en zakelijke e-mail",
       features: [
-        "Supersnelle cloud hosting (onder 0,2s)",
+        "Supersnelle cloud hosting (onder 0,2s laadtijd)",
         "Jaarlijkse .NL domeinnaam registratie/verlenging & DNS-beheer",
-        "Tot 3 zakelijke e-mailaccounts (bijv. info@)",
+        "Zakelijke e-mailaccounts (bijv. info@uwbedrijf.nl)",
         "3 GB cloud-opslag",
         "Automatisch SSL-beveiligingscertificaat (HTTPS)",
-        "Dagelijkse automatische cloud-backups"
+        "Dagelijkse automatische cloud-backups",
+        "Support via e-mail (wijzigingen op basis van uurtarief)"
       ]
     },
     {
       id: "zorgeloos-beheer",
       name: "Zorgeloos Bewaakt",
       featured: true,
-      subtitle: "Actieve 24/7 bewaking, storingsalarm en inbegrepen support",
-      amount: "17,50",
+      subtitle: "Inclusief wijzigingsservice, korte lijnen & 24/7 bewaking",
+      amount: "16,25",
       unit: "per maand",
-      roi: "De favoriete keuze voor 85% van onze klanten (slechts € 5,10 p/m extra t.o.v. basis)",
+      roi: "1 kleine wijziging en het verschil met Basis (€ 3,85 p/m) is direct terugverdiend",
       features: [
         "Inclusief álles uit Basis Hosting & Domein",
-        "Tot 5 zakelijke e-mailaccounts",
-        "10 GB royale cloud-opslag",
-        "24/7 Website Watchdog: dag en nacht actieve bereikbaarheidsbewaking",
+        "Inclusief Kleine Wijzigingen Service (kosteloos teksten, foto's of tarieven aanpassen)",
+        "Korte lijnen via WhatsApp & e-mail (altijd een vast aanspreekpunt)",
+        "10 GB royale cloud-opslag & tot 5 e-mailaccounts",
+        "24/7 Website Watchdog: actieve storings- & bereikbaarheidsbewaking",
         "Actieve verkeers- & bezoekersmonitoring door BitbloX",
-        "Automatische controle op fouten & ongewenste wijzigingen",
-        "Actieve spam- & hackbeveiliging",
-        "Inbegrepen support bij tekst- of fotowijzigingen (30 min/kwartaal)"
+        "Geen onverwachte uurtarief-facturen voor klein onderhoud"
       ]
     }
   ] as PricingPackage[],
