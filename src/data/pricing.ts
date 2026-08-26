@@ -101,9 +101,9 @@ export const pricing = {
       name: "Zorgeloos Bewaakt",
       featured: true,
       subtitle: "Inclusief wijzigingsservice, korte lijnen & 24/7 bewaking",
-      amount: "16,25",
+      amount: "17,50",
       unit: "per maand",
-      roi: "1 kleine wijziging en het verschil met Basis (€ 3,85 p/m) is direct terugverdiend",
+      roi: "De favoriete keuze voor 85% van onze klanten (slechts € 5,10 p/m extra t.o.v. basis)",
       features: [
         "Inclusief álles uit Basis Hosting & Domein",
         "Inclusief Kleine Wijzigingen Service (kosteloos teksten, foto's of tarieven aanpassen)",
