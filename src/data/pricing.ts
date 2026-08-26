@@ -87,13 +87,13 @@ export const pricing = {
       unit: "per maand",
       roi: "Volledige ontzorging van domeinnaam, cloud hosting en zakelijke e-mail",
       features: [
-        "Supersnelle cloud hosting (onder 0,2s laadtijd)",
-        "Jaarlijkse .NL domeinnaam registratie/verlenging & DNS-beheer",
-        "Zakelijke e-mailaccounts (bijv. info@uwbedrijf.nl)",
+        "Supersnelle cloud hosting op Cloudflare",
+        "Jaarlijkse .NL domeinnaam & DNS-beheer",
+        "Zakelijke e-mailaccounts (bijv. info@)",
         "3 GB cloud-opslag",
-        "Automatisch SSL-beveiligingscertificaat (HTTPS)",
+        "Automatisch SSL-beveiligingscertificaat",
         "Dagelijkse automatische cloud-backups",
-        "Support via e-mail (wijzigingen op basis van uurtarief)"
+        "Support via e-mail (wijzigingen op uurtarief)"
       ]
     },
     {
@@ -103,15 +103,16 @@ export const pricing = {
       subtitle: "Inclusief wijzigingsservice, korte lijnen & 24/7 bewaking",
       amount: "17,50",
       unit: "per maand",
-      roi: "De favoriete keuze voor 85% van onze klanten (slechts € 5,10 p/m extra t.o.v. basis)",
+      roi: "De favoriete keuze voor 85% van onze klanten (slechts € 5,10 p/m extra)",
       features: [
         "Inclusief álles uit Basis Hosting & Domein",
-        "Inclusief Kleine Wijzigingen Service (kosteloos teksten, foto's of tarieven aanpassen)",
-        "Korte lijnen via WhatsApp & e-mail (altijd een vast aanspreekpunt)",
-        "10 GB royale cloud-opslag & tot 5 e-mailaccounts",
-        "24/7 Website Watchdog: actieve storings- & bereikbaarheidsbewaking",
-        "Actieve verkeers- & bezoekersmonitoring door BitbloX",
-        "Geen onverwachte uurtarief-facturen voor klein onderhoud"
+        "Inclusief Kleine Wijzigingen Service",
+        "Korte lijnen via WhatsApp & e-mail",
+        "Vakantie- & actiemeldingen instelservice",
+        "Foto- en beeldoptimalisatie bij aanlevering",
+        "24/7 Website Watchdog actieve storingsbewaking",
+        "Beveiligd cloud-archief met versiehistorie",
+        "Geen onverwachte facturen voor klein beheer"
       ]
     }
   ] as PricingPackage[],
