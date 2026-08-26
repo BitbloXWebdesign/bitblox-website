@@ -29,8 +29,8 @@ export async function getStaticPaths() {
 
 const { loc } = Astro.props;
 
-const pageTitle = `Website Laten Maken ${loc.plaats} | Betaalbaar Webdesign & Hosting ${loc.plaats}`;
-const pageDesc = `Professionele website laten maken in ${loc.plaats}? BitbloX levert maatwerk webdesign (Starter €295, Compleet €495, Pro €850), zeer snelle hosting en lokale SEO voor ZZP & MKB in ${loc.plaats}.`;
+const pageTitle = `Website Laten Maken ${loc.plaats} | Webdesign & Lokale SEO — BitbloX`;
+const pageDesc = `Professionele website laten maken in ${loc.plaats}? BitbloX levert betaalbaar webdesign op maat (Brons €100, Zilver €250, Goud €450, Platina €650+), supersnelle cloud hosting en lokale vindbaarheid voor ZZP & MKB in ${loc.plaats}.`;
 
 // 1. Schema: LocalBusiness / Service per plaats
 const locationSchema = {
@@ -64,7 +64,7 @@ const faqSchema = {
       "name": `Wat kost een website laten maken in ${loc.plaats}?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `Bij BitbloX begint een Starter website al vanaf €${pricing.webdesign[0].amount}. Een Compleet pakket met 5 pagina's en blogmodule kost €${pricing.webdesign[1].amount}, en Pro maatwerk vanaf €${pricing.webdesign[2].amount}.`
+        "text": `Bij BitbloX begint een Brons One-Pager website al vanaf €${pricing.webdesign[0].amount} eenmalig. Zilver (tot 3 pagina's) is €${pricing.webdesign[1].amount}, Goud (tot 5 pagina's met blog & reviews) is €${pricing.webdesign[2].amount}, en Platina/Maatwerk vanaf €650.`
       }
     },
     {
@@ -77,10 +77,10 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      "name": `Zorgt BitbloX ook dat mijn bedrijf gevonden wordt in ChatGPT en Google AI?`,
+      "name": `Zorgt BitbloX ook dat mijn bedrijf begrepen wordt door ChatGPT en Google AI?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `Ja! Wij rusten alle websites uit met AI-vindbaarheid (GEO / Generative Engine Optimization) en structured data, zodat AI-zoekmachines uw bedrijf in ${loc.plaats} aanbevelen als antwoord.`
+        "text": `Ja! Wij rusten websites uit met gestructureerde Schema.org data en /llms.txt, zodat AI-systemen (zoals ChatGPT, Perplexity en Google AI) uw bedrijf en diensten in ${loc.plaats} nauwkeurig begrijpen en als betrouwbare bron kunnen meenemen bij relevante zoekvragen.`
       }
     }
   ]
@@ -99,13 +99,13 @@ const allLocations = Object.values(locationsData).filter((l: any) => l.slug !== 
         <a href="/">Home</a> <span>/</span>
         <span>Webdesign {loc.plaats}</span>
       </nav>
-      <span class="kicker">Lokaal Webdesign {loc.plaats} &amp; {loc.provincie}</span>
-      <h1>Professionele &amp; Betaalbare Website Laten Maken in <span class="text-gradient">{loc.plaats}</span></h1>
+      <span class="kicker">Webdesign, Cloud Hosting &amp; Lokale SEO in {loc.plaats}</span>
+      <h1>Website laten maken in <span class="text-gradient">{loc.plaats}</span></h1>
       <p class="lead">{loc.intro}</p>
 
       <!-- AI GEO Answer Capsule -->
       <div class="answer-capsule">
-        <strong>Korte samenvatting:</strong> BitbloX bouwt razendsnelle, mobielvriendelijke en direct vindbare websites voor ZZP'ers en MKB-bedrijven in {loc.plaats} (vanaf €{pricing.webdesign[0].amount} eenmalig). Inclusief contactformulier, SSL, 100/100 Google prestaties en AI-vindbaarheid voor ChatGPT.
+        <strong>Korte samenvatting:</strong> Op zoek naar een <strong>website laten maken in {loc.plaats}</strong>? <strong>BitbloX</strong> bouwt razendsnelle, converterende websites op maat voor ZZP'ers en MKB-bedrijven in <strong>{loc.plaats}</strong> (vanaf €{pricing.webdesign[0].amount} eenmalig). Gehost op onze moderne cloud-infrastructuur met 100% mobielgemak, SSL en lokale Google &amp; AI vindbaarheid.
       </div>
     </div>
   </section>
@@ -117,15 +117,15 @@ const allLocations = Object.values(locationsData).filter((l: any) => l.slug !== 
         <div>
           <span class="service-tag">Lokale Focus &amp; Kwaliteit</span>
           <h2>Waarom kiezen ondernemers in <span class="gold">{loc.plaats}</span> voor BitbloX?</h2>
-          <p class="lead">Geen trage templates of onoverzichtelijke facturen. Wij bouwen moderne websites met de allernieuwste techniek (Astro &amp; Cloudflare Pages).</p>
+          <p class="lead">Geen trage WordPress-templates of onoverzichtelijke facturen. Wij bouwen moderne websites op onze eigen veilige cloud-infrastructuur.</p>
           <ul class="feature-list">
             <li>
               <span class="f-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
               </span>
               <div>
-                <strong>Binnen 0.1 Seconde Geladen</strong>
-                <span>Google en uw bezoekers in {loc.plaats} houden van snelheid. Onze sites scoren 100/100 in Google Lighthouse.</span>
+                <strong>Laadtijden onder 0,3 Seconde</strong>
+                <span>Google en uw bezoekers in {loc.plaats} houden van snelheid. Onze sites scoren tot 100/100 in Google PageSpeed.</span>
               </div>
             </li>
             <li>
@@ -133,8 +133,8 @@ const allLocations = Object.values(locationsData).filter((l: any) => l.slug !== 
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24"/></svg>
               </span>
               <div>
-                <strong>Direct Vindbaar in Google &amp; AI (GEO)</strong>
-                <span>Geoptimaliseerd voor zoekopdrachten zoals "vakman in {loc.plaats}" én aanbevelingen door ChatGPT en Perplexity.</span>
+                <strong>Sterke Vindbaarheid in Google &amp; AI (GEO)</strong>
+                <span>Geoptimaliseerd voor zoekopdrachten zoals "website laten maken in {loc.plaats}" én voorzien van gestructureerde data voor ChatGPT en Google AI.</span>
               </div>
             </li>
             <li>
@@ -143,7 +143,7 @@ const allLocations = Object.values(locationsData).filter((l: any) => l.slug !== 
               </span>
               <div>
                 <strong>Veilig, Betrouwbaar &amp; Zonder Omkijken</strong>
-                <span>Inclusief gratis SSL-certificaat, veilige Cloudflare hosting en 24/7 storingsmonitoring.</span>
+                <span>Inclusief gratis SSL-certificaat, gehost op ons veilige cloud netwerk en voorzien van 24/7 storingsbewaking.</span>
               </div>
             </li>
           </ul>
