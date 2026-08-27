@@ -226,6 +226,20 @@ export const pricing = {
         "Inclusief passende afbeelding, tussenkopjes en interne links",
         "Direct gepubliceerd op uw website"
       ]
+    },
+    {
+      id: "email-storage",
+      name: "Extra E-mail & Opslag Booster",
+      subtitle: "Flexibel uitbreiden bij zware bijlagen en archief",
+      amount: "2,95",
+      unit: "per maand (+5 GB • of +10 GB voor € 4,95 p/m)",
+      features: [
+        "Direct extra opslagruimte voor al uw zakelijke e-mailadressen",
+        "Ruimte voor zware PDF-offertes, facturen en foto-bijlagen",
+        "Flexibele keuze: +5 GB (€ 2,95 p/m) of +10 GB (€ 4,95 p/m)",
+        "Of kies Zorgeloos Bewaakt (10 GB opslag + all-in beheer)",
+        "Direct geactiveerd zonder e-mailonderbreking"
+      ]
     }
   ] as PricingPackage[]
 };
