@@ -1705,6 +1705,25 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         } catch(e) {
           console.warn('GitHub live fetch notice:', e);
         }
+
+        // Live Reviews fetch from GitHub
+        try {
+          const revUrl = `https://api.github.com/repos/${targetRepo}/contents/src/data/reviews.json?t=${Date.now()}`;
+          const revRes = await fetch(revUrl, {
+            headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' },
+            cache: 'no-store'
+          });
+          if (revRes.ok) {
+            const revData = await revRes.json();
+            const decodedRev = decodeURIComponent(escape(atob(revData.content.replace(/\s/g, ''))));
+            const parsedRev = JSON.parse(decodedRev);
+            if (Array.isArray(parsedRev) && parsedRev.length > 0) {
+              conf.reviews = parsedRev;
+            }
+          }
+        } catch(e) {
+          console.warn('GitHub reviews fetch notice:', e);
+        }
       }
 
       if (switchesClientName) switchesClientName.textContent = conf.name;
@@ -2868,6 +2887,15 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       autokampeerder: "BitbloXWebdesign/deautokampeerder"
     };
 
+    const clientPasswordMap = {
+      bitblox: "BitbloX2026!",
+      tuinstaalnoord: "Tuinstaal2026!",
+      maibeauty: "MaiBeauty2026!",
+      massagestudio: "Massage2026!",
+      voetreflextherapeut: "VRG2026!",
+      autokampeerder: "Autokampeerder2026!"
+    };
+
     async function pushDirectToGitHub(repo, filePath, contentString, commitMsg) {
       const token = localStorage.getItem('bitblox_gh_token') || AUTO_GH_TOKEN;
       if (!token) return false;
@@ -3457,7 +3485,7 @@ ${storyVal}
           date: 'Google Beoordeling'
         };
 
-        const reviewJsonString = JSON.stringify(jsonObj, null, 2);
+        const conf = clientConfigs[currentSelectedClient] || clientConfigs.bitblox;
 
         saveReviewBtn.textContent = '⏳ Opslaan & Publiceren...';
         saveReviewBtn.disabled = true;
@@ -3482,10 +3510,11 @@ ${storyVal}
               } catch (e) {}
             }
 
+            // Unshift new review to the front
             currentReviews.unshift(jsonObj);
 
             // Direct Cloudflare KV API Push
-            if (conf.pagesUrl && clientPasswordMap[currentSelectedClient]) {
+            if (conf && conf.pagesUrl && clientPasswordMap[currentSelectedClient]) {
               try {
                 await fetch(`${conf.pagesUrl}/api/content`, {
                   method: 'POST',
@@ -3496,7 +3525,9 @@ ${storyVal}
                     value: currentReviews
                   })
                 });
-              } catch(e) {}
+              } catch(e) {
+                console.warn('KV review push error:', e);
+              }
             }
 
             ghPushed = await pushDirectToGitHub(
@@ -3507,9 +3538,8 @@ ${storyVal}
             );
 
             if (ghPushed) {
-              const starStr = '★'.repeat(Number(ratingVal)) + '☆'.repeat(Math.max(0, 5 - Number(ratingVal)));
-              if (!clientConfigs[currentSelectedClient].reviews) clientConfigs[currentSelectedClient].reviews = [];
-              clientConfigs[currentSelectedClient].reviews.unshift({ name: nameVal, rating: starStr });
+              if (!conf.reviews) conf.reviews = [];
+              conf.reviews.unshift(jsonObj);
               updateClientUI(currentSelectedClient);
 
               reviewName.value = '';
@@ -3520,7 +3550,7 @@ ${storyVal}
               if (saveReviewStatus) saveReviewStatus.textContent = `✅ Review van ${nameVal} direct opgeslagen & gepubliceerd! (Cloudflare bouwt nu)`;
               saveReviewBtn.textContent = '✅ Review Live Gepubliceerd!';
               setTimeout(() => {
-                saveReviewBtn.textContent = '⭐ Review Direct Opslaan & Publiceren';
+                saveReviewBtn.textContent = '⭐ Bewaar Review';
               }, 4000);
             }
           } catch (err) {
@@ -3530,6 +3560,10 @@ ${storyVal}
 
         if (!ghPushed) {
           // Local fallback
+          if (!conf.reviews) conf.reviews = [];
+          conf.reviews.unshift(jsonObj);
+          updateClientUI(currentSelectedClient);
+
           try {
             const res = await fetch('/api/save-review', {
               method: 'POST',
@@ -3553,7 +3587,7 @@ ${storyVal}
             }
           } catch (e) {
             navigator.clipboard.writeText(reviewJsonString);
-            if (saveReviewStatus) saveReviewStatus.textContent = `📋 Review JSON gekopieerd naar klembord!`;
+            if (saveReviewStatus) saveReviewStatus.textContent = `📋 Review opgeslagen in overzicht! (JSON gekopieerd)`;
             saveReviewBtn.textContent = '📋 Review Gekopieerd!';
           }
         }
