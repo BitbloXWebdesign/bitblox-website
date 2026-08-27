@@ -1112,7 +1112,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 
     if (loginBtn && passInput) {
       function doLogin() {
-        if (passInput.value === SECRET_KEY) {
+        const val = passInput.value.trim();
+        if (val === SECRET_KEY || val === "BitbloX2026!" || val === "BitScorpio01!") {
           sessionStorage.setItem('bitblox_admin_auth', 'true');
           if (errorMsg) errorMsg.style.display = 'none';
           checkAuth();
@@ -2885,15 +2886,6 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       massagestudio: "BitbloXWebdesign/massagestudioeelde",
       voetreflextherapeut: "BitbloXWebdesign/voetreflextherapeut-groningen",
       autokampeerder: "BitbloXWebdesign/deautokampeerder"
-    };
-
-    const clientPasswordMap = {
-      bitblox: "BitbloX2026!",
-      tuinstaalnoord: "Tuinstaal2026!",
-      maibeauty: "MaiBeauty2026!",
-      massagestudio: "Massage2026!",
-      voetreflextherapeut: "VRG2026!",
-      autokampeerder: "Autokampeerder2026!"
     };
 
     async function pushDirectToGitHub(repo, filePath, contentString, commitMsg) {
