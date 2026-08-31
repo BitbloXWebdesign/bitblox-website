@@ -2596,7 +2596,16 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     function getVaultClients() {
       try {
         const stored = localStorage.getItem('bitblox_vault_clients');
-        return stored ? JSON.parse(stored) : defaultVaultClients;
+        if (!stored) return defaultVaultClients;
+        const parsed = JSON.parse(stored);
+        if (!Array.isArray(parsed)) return defaultVaultClients;
+        const existingIds = new Set(parsed.map(c => c.id));
+        defaultVaultClients.forEach(dc => {
+          if (!existingIds.has(dc.id)) {
+            parsed.push(dc);
+          }
+        });
+        return parsed;
       } catch (e) {
         return defaultVaultClients;
       }
