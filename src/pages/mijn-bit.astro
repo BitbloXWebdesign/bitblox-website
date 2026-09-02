@@ -3221,15 +3221,6 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const AUTO_GH_TOKEN = ['g','h','p','_','qCMG5mYroo','TxueCDu6FT','FPDZJsiwh91b5pzY'].join('');
 
 
-    const clientGithubRepoMap = {
-      bitblox: "BitbloXWebdesign/bitblox-website",
-      samenpositiefgezond: "BitbloXWebdesign/samenpositiefgezond",
-      tuinstaalnoord: "BitbloXWebdesign/tuinstaalnoord",
-      maibeauty: "BitbloXWebdesign/Maibeautyenzo",
-      massagestudio: "BitbloXWebdesign/massagestudioeelde",
-      voetreflextherapeut: "BitbloXWebdesign/voetreflextherapeut-groningen",
-      autokampeerder: "BitbloXWebdesign/deautokampeerder"
-    };
 
     async function pushDirectToGitHub(repo, filePath, contentString, commitMsg) {
       const token = localStorage.getItem('bitblox_gh_token') || AUTO_GH_TOKEN;

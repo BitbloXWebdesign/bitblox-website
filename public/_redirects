@@ -1,5 +1,5 @@
-/admin /mijn-bit 200
-/admin/* /mijn-bit 200
+/admin /404 404
+/admin/* /404 404
 /wp-admin /404 404
 /wp-admin/* /404 404
 /wp-login.php /404 404
