@@ -54,11 +54,16 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           <div style="position: relative;">
             <select id="clientSelectDropdown" style="background: #151824; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 8px; color: #fff; padding: 7px 32px 7px 14px; font-size: 0.92rem; font-weight: 700; cursor: pointer; appearance: none; -webkit-appearance: none;">
               <option value="bitblox" selected>🌐 BitbloX Webdesign (bitblox.nl)</option>
+              <option value="wittekoning">🎨 De Witte Koning (wittekoning.nl)</option>
+              <option value="willemhoiting">💼 Willem Hoiting (willemhoiting.nl)</option>
+              <option value="studiobm">🧘 Studio B|M Care (studiobm.nl)</option>
               <option value="samenpositiefgezond">🌿 Samen Positief Gezond (samenpositiefgezond.nl)</option>
-              <option value="tuinstaalnoord">🛠️ Tuinstaal Noord (tuinstaalnoord.pages.dev)</option>
-              <option value="maibeauty">🌸 Mai Beauty &amp; zo (maibeautyenzo.pages.dev)</option>
               <option value="massagestudio">💆 Massage Studio Eelde (massagestudioeelde.nl)</option>
+              <option value="maibeauty">🌸 Mai Beauty &amp; zo (maibeautyenzo.nl)</option>
+              <option value="tuinstaalnoord">🛠️ Tuinstaal Noord (tuinstaalnoord.nl)</option>
               <option value="voetreflextherapeut">🌿 Voetreflextherapeut Groningen (voetreflextherapeutgroningen.nl)</option>
+              <option value="reisstartpunt20">✈️ Reisstartpunt (reisstartpunt.nl)</option>
+              <option value="aanbiedinggevonden">🏷️ Aanbieding Gevonden (aanbiedinggevonden.nl)</option>
               <option value="autokampeerder">🚐 De Autokampeerder (deautokampeerder.nl)</option>
             </select>
             <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #38bdf8; font-size: 0.75rem;">▼</span>
@@ -1643,17 +1648,107 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         reviews: [
           { id: 1, name: "Jan de Boer", author: "Jan de Boer", rating: 5, ratingDisplay: "★★★★★", date: "Recent", text: "Prachtige stalen tuintafel op maat laten maken. Vakmanschap en snelle levering!" }
         ]
+      },
+      wittekoning: {
+        name: "Schildersbedrijf De Witte Koning",
+        domain: "wittekoning.nl",
+        pagesUrl: "https://wittekoning.pages.dev",
+        metrics: { mobile: "100", mobileTime: "0.19s", desktop: "100", desktopTime: "0.08s", geo: "98", geoLabel: "Top Score", edgeCache: "99.1%", totalVisitors: "84", totalPageviews: "310" },
+        wave: { blueWave: "M 0,115 L 440,115 Q 470,110 500,28 L 500,120 L 0,120 Z", blueLine: "M 0,115 L 440,115 Q 470,110 500,28", goldWave: "M 0,118 L 440,118 Q 470,115 500,60 L 500,120 L 0,120 Z", goldLine: "M 0,118 L 440,118 Q 470,115 500,60" },
+        sources: [{ label: "Google (Schilder Groningen / Haren)", pct: 70, count: "59 bezoekers" }, { label: "Direct", pct: 20, count: "17 hits" }, { label: "AI Search", pct: 10, count: "8 zoekers" }],
+        dailyData: [{ date: "10 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 }, { date: "11 Aug (Live)", google: 18, ai: 4, blueY: 28, goldY: 60 }],
+        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true, cookies: false, announcement: false, accessibility: true, callback: true },
+        announcement: { badge: "OFFERTE", text: "🎨 Vraag nu vrijblijvend een schilder offerte aan!", link: "/contact" },
+        microsites: [{ name: "Groningen", url: "/regio/groningen/", slug: "groningen" }, { name: "Haren", url: "/regio/haren/", slug: "haren" }],
+        blogs: [],
+        reviews: []
+      },
+      willemhoiting: {
+        name: "Willem Hoiting",
+        domain: "willemhoiting.nl",
+        pagesUrl: "https://willemhoiting.pages.dev",
+        metrics: { mobile: "100", mobileTime: "0.18s", desktop: "100", desktopTime: "0.08s", geo: "98", geoLabel: "Actief", edgeCache: "99.2%", totalVisitors: "45", totalPageviews: "180" },
+        wave: { blueWave: "M 0,115 L 440,115 Q 470,110 500,30 L 500,120 L 0,120 Z", blueLine: "M 0,115 L 440,115 Q 470,110 500,30", goldWave: "M 0,118 L 440,118 Q 470,115 500,65 L 500,120 L 0,120 Z", goldLine: "M 0,118 L 440,118 Q 470,115 500,65" },
+        sources: [{ label: "Google", pct: 60, count: "27 hits" }, { label: "Direct", pct: 30, count: "14 hits" }, { label: "AI Search", pct: 10, count: "4 zoekers" }],
+        dailyData: [{ date: "10 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 }, { date: "11 Aug (Live)", google: 12, ai: 3, blueY: 30, goldY: 65 }],
+        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true, cookies: false, announcement: false, accessibility: true, callback: true },
+        announcement: { badge: "WELKOM", text: "Welkom op de website van Willem Hoiting.", link: "/contact" },
+        microsites: [],
+        blogs: [],
+        reviews: []
+      },
+      studiobm: {
+        name: "Studio B|M - Body & Mind Care",
+        domain: "studiobm.nl",
+        pagesUrl: "https://studiobm.pages.dev",
+        metrics: { mobile: "100", mobileTime: "0.19s", desktop: "100", desktopTime: "0.08s", geo: "99", geoLabel: "#1 Positie", edgeCache: "99.5%", totalVisitors: "95", totalPageviews: "380" },
+        wave: { blueWave: "M 0,115 L 440,115 Q 470,110 500,25 L 500,120 L 0,120 Z", blueLine: "M 0,115 L 440,115 Q 470,110 500,25", goldWave: "M 0,118 L 440,118 Q 470,115 500,55 L 500,120 L 0,120 Z", goldLine: "M 0,118 L 440,118 Q 470,115 500,55" },
+        sources: [{ label: "Google", pct: 65, count: "62 hits" }, { label: "Direct", pct: 25, count: "24 hits" }, { label: "AI Search", pct: 10, count: "9 zoekers" }],
+        dailyData: [{ date: "10 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 }, { date: "11 Aug (Live)", google: 20, ai: 5, blueY: 25, goldY: 55 }],
+        switches: { blog: true, seo: true, geo: true, whatsapp: true, microsites: true, reviews: true, faq: true, form: true, cookies: false, announcement: false, accessibility: true, callback: true },
+        announcement: { badge: "RUST", text: "Ontdek innerlijke rust en vitaliteit bij Studio B|M.", link: "/contact" },
+        microsites: [],
+        blogs: [],
+        reviews: []
+      },
+      reisstartpunt20: {
+        name: "Reisstartpunt.nl",
+        domain: "reisstartpunt.nl",
+        pagesUrl: "https://reisstartpunt20.pages.dev",
+        metrics: { mobile: "99", mobileTime: "0.21s", desktop: "100", desktopTime: "0.09s", geo: "97", geoLabel: "Actief", edgeCache: "98.8%", totalVisitors: "320", totalPageviews: "1.450" },
+        wave: { blueWave: "M 0,115 L 440,115 Q 470,110 500,20 L 500,120 L 0,120 Z", blueLine: "M 0,115 L 440,115 Q 470,110 500,20", goldWave: "M 0,118 L 440,118 Q 470,115 500,45 L 500,120 L 0,120 Z", goldLine: "M 0,118 L 440,118 Q 470,115 500,45" },
+        sources: [{ label: "Google", pct: 75, count: "240 hits" }, { label: "Direct", pct: 15, count: "48 hits" }, { label: "AI Search", pct: 10, count: "32 zoekers" }],
+        dailyData: [{ date: "10 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 }, { date: "11 Aug (Live)", google: 35, ai: 8, blueY: 20, goldY: 45 }],
+        switches: { blog: true, seo: true, geo: true, whatsapp: false, microsites: true, reviews: false, faq: true, form: false, cookies: true, announcement: false, accessibility: true, callback: false },
+        announcement: { badge: "REIZEN", text: "Vind de beste vakantiedeals op Reisstartpunt.nl!", link: "/" },
+        microsites: [],
+        blogs: [],
+        reviews: []
+      },
+      aanbiedinggevonden: {
+        name: "Aanbieding gevonden",
+        domain: "aanbiedinggevonden.nl",
+        pagesUrl: "https://aanbiedinggevonden.pages.dev",
+        metrics: { mobile: "99", mobileTime: "0.20s", desktop: "100", desktopTime: "0.09s", geo: "97", geoLabel: "Actief", edgeCache: "98.9%", totalVisitors: "280", totalPageviews: "1.190" },
+        wave: { blueWave: "M 0,115 L 440,115 Q 470,110 500,22 L 500,120 L 0,120 Z", blueLine: "M 0,115 L 440,115 Q 470,110 500,22", goldWave: "M 0,118 L 440,118 Q 470,115 500,50 L 500,120 L 0,120 Z", goldLine: "M 0,118 L 440,118 Q 470,115 500,50" },
+        sources: [{ label: "Google", pct: 72, count: "201 hits" }, { label: "Direct", pct: 18, count: "50 hits" }, { label: "AI Search", pct: 10, count: "29 zoekers" }],
+        dailyData: [{ date: "10 Aug", google: 0, ai: 0, blueY: 115, goldY: 118 }, { date: "11 Aug (Live)", google: 28, ai: 7, blueY: 22, goldY: 50 }],
+        switches: { blog: true, seo: true, geo: true, whatsapp: false, microsites: true, reviews: false, faq: true, form: false, cookies: true, announcement: false, accessibility: true, callback: false },
+        announcement: { badge: "DEALS", text: "Dagelijks de scherpste aanbiedingen en kortingen!", link: "/" },
+        microsites: [],
+        blogs: [],
+        reviews: []
       }
     };
 
     const clientPasswordMap = {
       bitblox: "BitScorpio01!",
+      wittekoning: "Wittekoning2026!",
+      willemhoiting: "Willemhoiting2026!",
+      studiobm: "Studiobm2026!",
       samenpositiefgezond: "Samenpositiefgezond2026!",
       tuinstaalnoord: "Tuinstaal2026!",
       massagestudio: "Massage2026!",
       voetreflextherapeut: "VRG2026!",
       maibeauty: "MaiBeauty2026!",
+      reisstartpunt20: "Reisstartpunt202026!",
+      aanbiedinggevonden: "Aanbiedinggevonden2026!",
       autokampeerder: "Autokampeerder2026!"
+    };
+
+    const clientGithubRepoMap = {
+      bitblox: "BitbloXWebdesign/bitblox-website",
+      wittekoning: "BitbloXWebdesign/wittekoning",
+      willemhoiting: "BitbloXWebdesign/willemhoiting",
+      studiobm: "BitbloXWebdesign/studiobm",
+      samenpositiefgezond: "BitbloXWebdesign/samenpositiefgezond",
+      tuinstaalnoord: "BitbloXWebdesign/tuinstaalnoord",
+      massagestudio: "BitbloXWebdesign/massagestudioeelde",
+      voetreflextherapeut: "BitbloXWebdesign/voetreflextherapeut-groningen",
+      maibeauty: "BitbloXWebdesign/Maibeautyenzo",
+      reisstartpunt20: "BitbloXWebdesign/reisstartpunt20",
+      aanbiedinggevonden: "BitbloXWebdesign/aanbiedinggevonden",
+      autokampeerder: "BitbloXWebdesign/deautokampeerder"
     };
 
     function syncToolVisibility() {
@@ -2483,7 +2578,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         id: "bitblox",
         name: "BitbloX Webdesign & Hosting",
         domain: "bitblox.nl",
-        portalUrl: "https://bitblox.nl/admin",
+        portalUrl: "https://bitblox.nl/mijn-bit",
         username: "admin",
         password: "BitbloX2026!",
         contact: "Harold Zuidhof",
@@ -2496,10 +2591,58 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         notes: "Centraal Enterprise Command Center & Mail Engine (Resend noreply@bitblox.nl)"
       },
       {
+        id: "wittekoning",
+        name: "Schildersbedrijf De Witte Koning",
+        domain: "wittekoning.nl",
+        portalUrl: "https://wittekoning.pages.dev/mijn-dwk",
+        username: "admin",
+        password: "Wittekoning2026!",
+        contact: "Schildersbedrijf De Witte Koning",
+        phone: "",
+        email: "info@wittekoning.nl",
+        cfProject: "wittekoning",
+        kvNamespace: "WITTEKONING_CONTENT (CONTENT_KV)",
+        githubRepo: "BitbloXWebdesign/wittekoning",
+        status: "live",
+        notes: "Schildersbedrijf Groningen / Haren."
+      },
+      {
+        id: "willemhoiting",
+        name: "Willem Hoiting",
+        domain: "willemhoiting.nl",
+        portalUrl: "https://willemhoiting.pages.dev/mijn-wh",
+        username: "admin",
+        password: "Willemhoiting2026!",
+        contact: "Willem Hoiting",
+        phone: "",
+        email: "info@willemhoiting.nl",
+        cfProject: "willemhoiting",
+        kvNamespace: "WILLEMHOITING_CONTENT (CONTENT_KV)",
+        githubRepo: "BitbloXWebdesign/willemhoiting",
+        status: "live",
+        notes: "Willem Hoiting zakelijke website."
+      },
+      {
+        id: "studiobm",
+        name: "Studio B|M - Body & Mind Care",
+        domain: "studiobm.nl",
+        portalUrl: "https://studiobm.pages.dev/mijn-sbm",
+        username: "admin",
+        password: "Studiobm2026!",
+        contact: "Studio B|M - Body & Mind Care",
+        phone: "",
+        email: "info@studiobm.nl",
+        cfProject: "studiobm",
+        kvNamespace: "STUDIOBM_CONTENT (CONTENT_KV)",
+        githubRepo: "BitbloXWebdesign/studiobm",
+        status: "live",
+        notes: "Body & Mind Care praktijk."
+      },
+      {
         id: "samenpositiefgezond",
         name: "Samen Positief Gezond",
         domain: "samenpositiefgezond.nl",
-        portalUrl: "https://samenpositiefgezond.pages.dev/admin",
+        portalUrl: "https://samenpositiefgezond.pages.dev/mijn-spg",
         username: "admin",
         password: "Samenpositiefgezond2026!",
         contact: "Barbara Kalb & Grietje Hofsteenge",
@@ -2515,7 +2658,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         id: "tuinstaalnoord",
         name: "Tuinstaal Noord",
         domain: "tuinstaalnoord.nl",
-        portalUrl: "https://tuinstaalnoord.pages.dev/admin",
+        portalUrl: "https://tuinstaalnoord.pages.dev/mijn-tsn",
         username: "admin",
         password: "Tuinstaal2026!",
         contact: "Tuinstaal Noord",
@@ -2531,7 +2674,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         id: "massagestudio",
         name: "Massage Studio Eelde",
         domain: "massagestudioeelde.nl",
-        portalUrl: "https://massagestudioeelde.nl/admin",
+        portalUrl: "https://massagestudioeelde.nl/mijn-mse",
         username: "admin",
         password: "Massage2026!",
         contact: "Alianne Zuidhof-Hoiting",
@@ -2547,7 +2690,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         id: "maibeauty",
         name: "Mai Beauty & zo",
         domain: "maibeautyenzo.nl",
-        portalUrl: "https://maibeautyenzo.nl/admin",
+        portalUrl: "https://maibeautyenzo.nl/mijn-mbe",
         username: "admin",
         password: "MaiBeauty2026!",
         contact: "Aileen Smith",
@@ -2563,7 +2706,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         id: "voetreflextherapeut",
         name: "Voetreflextherapeut Groningen",
         domain: "voetreflextherapeutgroningen.nl",
-        portalUrl: "https://voetreflextherapeutgroningen.nl/admin",
+        portalUrl: "https://voetreflextherapeutgroningen.nl/mijn-vrg",
         username: "admin",
         password: "VRG2026!",
         contact: "Georgette Noordberger",
@@ -2576,10 +2719,42 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         notes: "Reflexzonetherapie, natuurgeneeskunde, consulten, tarieven. Cloudflare KV gekoppeld."
       },
       {
+        id: "reisstartpunt20",
+        name: "Reisstartpunt.nl",
+        domain: "reisstartpunt.nl",
+        portalUrl: "https://reisstartpunt20.pages.dev/mijn-rsp",
+        username: "admin",
+        password: "Reisstartpunt202026!",
+        contact: "Reisstartpunt.nl",
+        phone: "",
+        email: "info@reisstartpunt.nl",
+        cfProject: "reisstartpunt20",
+        kvNamespace: "REISSTARTPUNT20_CONTENT (CONTENT_KV)",
+        githubRepo: "BitbloXWebdesign/reisstartpunt20",
+        status: "live",
+        notes: "Vakantie- en reisvergelijkingsplatform."
+      },
+      {
+        id: "aanbiedinggevonden",
+        name: "Aanbieding gevonden",
+        domain: "aanbiedinggevonden.nl",
+        portalUrl: "https://aanbiedinggevonden.pages.dev/mijn-agv",
+        username: "admin",
+        password: "Aanbiedinggevonden2026!",
+        contact: "Aanbieding gevonden",
+        phone: "",
+        email: "info@aanbiedinggevonden.nl",
+        cfProject: "aanbiedinggevonden",
+        kvNamespace: "AANBIEDINGGEVONDEN_CONTENT (CONTENT_KV)",
+        githubRepo: "BitbloXWebdesign/aanbiedinggevonden",
+        status: "live",
+        notes: "Kortingen & deals overzicht."
+      },
+      {
         id: "autokampeerder",
         name: "De Autokampeerder",
         domain: "deautokampeerder.nl",
-        portalUrl: "https://deautokampeerder.nl/admin",
+        portalUrl: "https://deautokampeerder.nl/mijn-dak",
         username: "admin",
         password: "Autokampeerder2026!",
         contact: "De Autokampeerder",
@@ -2589,23 +2764,49 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         kvNamespace: "AUTOKAMPEERDER_CONTENT (CONTENT_KV)",
         githubRepo: "BitbloXWebdesign/deautokampeerder",
         status: "dev",
-        notes: "Camperverhuur & roadtrips in Nederland (Next.js / Astro architectuur)"
+        notes: "Camperverhuur & roadtrips in Nederland"
       }
     ];
 
     function getVaultClients() {
       try {
         const stored = localStorage.getItem('bitblox_vault_clients');
-        if (!stored) return defaultVaultClients;
+        if (!stored) {
+          localStorage.setItem('bitblox_vault_clients', JSON.stringify(defaultVaultClients));
+          return defaultVaultClients;
+        }
         const parsed = JSON.parse(stored);
-        if (!Array.isArray(parsed)) return defaultVaultClients;
-        const existingIds = new Set(parsed.map(c => c.id));
-        defaultVaultClients.forEach(dc => {
-          if (!existingIds.has(dc.id)) {
-            parsed.push(dc);
+        if (!Array.isArray(parsed)) {
+          localStorage.setItem('bitblox_vault_clients', JSON.stringify(defaultVaultClients));
+          return defaultVaultClients;
+        }
+
+        const defaultMap = new Map(defaultVaultClients.map(c => [c.id, c]));
+        const merged = defaultVaultClients.map(dc => {
+          const storedItem = parsed.find(p => p.id === dc.id);
+          if (storedItem) {
+            const portalUrl = (storedItem.portalUrl && !storedItem.portalUrl.endsWith('/admin'))
+              ? storedItem.portalUrl
+              : dc.portalUrl;
+            return {
+              ...dc,
+              ...storedItem,
+              portalUrl: portalUrl || dc.portalUrl,
+              username: storedItem.username || dc.username || 'admin',
+              cfProject: storedItem.cfProject || dc.cfProject,
+              kvNamespace: storedItem.kvNamespace || dc.kvNamespace,
+              githubRepo: storedItem.githubRepo || dc.githubRepo
+            };
           }
+          return dc;
         });
-        return parsed;
+
+        parsed.forEach(p => {
+          if (!defaultMap.has(p.id)) merged.push(p);
+        });
+
+        localStorage.setItem('bitblox_vault_clients', JSON.stringify(merged));
+        return merged;
       } catch (e) {
         return defaultVaultClients;
       }
