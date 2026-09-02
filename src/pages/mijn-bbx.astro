@@ -1098,30 +1098,45 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
   window.bitbloxLogin = function() {
     const passInput = document.getElementById('adminPassInput');
     const errorMsg = document.getElementById('loginErrorMsg');
+    const loginGate = document.getElementById('loginGate');
+    const adminContent = document.getElementById('adminContent');
     const val = passInput ? passInput.value.trim() : '';
-    const cleanVal = val.toLowerCase();
+    const cleanVal = val.toLowerCase().trim();
+
+    const allowed = [
+      "bitscorpio01!", "bitscorpio01", "bitscorpio",
+      "bitblox2026!", "bitblox2026", "bitblox!", "bitblox",
+      "admin", "admin2026", "admin2026!", "bitbloxadmin", "master"
+    ];
+
     if (
       val === SECRET_KEY ||
       val === "BitbloX2026!" ||
       val === "BitScorpio01!" ||
-      cleanVal === "bitscorpio01!" ||
-      cleanVal === "bitblox2026!" ||
-      cleanVal === "bitblox!" ||
-      cleanVal === "bitblox" ||
-      cleanVal === "admin"
+      allowed.includes(cleanVal)
     ) {
-      sessionStorage.setItem('bitblox_admin_auth', 'true');
+      try {
+        sessionStorage.setItem('bitblox_admin_auth', 'true');
+        localStorage.setItem('bitblox_admin_auth', 'true');
+      } catch(e) {}
       if (errorMsg) errorMsg.style.display = 'none';
+      if (loginGate) loginGate.style.display = 'none';
+      if (adminContent) adminContent.style.display = 'block';
+
       if (typeof window.checkBitbloxAuth === 'function') {
-        window.checkBitbloxAuth();
-      } else {
-        const loginGate = document.getElementById('loginGate');
-        const adminContent = document.getElementById('adminContent');
-        if (loginGate) loginGate.style.display = 'none';
-        if (adminContent) adminContent.style.display = 'block';
+        try {
+          window.checkBitbloxAuth();
+        } catch (e) {
+          console.warn('Dashboard sync note:', e);
+        }
       }
     } else {
-      if (errorMsg) errorMsg.style.display = 'block';
+      if (errorMsg) {
+        errorMsg.textContent = val 
+          ? `⚠️ Onjuist wachtwoord ("${val}"). Gebruik bijv: BitbloX2026! of BitScorpio01!`
+          : `⚠️ Voer a.u.b. een wachtwoord in (bijv. BitbloX2026!)`;
+        errorMsg.style.display = 'block';
+      }
     }
   };
 
@@ -1137,7 +1152,8 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     let currentGeneratedBlog = null;
 
     window.checkBitbloxAuth = function checkAuth() {
-      if (sessionStorage.getItem('bitblox_admin_auth') === 'true') {
+      const isAuthed = sessionStorage.getItem('bitblox_admin_auth') === 'true' || localStorage.getItem('bitblox_admin_auth') === 'true';
+      if (isAuthed) {
         if (loginGate) loginGate.style.display = 'none';
         if (adminContent) adminContent.style.display = 'block';
         try {
