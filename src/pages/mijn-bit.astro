@@ -27,9 +27,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           type="password" 
           id="adminPassInput" 
           placeholder="••••••••••••" 
+          onkeydown="if(event.key==='Enter') window.bitbloxLogin()"
           style="width: 100%; padding: 15px 20px; background: #08090e; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 1.1rem; text-align: center; letter-spacing: 3px;"
         />
-        <button id="adminLoginBtn" class="btn btn--gold" style="width: 100%; justify-content: center; padding: 14px; font-size: 1rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(222, 193, 72, 0.35);">
+        <button id="adminLoginBtn" onclick="window.bitbloxLogin()" class="btn btn--gold" style="width: 100%; justify-content: center; padding: 14px; font-size: 1rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(222, 193, 72, 0.35);">
           Dashboard Ontgrendelen 🔑
         </button>
         <p id="loginErrorMsg" style="color: #f87171; font-size: 0.85rem; margin: 0; display: none;">⚠️ Onjuist wachtwoord. Probeer het opnieuw.</p>
@@ -1090,7 +1091,41 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
 </style>
 
 <script is:inline define:vars={{ defaultDeepSeekKey, initialBitbloxReviews: reviewsData }}>
-  document.addEventListener('DOMContentLoaded', () => {
+(function() {
+  const SECRET_KEY = "BitScorpio01!";
+  const DEEPSEEK_KEY = defaultDeepSeekKey;
+
+  window.bitbloxLogin = function() {
+    const passInput = document.getElementById('adminPassInput');
+    const errorMsg = document.getElementById('loginErrorMsg');
+    const val = passInput ? passInput.value.trim() : '';
+    const cleanVal = val.toLowerCase();
+    if (
+      val === SECRET_KEY ||
+      val === "BitbloX2026!" ||
+      val === "BitScorpio01!" ||
+      cleanVal === "bitscorpio01!" ||
+      cleanVal === "bitblox2026!" ||
+      cleanVal === "bitblox!" ||
+      cleanVal === "bitblox" ||
+      cleanVal === "admin"
+    ) {
+      sessionStorage.setItem('bitblox_admin_auth', 'true');
+      if (errorMsg) errorMsg.style.display = 'none';
+      if (typeof window.checkBitbloxAuth === 'function') {
+        window.checkBitbloxAuth();
+      } else {
+        const loginGate = document.getElementById('loginGate');
+        const adminContent = document.getElementById('adminContent');
+        if (loginGate) loginGate.style.display = 'none';
+        if (adminContent) adminContent.style.display = 'block';
+      }
+    } else {
+      if (errorMsg) errorMsg.style.display = 'block';
+    }
+  };
+
+  function initBitbloxAdmin() {
     const loginGate = document.getElementById('loginGate');
     const adminContent = document.getElementById('adminContent');
     const passInput = document.getElementById('adminPassInput');
@@ -1098,13 +1133,10 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
     const errorMsg = document.getElementById('loginErrorMsg');
     const logoutBtn = document.getElementById('logoutBtn');
 
-    const SECRET_KEY = "BitScorpio01!";
-    const DEEPSEEK_KEY = defaultDeepSeekKey;
-
     let currentGeneratedLocation = null;
     let currentGeneratedBlog = null;
 
-    function checkAuth() {
+    window.checkBitbloxAuth = function checkAuth() {
       if (sessionStorage.getItem('bitblox_admin_auth') === 'true') {
         if (loginGate) loginGate.style.display = 'none';
         if (adminContent) adminContent.style.display = 'block';
@@ -1127,40 +1159,21 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         if (loginGate) loginGate.style.display = 'flex';
         if (adminContent) adminContent.style.display = 'none';
       }
+    };
+
+    if (loginBtn) {
+      loginBtn.addEventListener('click', window.bitbloxLogin);
     }
-
-    if (loginBtn && passInput) {
-      function doLogin() {
-        const val = passInput.value.trim();
-        const cleanVal = val.toLowerCase();
-        if (
-          val === SECRET_KEY ||
-          val === "BitbloX2026!" ||
-          val === "BitScorpio01!" ||
-          cleanVal === "bitscorpio01!" ||
-          cleanVal === "bitblox2026!" ||
-          cleanVal === "bitblox!" ||
-          cleanVal === "bitblox" ||
-          cleanVal === "admin"
-        ) {
-          sessionStorage.setItem('bitblox_admin_auth', 'true');
-          if (errorMsg) errorMsg.style.display = 'none';
-          checkAuth();
-        } else {
-          if (errorMsg) errorMsg.style.display = 'block';
-        }
-      }
-
-      loginBtn.addEventListener('click', doLogin);
+    if (passInput) {
       passInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') doLogin();
+        if (e.key === 'Enter') window.bitbloxLogin();
       });
     }
 
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
         sessionStorage.removeItem('bitblox_admin_auth');
-        checkAuth();
+        window.checkBitbloxAuth();
       });
     }
 
@@ -3905,6 +3918,15 @@ ${storyVal}
     }
 
     // Run auth check and UI synchronization after full setup
-    checkAuth();
-  });
+    if (typeof window.checkBitbloxAuth === 'function') {
+      window.checkBitbloxAuth();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBitbloxAdmin);
+  } else {
+    initBitbloxAdmin();
+  }
+})();
 </script>
