@@ -3206,27 +3206,27 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             const parsed = JSON.parse(event.target?.result);
             if (Array.isArray(parsed)) {
               saveVaultClients(parsed);
-              showVaultToast('📤 Vault succesvol geïmporteerd!');
+              showVaultToast('📤 BitbloX Vault backup succesvol geïmporteerd!');
             } else if (parsed.items && Array.isArray(parsed.items)) {
-              // Convert Bitwarden style to Vault
+              // Converteer geneste items array naar BitbloX Vault formaat
               const converted = parsed.items.map(it => ({
-                id: it.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
-                name: it.name,
+                id: (it.name || 'klant').toLowerCase().replace(/[^a-z0-9]/g, ''),
+                name: it.name || 'Klant',
                 domain: it.login?.uris?.[0]?.uri ? it.login.uris[0].uri.replace(/^https?:\/\//, '').replace(/\/.*$/, '') : 'bitblox.nl',
                 portalUrl: (it.login?.uris?.[0]?.uri && !it.login.uris[0].uri.endsWith('/admin')) ? it.login.uris[0].uri : 'https://bitblox.nl/mijn-bit',
                 username: it.login?.username || 'admin',
                 password: it.login?.password || 'BitbloX2026!',
-                contact: 'Klant',
-                phone: '',
-                email: '',
-                cfProject: '',
-                kvNamespace: '',
-                githubRepo: '',
-                status: 'live',
+                contact: it.contact || 'Klant',
+                phone: it.phone || '',
+                email: it.email || '',
+                cfProject: it.cfProject || '',
+                kvNamespace: it.kvNamespace || '',
+                githubRepo: it.githubRepo || '',
+                status: it.status || 'live',
                 notes: it.notes || ''
               }));
               saveVaultClients(converted);
-              showVaultToast('📤 Bitwarden JSON succesvol omgezet & geïmporteerd!');
+              showVaultToast('📤 BitbloX Vault backup succesvol omgezet & geïmporteerd!');
             } else {
               alert('Ongeldig JSON backup bestand.');
             }
