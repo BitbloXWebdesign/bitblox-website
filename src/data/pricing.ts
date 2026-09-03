@@ -89,7 +89,7 @@ export const pricing = {
       features: [
         "Supersnelle cloud hosting op Cloudflare",
         "Jaarlijkse .NL domeinnaam & DNS-beheer",
-        "Zakelijke e-mailaccounts (bijv. info@)",
+        "Tot 3 zakelijke e-mailaccounts (bijv. info@)",
         "3 GB cloud-opslag",
         "Automatisch SSL-beveiligingscertificaat",
         "Dagelijkse automatische cloud-backups",
@@ -108,6 +108,7 @@ export const pricing = {
         "Inclusief álles uit Basis Hosting & Domein",
         "Inclusief Kleine Wijzigingen Service",
         "Korte lijnen via WhatsApp & e-mail",
+        "Tot 5 zakelijke e-mailaccounts & 10 GB opslag",
         "Vakantie- & actiemeldingen instelservice",
         "Foto- en beeldoptimalisatie bij aanlevering",
         "24/7 Website Watchdog actieve storingsbewaking",
