@@ -87,7 +87,7 @@ export const pricing = {
       unit: "per maand",
       roi: "Volledige ontzorging van domeinnaam, cloud hosting en zakelijke e-mail",
       features: [
-        "Supersnelle cloud hosting op Cloudflare",
+        "Supersnelle cloud hosting",
         "Jaarlijkse .NL domeinnaam & DNS-beheer",
         "Tot 3 zakelijke e-mailaccounts (bijv. info@)",
         "3 GB cloud-opslag",
