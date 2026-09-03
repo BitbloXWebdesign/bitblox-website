@@ -3,6 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import GoogleReviews from '../components/GoogleReviews.astro';
 import FAQ from '../components/FAQ.astro';
 import switches from '../data/switches.json';
+import { getCollection } from 'astro:content';
+
+const latestPosts = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 
 const clients = [
   "yogaplanet.nl", "studiobm.nl", "massagestudioeelde.nl", "shemotion.nl", 
@@ -288,6 +293,45 @@ const homeSchema = {
 
   <!-- ============ FAQ Section ============ -->
   {switches.faq && <FAQ title="Veelgestelde vragen over BitbloX Webdesign in Assen" />}
+
+  <!-- ============ Laatste Inzichten & Kennisbank ============ -->
+  <section class="section" id="kennisbank">
+    <div class="container">
+      <div class="section-head reveal" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <span class="kicker">Kennis &amp; SEO Inzichten</span>
+          <h2>Laatste artikelen uit onze <span class="gold">Kennisbank</span></h2>
+          <p class="lead">Praktische tips over AI-vindbaarheid, websitestrategie en conversie voor ondernemers.</p>
+        </div>
+        <a href="/blog/" class="btn btn--ghost btn--sm" style="margin-bottom: 8px;">Bekijk alle artikelen &rarr;</a>
+      </div>
+
+      <div class="grid grid--3">
+        {latestPosts.map((post) => (
+          <article class="card reveal" style="display: flex; flex-direction: column; justify-content: space-between; padding: 26px; border: 1px solid var(--border); background: var(--surface); border-radius: var(--radius-sm);">
+            <div>
+              <div style="display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;">
+                {post.data.tags?.slice(0, 2).map((tag: string) => (
+                  <span style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--gold); background: rgba(222,193,72,0.1); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border-gold);">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h3 style="font-size: 1.18rem; margin-bottom: 10px; line-height: 1.4;">
+                <a href={`/blog/${post.id}/`} style="color: var(--text); text-decoration: none;">{post.data.title}</a>
+              </h3>
+              <p style="color: var(--muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 18px;">
+                {post.data.description}
+              </p>
+            </div>
+            <a href={`/blog/${post.id}/`} class="card-link" style="color: var(--gold); font-size: 0.88rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; margin-top: auto;">
+              Lees artikel &rarr;
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <!-- ============ CTA Band ============ -->
   <section class="section--tight">

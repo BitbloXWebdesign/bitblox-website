@@ -4,3 +4,5 @@
 /wp-admin/* /404 404
 /wp-login.php /404 404
 /login /404 404
+/sitemap.xml /sitemap-index.xml 301
+/sitemap_index.xml /sitemap-index.xml 301
