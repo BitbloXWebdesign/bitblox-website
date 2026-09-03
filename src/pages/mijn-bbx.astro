@@ -1834,19 +1834,19 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               const m = liveConfig.modules;
               conf.switches.blog = m.blog !== false;
               conf.switches.seo = m.seo !== false;
-              conf.switches.geo = m.geo !== false && m.geoAiVindbaarheid !== false;
-              conf.switches.whatsapp = m.whatsapp !== false && m.whatsappWidget !== false;
-              conf.switches.microsites = m.microsites !== false && m.stedenMicrosites !== false;
-              conf.switches.reviews = m.reviews !== false && m.googleReviews !== false;
-              conf.switches.faq = m.faq !== false && m.faqSection !== false;
-              conf.switches.form = m.form !== false && m.contactForm !== false;
-              conf.switches.cookies = m.cookies !== false && m.cookieBanner !== false;
-              conf.switches.announcement = m.announcement === true || m.announcementBar === true;
-              conf.switches.accessibility = m.accessibility !== false;
-              conf.switches.callback = m.callback === true || m.callBack === true;
-              conf.switches.shop = m.shop === true;
-              conf.switches.maps = m.maps !== false && m.googleMaps !== false;
-              conf.switches.monitoring = m.monitoring !== false && m.watchdog !== false;
+              conf.switches.geo = m.geo !== undefined ? m.geo : (m.geoAiVindbaarheid !== undefined ? m.geoAiVindbaarheid : true);
+              conf.switches.whatsapp = m.whatsapp !== undefined ? m.whatsapp : (m.whatsappWidget !== undefined ? m.whatsappWidget : true);
+              conf.switches.microsites = m.microsites !== undefined ? m.microsites : (m.stedenMicrosites !== undefined ? m.stedenMicrosites : true);
+              conf.switches.reviews = m.reviews !== undefined ? m.reviews : (m.googleReviews !== undefined ? m.googleReviews : true);
+              conf.switches.faq = m.faq !== undefined ? m.faq : (m.faqSection !== undefined ? m.faqSection : true);
+              conf.switches.form = m.form !== undefined ? m.form : (m.contactForm !== undefined ? m.contactForm : true);
+              conf.switches.cookies = m.cookies !== undefined ? m.cookies : (m.cookieBanner !== undefined ? m.cookieBanner : true);
+              conf.switches.announcement = m.announcement !== undefined ? m.announcement : (m.announcementBar !== undefined ? m.announcementBar : false);
+              conf.switches.accessibility = m.accessibility !== undefined ? m.accessibility : (m.toegankelijkheid !== undefined ? m.toegankelijkheid : true);
+              conf.switches.callback = m.callback !== undefined ? m.callback : (m.callBack !== undefined ? m.callBack : false);
+              conf.switches.shop = m.shop !== undefined ? m.shop : (m.webshop !== undefined ? m.webshop : false);
+              conf.switches.maps = m.maps !== undefined ? m.maps : (m.googleMaps !== undefined ? m.googleMaps : true);
+              conf.switches.monitoring = m.monitoring !== undefined ? m.monitoring : (m.watchdog !== undefined ? m.watchdog : true);
             }
             if (liveConfig.announcement) {
               conf.announcement = { ...conf.announcement, ...liveConfig.announcement };
@@ -1903,12 +1903,21 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
             const liveConfig = JSON.parse(decoded);
             if (liveConfig.modules) {
               const m = liveConfig.modules;
-              if (m.form !== undefined) conf.switches.form = m.form !== false && m.contactForm !== false;
-              if (m.maps !== undefined) conf.switches.maps = m.maps !== false && m.googleMaps !== false;
-              if (m.shop !== undefined) conf.switches.shop = m.shop === true;
-              if (m.whatsapp !== undefined) conf.switches.whatsapp = m.whatsapp !== false && m.whatsappWidget !== false;
-              if (m.callback !== undefined) conf.switches.callback = m.callback === true || m.callBack === true;
-              if (m.announcement !== undefined) conf.switches.announcement = m.announcement === true || m.announcementBar === true;
+              if (m.blog !== undefined) conf.switches.blog = m.blog !== false;
+              if (m.seo !== undefined) conf.switches.seo = m.seo !== false;
+              if (m.geo !== undefined || m.geoAiVindbaarheid !== undefined) conf.switches.geo = m.geo !== undefined ? m.geo : m.geoAiVindbaarheid;
+              if (m.whatsapp !== undefined || m.whatsappWidget !== undefined) conf.switches.whatsapp = m.whatsapp !== undefined ? m.whatsapp : m.whatsappWidget;
+              if (m.microsites !== undefined || m.stedenMicrosites !== undefined) conf.switches.microsites = m.microsites !== undefined ? m.microsites : m.stedenMicrosites;
+              if (m.reviews !== undefined || m.googleReviews !== undefined) conf.switches.reviews = m.reviews !== undefined ? m.reviews : m.googleReviews;
+              if (m.faq !== undefined || m.faqSection !== undefined) conf.switches.faq = m.faq !== undefined ? m.faq : m.faqSection;
+              if (m.form !== undefined || m.contactForm !== undefined) conf.switches.form = m.form !== undefined ? m.form : m.contactForm;
+              if (m.cookies !== undefined || m.cookieBanner !== undefined) conf.switches.cookies = m.cookies !== undefined ? m.cookies : m.cookieBanner;
+              if (m.announcement !== undefined || m.announcementBar !== undefined) conf.switches.announcement = m.announcement !== undefined ? m.announcement : m.announcementBar;
+              if (m.accessibility !== undefined || m.toegankelijkheid !== undefined) conf.switches.accessibility = m.accessibility !== undefined ? m.accessibility : m.toegankelijkheid;
+              if (m.callback !== undefined || m.callBack !== undefined) conf.switches.callback = m.callback !== undefined ? m.callback : m.callBack;
+              if (m.shop !== undefined || m.webshop !== undefined) conf.switches.shop = m.shop !== undefined ? m.shop : m.webshop;
+              if (m.maps !== undefined || m.googleMaps !== undefined) conf.switches.maps = m.maps !== undefined ? m.maps : m.googleMaps;
+              if (m.monitoring !== undefined) conf.switches.monitoring = m.monitoring !== false;
             }
             if (liveConfig.announcement) {
               conf.announcement = { ...conf.announcement, ...liveConfig.announcement };
@@ -2942,6 +2951,16 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
       showVaultToast('🗑️ Klant verwijderd uit Vault');
     };
 
+    function getDiscretePortalUrl(c) {
+      if (!c) return 'https://bitblox.nl/mijn-bit';
+      if (c.portalUrl && !c.portalUrl.endsWith('/admin') && !c.portalUrl.endsWith('/admin/')) {
+        return c.portalUrl;
+      }
+      const domain = c.domain || (c.pagesUrl ? c.pagesUrl.replace(/^https?:\/\//, '').replace(/\/.*$/, '') : 'bitblox.nl');
+      const slug = (c.slug || c.id || domain.split('.')[0]).toLowerCase().replace(/[^a-z0-9]/g, '');
+      return `https://${domain}/mijn-${slug}`;
+    }
+
     function renderVaultOverview() {
       if (!vaultCardsGrid) return;
       const clients = getVaultClients();
@@ -2955,14 +2974,14 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         return (c.name && c.name.toLowerCase().includes(query)) ||
                (c.domain && c.domain.toLowerCase().includes(query)) ||
                (c.contact && c.contact.toLowerCase().includes(query)) ||
-               (c.cfProject && c.cfProject.toLowerCase().includes(query));
+               (c.notes && c.notes.toLowerCase().includes(query));
       });
 
       if (filtered.length === 0) {
         vaultCardsGrid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; background: #151824; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1);">
-            <span style="font-size: 2rem; display: block; margin-bottom: 8px;">🔍</span>
-            <p style="color: #94a3b8; font-size: 0.95rem; margin: 0;">Geen klanten gevonden die voldoen aan je zoekopdracht.</p>
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #151824; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1); color: #94a3b8;">
+            <p style="font-size: 1.1rem; margin-bottom: 8px;">Geen klanten gevonden voor "${query}".</p>
+            <button onclick="document.getElementById('vaultSearchInput').value=''; window.renderVaultOverview();" class="btn btn--gold btn--sm">Reset Zoekfilter</button>
           </div>
         `;
         return;
@@ -2975,6 +2994,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         const badgeBg = isMaster ? 'rgba(222, 193, 72, 0.15)' : (isLive ? 'rgba(34, 197, 94, 0.15)' : 'rgba(56, 189, 248, 0.15)');
         const badgeBorder = isMaster ? 'rgba(222, 193, 72, 0.4)' : (isLive ? 'rgba(34, 197, 94, 0.4)' : 'rgba(56, 189, 248, 0.4)');
         const badgeText = isMaster ? '👑 Hoofdsysteem' : (isLive ? '🟢 100% Live' : '🟡 In Ontwikkeling');
+        const discreteUrl = getDiscretePortalUrl(c);
 
         return `
           <div style="background: #151824; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; position: relative; box-shadow: 0 8px 25px rgba(0,0,0,0.3); transition: transform 0.2s, border-color 0.2s;">
@@ -2984,7 +3004,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px;">
                 <div>
                   <h4 style="font-size: 1.05rem; color: #fff; margin: 0 0 2px 0; font-weight: 700;">${c.name}</h4>
-                  <a href="${c.portalUrl || `https://${c.domain}/admin`}" target="_blank" style="font-size: 0.8rem; color: #38bdf8; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                  <a href="${discreteUrl}" target="_blank" style="font-size: 0.8rem; color: #38bdf8; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
                     <span>${c.domain}</span> ↗
                   </a>
                 </div>
@@ -3002,7 +3022,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
               <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
                 <span style="color: #94a3b8;">Portaal:</span>
                 <div style="display: flex; gap: 6px; align-items: center;">
-                  <a href="${c.portalUrl || `https://${c.domain}/admin`}" target="_blank" style="color: #dec148; font-weight: 600; text-decoration: none; font-size: 0.78rem; background: rgba(222,193,72,0.1); padding: 2px 8px; border-radius: 4px;">Inlogportaal Openen ↗</a>
+                  <a href="${discreteUrl}" target="_blank" style="color: #dec148; font-weight: 600; text-decoration: none; font-size: 0.78rem; background: rgba(222,193,72,0.1); padding: 2px 8px; border-radius: 4px;">Inlogportaal Openen ↗</a>
                 </div>
               </div>
 
@@ -3039,7 +3059,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
                 <button onclick="window.editVaultClient('${c.id}')" class="btn btn--ghost btn--sm" style="padding: 5px 10px; font-size: 0.76rem; border-radius: 6px; color: #38bdf8; border-color: rgba(56,189,248,0.3);">✏️ Bewerken</button>
                 ${!isMaster ? `<button onclick="window.deleteVaultClient('${c.id}')" class="btn btn--ghost btn--sm" style="padding: 5px 8px; font-size: 0.76rem; border-radius: 6px; color: #f87171; border-color: rgba(239,68,68,0.3);">🗑️</button>` : ''}
               </div>
-              <a href="${c.portalUrl || `https://${c.domain}/admin`}" target="_blank" class="btn btn--gold btn--sm" style="padding: 5px 14px; font-size: 0.78rem; font-weight: 700; border-radius: 6px;">
+              <a href="${discreteUrl}" target="_blank" class="btn btn--gold btn--sm" style="padding: 5px 14px; font-size: 0.78rem; font-weight: 700; border-radius: 6px;">
                 Inloggen 🔑
               </a>
             </div>
@@ -3134,7 +3154,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
           id: cleanId,
           name: nameVal,
           domain: domainVal,
-          portalUrl: `https://${domainVal}/admin`,
+          portalUrl: `https://${domainVal}/mijn-${cleanId}`,
           username: "admin",
           password: passVal,
           contact: contactVal,
@@ -3193,7 +3213,7 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
                 id: it.name.toLowerCase().replace(/[^a-z0-9]/g, ''),
                 name: it.name,
                 domain: it.login?.uris?.[0]?.uri ? it.login.uris[0].uri.replace(/^https?:\/\//, '').replace(/\/.*$/, '') : 'bitblox.nl',
-                portalUrl: it.login?.uris?.[0]?.uri || 'https://bitblox.nl/admin',
+                portalUrl: (it.login?.uris?.[0]?.uri && !it.login.uris[0].uri.endsWith('/admin')) ? it.login.uris[0].uri : 'https://bitblox.nl/mijn-bit',
                 username: it.login?.username || 'admin',
                 password: it.login?.password || 'BitbloX2026!',
                 contact: 'Klant',
@@ -3341,33 +3361,58 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         if (targetRepo) {
           const configPayload = JSON.stringify({
             site: conf.name,
+            clientName: conf.name,
             domain: conf.domain,
             updatedAt: new Date().toISOString(),
             announcement: conf.announcement,
             modules: {
-              ...conf.switches,
+              blog: conf.switches.blog,
+              seo: conf.switches.seo,
+              geo: conf.switches.geo,
+              geoAiVindbaarheid: conf.switches.geo,
+              whatsapp: conf.switches.whatsapp,
+              whatsappWidget: conf.switches.whatsapp,
+              microsites: conf.switches.microsites,
+              stedenMicrosites: conf.switches.microsites,
+              reviews: conf.switches.reviews,
+              googleReviews: conf.switches.reviews,
+              faq: conf.switches.faq,
+              faqSection: conf.switches.faq,
+              form: conf.switches.form,
+              contactForm: conf.switches.form,
+              cookies: conf.switches.cookies,
+              cookieBanner: conf.switches.cookies,
+              announcement: conf.switches.announcement,
+              announcementBar: conf.switches.announcement,
+              accessibility: conf.switches.accessibility,
+              toegankelijkheid: conf.switches.accessibility,
+              callback: conf.switches.callback,
+              callBack: conf.switches.callback,
+              shop: conf.switches.shop,
+              webshop: conf.switches.shop,
               maps: conf.switches.maps,
               googleMaps: conf.switches.maps,
-              whatsappWidget: conf.switches.whatsapp,
+              monitoring: conf.switches.monitoring
+            }
+          }, null, 2);
+
+          ghPushed = await pushDirectToGitHub(targetRepo, 'public/site-config.json', configPayload, `Update 15 modules voor ${conf.name}`);
+
+          if (currentSelectedClient === 'bitblox') {
+            const switchesPayload = {
+              ...conf.switches,
               geoAiVindbaarheid: conf.switches.geo,
+              whatsappWidget: conf.switches.whatsapp,
               stedenMicrosites: conf.switches.microsites,
               googleReviews: conf.switches.reviews,
               faqSection: conf.switches.faq,
               contactForm: conf.switches.form,
               cookieBanner: conf.switches.cookies,
               announcementBar: conf.switches.announcement,
-              accessibility: conf.switches.accessibility,
               toegankelijkheid: conf.switches.accessibility,
-              callback: conf.switches.callback,
-              callBack: conf.switches.callback
-            }
-          }, null, 2);
-
-          ghPushed = await pushDirectToGitHub(targetRepo, 'public/site-config.json', configPayload, `Update 12-schuifjes voor ${conf.name}`);
-
-          if (currentSelectedClient === 'bitblox') {
-            const switchesPayload = {
-              ...conf.switches,
+              callBack: conf.switches.callback,
+              webshop: conf.switches.shop,
+              googleMaps: conf.switches.maps,
               announcementBadge: conf.announcement.badge,
               announcementText: conf.announcement.text,
               announcementLink: conf.announcement.link
@@ -3391,9 +3436,9 @@ const defaultDeepSeekKey = import.meta.env.DEEPSEEK_API_KEY || '';
         setTimeout(() => {
           if (saveSwitchesStatus) {
             if (ghPushed) {
-              saveSwitchesStatus.textContent = `🚀 Direct via GitHub API gepusht! Cloudflare zet ${conf.name} nu live!`;
+              saveSwitchesStatus.textContent = `🚀 15 Modules direct via GitHub API gepusht! Cloudflare zet ${conf.name} nu live!`;
             } else {
-              saveSwitchesStatus.textContent = `✅ Schuifjes voor ${conf.name} lokaal opgeslagen & gesynchroniseerd!`;
+              saveSwitchesStatus.textContent = `✅ 15 Modules voor ${conf.name} lokaal opgeslagen & gesynchroniseerd!`;
             }
           }
           saveSwitchesBtn.textContent = '💾 Opslaan & Synchroniseren';
