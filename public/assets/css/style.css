@@ -225,12 +225,27 @@ h3 { font-size: 1.3rem; }
   100% { box-shadow: 0 0 0 0 rgba(222, 193, 72, 0); }
 }
 .hero h1 { margin-bottom: 24px; }
-.hero .lead { margin-bottom: 38px; }
+.hero .lead { margin-bottom: 28px; }
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.hero-inner > div {
+  min-width: 0;
+  width: 100%;
+}
+
 /* ============ Hero Glassmorphism Trust Bar (Full Width) ============ */
 .hero-stats-container {
   position: relative;
   z-index: 2;
   margin-top: 48px;
+  min-width: 0;
+  width: 100%;
 }
 .hero-glass-bar {
   background: rgba(20, 23, 29, 0.68);
@@ -244,11 +259,13 @@ h3 { font-size: 1.3rem; }
   grid-template-columns: repeat(5, 1fr);
   gap: 16px;
   align-items: center;
+  min-width: 0;
 }
 .glass-stat {
   text-align: center;
   position: relative;
   padding: 4px 8px;
+  min-width: 0;
 }
 .glass-stat:not(:last-child)::after {
   content: '';
@@ -285,13 +302,22 @@ h3 { font-size: 1.3rem; }
     display: none;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .hero-glass-bar {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px 10px;
+    gap: 14px 8px;
+    padding: 16px 12px;
   }
   .glass-stat:last-child {
     grid-column: span 2;
+  }
+  .glass-stat-num {
+    font-size: 1.45rem;
+  }
+  .glass-stat-label {
+    font-size: 0.76rem;
+    white-space: normal;
+    line-height: 1.25;
   }
 }
 
@@ -915,6 +941,64 @@ html.js .reveal.visible { opacity: 1; transform: none; }
     flex: 0 0 100% !important;
     min-width: 100% !important;
   }
+  .container {
+    padding: 0 16px;
+  }
+  h1 {
+    font-size: clamp(1.8rem, 7.5vw, 2.25rem);
+    line-height: 1.18;
+    word-break: break-word;
+  }
+  .hero {
+    padding: 110px 0 44px;
+    min-height: auto;
+  }
+  .hero-inner {
+    gap: 20px;
+  }
+  .hero-badge {
+    font-size: 0.76rem;
+    padding: 6px 12px;
+    white-space: normal;
+    max-width: 100%;
+    line-height: 1.35;
+    margin-bottom: 18px;
+  }
+  .hero .lead {
+    font-size: 0.96rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+    padding: 13px 18px;
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+  .answer-capsule {
+    margin-top: 20px;
+    padding: 18px 14px 14px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .answer-capsule::before {
+    left: 14px;
+  }
+  .hero-stats-container {
+    margin-top: 28px;
+  }
+  .btn {
+    max-width: 100%;
+    white-space: normal;
+  }
 }
 @media (max-width: 560px) {
   .grid--2, .grid--4, .grid--5 { grid-template-columns: 1fr; }
@@ -923,10 +1007,9 @@ html.js .reveal.visible { opacity: 1; transform: none; }
   .steps, .principles { grid-template-columns: 1fr; }
   .principle--wide { grid-column: span 1; }
   .footer-grid { grid-template-columns: 1fr; gap: 36px; }
-  .hero { padding-top: 130px; }
-  .contact-form { padding: 32px 24px; }
-  .contact-info-card { padding: 30px 24px; }
-  .price-card { padding: 34px 24px; }
+  .contact-form { padding: 24px 16px; }
+  .contact-info-card { padding: 24px 16px; }
+  .price-card { padding: 28px 18px; }
 }
 
 /* ================================================================
@@ -1034,14 +1117,44 @@ html.js .reveal.visible { opacity: 1; transform: none; }
 .whatsapp-float svg {
   flex-shrink: 0;
 }
+/* Floating Actions Dock (WhatsApp + CallBack) */
+.floating-actions-dock {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 12px;
+  z-index: 9990;
+  pointer-events: none;
+}
+.floating-actions-dock > * {
+  pointer-events: auto;
+  position: static !important;
+}
 @media (max-width: 640px) {
+  .floating-actions-dock {
+    flex-direction: column-reverse;
+    bottom: 18px;
+    right: 18px;
+    gap: 10px;
+    align-items: flex-end;
+  }
   .whatsapp-float {
-    bottom: 20px;
-    right: 20px;
-    padding: 12px;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
   }
   .whatsapp-float .whatsapp-badge {
     display: none;
+  }
+  .whatsapp-float svg {
+    width: 24px;
+    height: 24px;
   }
 }
