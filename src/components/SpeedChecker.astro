@@ -1,0 +1,233 @@
+---
+// BitbloX Gratis Website Prestatie Check
+---
+
+<section class="section section--alt" id="snelheidscheck">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">Gratis Website Quickscan</span>
+      <h2>Hoe snel is uw huidige website <span class="gold">op mobiel?</span></h2>
+      <p class="lead">Onderzoek van Google toont aan dat meer dan de helft van de mobiele bezoekers afhaakt als een pagina langer dan 3 seconden moet laden. Test uw domein binnen 5 seconden.</p>
+    </div>
+
+    <div class="speed-checker-card reveal" style="max-width: 820px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border-gold); border-radius: var(--radius); padding: 36px 28px; box-shadow: var(--shadow);">
+      <!-- Formulier State -->
+      <form id="speedCheckForm" class="speed-form" style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 260px; position: relative;">
+          <input
+            type="text"
+            id="domainInput"
+            name="domain"
+            placeholder="Vul uw website in (bijv. uwbedrijf.nl)..."
+            required
+            style="width: 100%; padding: 16px 20px; border-radius: var(--radius-sm); background: var(--bg); border: 1px solid var(--border); color: var(--text); font-size: 1rem; outline: none; transition: border-color 0.2s;"
+          />
+        </div>
+        <button
+          type="submit"
+          id="submitBtn"
+          class="btn btn--gold"
+          style="padding: 16px 28px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; cursor: pointer; border: none;"
+        >
+          <span>⚡ Start Gratis Check</span>
+        </button>
+      </form>
+
+      <!-- Foutmelding -->
+      <div id="checkError" style="display: none; margin-top: 16px; padding: 14px 18px; border-radius: var(--radius-sm); background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; font-size: 0.95rem;">
+      </div>
+
+      <!-- Loading State -->
+      <div id="checkLoading" style="display: none; text-align: center; padding: 40px 20px;">
+        <div class="loader-pulse" style="width: 56px; height: 56px; border: 4px solid var(--border); border-top-color: var(--gold); border-radius: 50%; margin: 0 auto 20px; animation: spin 0.9s linear infinite;"></div>
+        <h4 id="loadingStep" style="font-size: 1.15rem; color: var(--text); margin-bottom: 6px;">Verbinding maken met server...</h4>
+        <p style="color: var(--muted); font-size: 0.9rem;">We analyseren de responstijd (TTFB), bestandsgrootte en mobiele laadsnelheid.</p>
+      </div>
+
+      <!-- Resultaten State -->
+      <div id="checkResults" style="display: none; margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <span style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600;">Resultaat voor:</span>
+            <h3 id="resultDomain" style="font-size: 1.4rem; color: var(--text); margin-top: 2px;">uwbedrijf.nl</h3>
+          </div>
+          <button id="resetBtn" style="background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 8px 14px; border-radius: var(--radius-sm); font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+            🔄 Nieuwe check
+          </button>
+        </div>
+
+        <!-- Metric Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px;">
+          <!-- Score Card -->
+          <div style="background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; text-align: center;">
+            <span style="font-size: 0.85rem; color: var(--muted); display: block; margin-bottom: 8px;">Prestatiescore</span>
+            <div id="scoreDisplay" style="font-size: 2.4rem; font-weight: 800; font-family: var(--font-display); line-height: 1;">--</div>
+            <span id="scoreLabel" style="font-size: 0.8rem; font-weight: 600; display: inline-block; margin-top: 6px; padding: 2px 8px; border-radius: 4px;">--</span>
+          </div>
+
+          <!-- Laadtijd Card -->
+          <div style="background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; text-align: center;">
+            <span style="font-size: 0.85rem; color: var(--muted); display: block; margin-bottom: 8px;">Mobiele Laadtijd (4G)</span>
+            <div id="loadTimeDisplay" style="font-size: 2.4rem; font-weight: 800; font-family: var(--font-display); line-height: 1; color: var(--text);">--</div>
+            <span style="font-size: 0.8rem; color: var(--muted); display: inline-block; margin-top: 6px;">Google advies: &lt; 2,5s</span>
+          </div>
+
+          <!-- Bezoekersverlies Card -->
+          <div style="background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; text-align: center;">
+            <span style="font-size: 0.85rem; color: var(--muted); display: block; margin-bottom: 8px;">Geschat Bezoekersverlies</span>
+            <div id="lossDisplay" style="font-size: 2.4rem; font-weight: 800; font-family: var(--font-display); line-height: 1; color: #f87171;">--</div>
+            <span style="font-size: 0.8rem; color: var(--muted); display: inline-block; margin-top: 6px;">Haakt af vóór de pagina laadt</span>
+          </div>
+        </div>
+
+        <!-- Vergelijkingsbox met BitbloX -->
+        <div style="background: rgba(222, 193, 72, 0.08); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); padding: 24px; margin-bottom: 28px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div style="flex: 1; min-width: 260px;">
+              <h4 style="color: var(--gold); font-size: 1.15rem; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                <span>✨</span> Wat als deze site op het BitbloX Cloud Netwerk draait?
+              </h4>
+              <p style="color: var(--text); font-size: 0.95rem; line-height: 1.5; margin: 0;">
+                Uw laadtijd zakt naar <strong>onder 0,3 seconde</strong> met een gegarandeerde <strong>98-100 score</strong>. Nul hapering, maximale mobiele conversie.
+              </p>
+            </div>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <a
+                id="whatsappCta"
+                href="https://wa.me/31630523907"
+                target="_blank"
+                rel="noopener"
+                class="btn btn--gold"
+                style="padding: 12px 20px; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;"
+              >
+                <span>💬 Bespreek via WhatsApp</span>
+              </a>
+              <a
+                id="contactCta"
+                href="/contact/"
+                class="btn btn--ghost"
+                style="padding: 12px 20px; font-size: 0.95rem;"
+              >
+                Plan gratis adviesgesprek
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
+<script>
+  const form = document.getElementById("speedCheckForm");
+  const input = document.getElementById("domainInput");
+  const submitBtn = document.getElementById("submitBtn");
+  const loading = document.getElementById("checkLoading");
+  const loadingStep = document.getElementById("loadingStep");
+  const results = document.getElementById("checkResults");
+  const errorBox = document.getElementById("checkError");
+  const resetBtn = document.getElementById("resetBtn");
+
+  const resultDomain = document.getElementById("resultDomain");
+  const scoreDisplay = document.getElementById("scoreDisplay");
+  const scoreLabel = document.getElementById("scoreLabel");
+  const loadTimeDisplay = document.getElementById("loadTimeDisplay");
+  const lossDisplay = document.getElementById("lossDisplay");
+  const whatsappCta = document.getElementById("whatsappCta");
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const rawDomain = input.value.trim();
+      if (!rawDomain) return;
+
+      errorBox.style.display = "none";
+      form.style.display = "none";
+      results.style.display = "none";
+      loading.style.display = "block";
+
+      const steps = [
+        "Verbinding maken met server...",
+        "Responstijd (TTFB) en bestandsgrootte meten...",
+        "Mobiele 4G laadsnelheid berekenen...",
+        "Rapport samenstellen..."
+      ];
+      let stepIdx = 0;
+      const interval = setInterval(() => {
+        stepIdx = (stepIdx + 1) % steps.length;
+        if (loadingStep) loadingStep.textContent = steps[stepIdx];
+      }, 900);
+
+      try {
+        const res = await fetch("/api/speedcheck", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ domain: rawDomain })
+        });
+        const data = await res.json();
+        clearInterval(interval);
+        loading.style.display = "none";
+
+        if (!data.success) {
+          form.style.display = "flex";
+          errorBox.textContent = data.error || "Kon de site niet analyseren. Controleer of het adres klopt.";
+          errorBox.style.display = "block";
+          return;
+        }
+
+        resultDomain.textContent = data.domain;
+        const score = data.performanceScore;
+        scoreDisplay.textContent = score + "/100";
+
+        if (score >= 90) {
+          scoreDisplay.style.color = "#34d399";
+          scoreLabel.textContent = "Uitstekend";
+          scoreLabel.style.background = "rgba(52, 211, 153, 0.15)";
+          scoreLabel.style.color = "#34d399";
+        } else if (score >= 50) {
+          scoreDisplay.style.color = "#fbbf24";
+          scoreLabel.textContent = "Aandacht vereist";
+          scoreLabel.style.background = "rgba(251, 191, 36, 0.15)";
+          scoreLabel.style.color = "#fbbf24";
+        } else {
+          scoreDisplay.style.color = "#f87171";
+          scoreLabel.textContent = "Traag / Kritiek";
+          scoreLabel.style.background = "rgba(248, 113, 113, 0.15)";
+          scoreLabel.style.color = "#f87171";
+        }
+
+        loadTimeDisplay.textContent = data.mobileLoadSeconds + "s";
+        lossDisplay.textContent = "~" + data.visitorLossPercent + "%";
+
+        const waMsg = encodeURIComponent("Hallo BitbloX, ik heb zojuist de website snelheidscheck gedaan voor " + data.domain + " (score: " + score + "/100, laadtijd: " + data.mobileLoadSeconds + "s). Ik wil graag vrijblijvend advies over hoe we dit kunnen versnellen.");
+        whatsappCta.href = "https://wa.me/31630523907?text=" + waMsg;
+
+        results.style.display = "block";
+
+      } catch(err) {
+        clearInterval(interval);
+        loading.style.display = "none";
+        form.style.display = "flex";
+        errorBox.textContent = "Er is een time-out opgetreden bij het verbinden met de website.";
+        errorBox.style.display = "block";
+      }
+    });
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      results.style.display = "none";
+      errorBox.style.display = "none";
+      form.style.display = "flex";
+      input.value = "";
+      input.focus();
+    });
+  }
+</script>

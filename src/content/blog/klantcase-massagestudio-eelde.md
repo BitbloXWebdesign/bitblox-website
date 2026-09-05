@@ -1,8 +1,8 @@
-﻿---
-title: "Klantcase: De Nieuwe Website van Massage Studio Eelde — Rust, Stijlvolle Iconografie en Optimaal Gemak"
+---
+title: "Klantcase: De Nieuwe Website van Massage Studio Eelde - Rust, Stijlvolle Iconografie en Optimaal Gemak"
 description: "Lees hoe Massage Studio Eelde samen met BitbloX de website transformeerde met een rustgevend design, duidelijke icoontjes, dyslexie-toegankelijkheid en razendsnelle techniek."
 pubDate: 2026-08-27
-author: "Harold Zuidhof — BitbloX Webdesign"
+author: "Harold Zuidhof - BitbloX Webdesign"
 tags: ["Klantcase", "Webdesign", "Design", "A11y", "Lokale SEO"]
 ---
 
@@ -58,7 +58,7 @@ Onder het elegante uiterlijk draait de nieuwste **BitbloX Jamstack architectuur*
 ## 💬 Wat Zegt Alianne?
 
 > *"Al jaren ben ik vaste klant bij BitbloX. Met een eigen zaak is het erg fijn dat Harold mijn website onderhoudt en proactief meedenkt. De nieuwe opbouw met de duidelijke icoontjes en rustige kleuren ziet er geweldig uit, en als ik een aanpassing wil is het zo geregeld!"*  
-> **— Alianne Zuidhof-Hoiting**, *Massage Studio Eelde & zo*
+> **- Alianne Zuidhof-Hoiting**, *Massage Studio Eelde & zo*
 
 ---
 

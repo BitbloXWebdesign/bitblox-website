@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import GoogleReviews from '../components/GoogleReviews.astro';
 import FAQ from '../components/FAQ.astro';
 import switches from '../data/switches.json';
+import SpeedChecker from '../components/SpeedChecker.astro';
 import { getCollection } from 'astro:content';
 
 const latestPosts = (await getCollection('blog'))
@@ -186,6 +187,9 @@ const homeSchema = {
       </div>
     </div>
   </section>
+
+  <!-- ============ Gratis Website Prestatie & Snelheid Check ============ -->
+  <SpeedChecker />
 
   <!-- ============ Diensten overzicht ============ -->
   <section class="section" id="diensten">
