@@ -945,35 +945,53 @@ html.js .reveal.visible { opacity: 1; transform: none; }
     padding: 0 16px;
   }
   h1 {
-    font-size: clamp(1.8rem, 7.5vw, 2.25rem);
+    font-size: clamp(1.75rem, 7.2vw, 2.2rem);
     line-height: 1.18;
     word-break: break-word;
+    text-align: center;
   }
   .hero {
-    padding: 110px 0 44px;
+    padding: 150px 0 44px;
     min-height: auto;
   }
   .hero-inner {
     gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero-inner > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
   }
   .hero-badge {
     font-size: 0.76rem;
-    padding: 6px 12px;
+    padding: 6px 14px;
     white-space: normal;
     max-width: 100%;
     line-height: 1.35;
-    margin-bottom: 18px;
+    margin: 0 auto 18px;
+    display: inline-flex;
+    justify-content: center;
   }
   .hero .lead {
     font-size: 0.96rem;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
+    text-align: center;
   }
   .hero-actions {
     flex-direction: column;
     width: 100%;
+    max-width: 380px;
     gap: 10px;
-    margin-top: 20px;
+    margin: 22px auto 0;
+    align-items: stretch;
   }
   .hero-actions .btn {
     width: 100%;
@@ -982,18 +1000,24 @@ html.js .reveal.visible { opacity: 1; transform: none; }
     padding: 13px 18px;
     font-size: 0.92rem;
     line-height: 1.35;
+    justify-content: center;
   }
   .answer-capsule {
-    margin-top: 20px;
-    padding: 18px 14px 14px;
+    margin: 20px auto 0;
+    padding: 18px 16px 16px;
     font-size: 0.9rem;
     line-height: 1.6;
+    text-align: left;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .answer-capsule::before {
-    left: 14px;
+    left: 16px;
   }
   .hero-stats-container {
     margin-top: 28px;
+    width: 100%;
   }
   .btn {
     max-width: 100%;
